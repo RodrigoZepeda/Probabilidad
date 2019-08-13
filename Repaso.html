@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Rodrigo Zepeda" />
+
+
+<title>Todo lo que necesitas saber de la primera parte del curso y nunca te atreviste a preguntar</title>
+
+<script src="Repaso_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Repaso_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Repaso_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Repaso_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Repaso_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="Repaso_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="Repaso_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="Repaso_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="Repaso_files/navigation-1.1/tabsets.js"></script>
+<link href="Repaso_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="Repaso_files/highlightjs-9.12.0/highlight.js"></script>
+<!-- Meta characteristics -->
+<meta name="description" content="Notas de Probabilidad">
+<meta name="keywords" content="Probabilidad, Cálculo de Probabilidades, Matemáticas, Curso de Matemáticas, Notas de Clase,
+Conteo">
+<meta name="author" content="Rodrigo Zepeda Tello">
+
+<!-- Add d3js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Nice mathjax format -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true, }, TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<style>
+td {
+   padding-left: 2px;
+}
+</style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<!--Navigation menu-->
+<link href="css/custom.css" rel="stylesheet">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Calculo3">Notas de Cálculo de Probabilidades</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-main">
+            <!--<ul class="nav navbar-nav">
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://github.com/RodrigoZepeda/Calculo3"><img src="images/GitHub-Mark-Light-32px.png"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Todo lo que necesitas saber de la primera parte del curso y nunca te atreviste a preguntar</h1>
+<h4 class="author">Rodrigo Zepeda</h4>
+
+</div>
+
+
+<div id="funciones-indicadoras" class="section level1">
+<h1><span class="header-section-number">1</span> Funciones indicadoras</h1>
+<p>Dado un conjunto <span class="math inline">\(A\)</span> definimos la función indicadora de <span class="math inline">\(A\)</span> como sigue: <span class="math display">\[
+\mathbb{I}_A (x)= \begin{cases}
+1 &amp; \text{ si } x \in A\\
+0 &amp; \text{ si } x \not\in A
+\end{cases}
+\]</span></p>
+<p>La función indicadora cumple las siguientes propiedades: 
+<div class="panel panel-primary">
+	<div id =  formulatabla  class="panel-heading">
+		<h4> Propiedades 1 </h4>
+	</div>
+	<div class="panel-body">
+		<i>Sean $A,B$ conjuntos; luego:
+<ol>
+<li>$\mathbb{I}_{A \cap B}(x) =  \mathbb{I}_{A}(x) \cdot \mathbb{I}_{B}(x)$</li>
+<li>$\mathbb{I}_{A \cup B}(x) =   \mathbb{I}_{A}(x) +  \mathbb{I}_{B}(x) - \mathbb{I}_{A}(x) \cdot \mathbb{I}_{B}(x)$</li>
+<li>$\mathbb{E}_X[\mathbb{I}_A(X)] = \mathbb{P}(A)$ </li>
+</ol>
+</i>	</div>
+</div>
+</p>
+</div>
+<div id="muestreo" class="section level1">
+<h1><span class="header-section-number">2</span> Muestreo</h1>
+<p>Intentemos resumir todas las formas de contar que tenemos con un ejemplo.</p>
+<blockquote>
+<p>En la lotería de Nueva York se eligen <span class="math inline">\(6\)</span> de <span class="math inline">\(44\)</span> números para un ticket. ¿Cuántos boletos de lotería posibles hay?</p>
+</blockquote>
+<p>Veamos todas las formas posibles de solución:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p><strong>Ordenado y sin reemplazo</strong> Si sólo importa el orden y una vez que sale un número no se vuelve a meter a los posibles entonces tenemos: <span class="math display">\[
+\frac{44!}{(44-6)!}
+\]</span></p></li>
+<li><p><strong>Ordenado y con reemplazo</strong> En cada uno de los <span class="math inline">\(6\)</span> lugares hay <span class="math inline">\(44\)</span> números posibles: <span class="math display">\[
+44^6
+\]</span></p></li>
+<li><p><strong>Sin orden y sin reemplazo</strong> Esto es una combinación por lo que la forma de extraerlo es: <span class="math display">\[
+\binom{44}{6}
+\]</span></p></li>
+<li><p><strong>Sin orden y con reemplazo</strong> Para resolver este caso podemos usar la técnica de las barras y los puntos. Coloquemos barras y los huecos entre ellas representan cada uno de los <span class="math inline">\(44\)</span> números. <span class="math display">\[\begin{equation}\nonumber
+|\underbrace{\_}_{1}|\underbrace{\_}_{2}|\underbrace{\_}_{3}|\cdots |\underbrace{\_}_{n}|
+\end{equation}\]</span> Coloquemos puntos (<span class="math inline">\(\circ\)</span>) donde estén los números seleccionados. Por ejemplo la siguiente representa la combinación <span class="math inline">\(113555\)</span> <span class="math display">\[\begin{equation}\nonumber
+|\underbrace{\circ \circ}_{1}|\underbrace{\_}_{2}|\underbrace{\circ}_{3}||\underbrace{\_}_{4}|\underbrace{\circ \circ \circ}_{5}|\cdots |\underbrace{\_}_{n}|
+\end{equation}\]</span> Tenemos entonces que el problema se reduce a colocar <span class="math inline">\(n - 1= 43\)</span> barritas (son un total de <span class="math inline">\(45\)</span> pero la primera y la última no deben cambiar de lugar) y <span class="math inline">\(k = 6\)</span> círculos por tanto colocamos <span class="math inline">\(49\)</span> elementos en total. De estos, nos interesa poner <span class="math inline">\(6\)</span> por lo que tenemos: <span class="math display">\[
+\binom{44 + 6  - 1}{6}
+\]</span> formas distintas. Esto nos lleva a la tabla siguiente:</p></li>
+</ol>
+<div id=" formulatabla " class="alert alert-info">
+<b> Formulario : </b><br> Para obtener una muestra de tamaño <span class="math inline">\(k\)</span> a partir de un conjunto de tamaño <span class="math inline">\(n &gt; 0\)</span> éstas son las opciones:
+<table>
+<tr>
+<td>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \text{Con Reemplazo}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \text{Sin Reemplazo}\)</span>
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(\quad \text{Con Orden}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad n^k\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad (n)_k\)</span>
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(\quad \text{Sin Orden}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \binom{n+k-1}{k}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \binom{n}{k}\)</span>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="espacios-de-probabilidad" class="section level1">
+<h1><span class="header-section-number">3</span> Espacios de probabilidad</h1>
+<p>Los ingredientes para un modelo probabilístico son <span class="math inline">\(3\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li><p>Un conjunto <span class="math inline">\(\Omega\)</span> conocido como <strong>espacio muestral</strong> el cual es el conjunto de los resultados de interés. Por ejemplo, en el tiro de un dado <span class="math inline">\(\Omega = \{1,2,3,4,5,6\}\)</span>, para el lanzamiento de una moneda <span class="math inline">\(\Omega = \{\text{Águila},\text{Sol}\}\)</span> o bien en seleccionar un número uniforme entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> tenemos que <span class="math inline">\(\Omega = [0,1]\)</span>.</p></li>
+<li><p>Una colección <span class="math inline">\(\mathcal{F}\)</span> de subconjuntos de <span class="math inline">\(\Omega\)</span> conocida como <strong>sigma-álgebra</strong> o bien como <strong>espacio de eventos</strong> la cual cumple las siguientes características:</p></li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\Omega \in \mathcal{F}\)</span></li>
+<li>Si <span class="math inline">\(A\in\mathcal{F}\)</span> entonces <span class="math inline">\(A^C \in \mathcal{F}\)</span></li>
+<li>Si <span class="math inline">\(A_1, A_2, \dots\)</span> es una colección finita ó numerable de elementos de <span class="math inline">\(\mathcal{F}\)</span> entonces <span class="math inline">\(\bigcup_{n} A_n \in \mathcal{F}\)</span></li>
+</ol>
+<p>Generalmente identificamos a la <span class="math inline">\(\mathcal{F}\)</span> con el potencia para conjuntos <span class="math inline">\(\Omega\)</span> finitos; para casos infinitos el teorema de Vitali nos dice que las cosas son más complicadas.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Una función <span class="math inline">\(\mathbb{P}:\mathcal{F} \to [0,1]\)</span> que cumple que:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\mathbb{P}(\Omega) = 1\)</span>.</li>
+<li><span class="math inline">\(\mathbb{P}(A) \geq 0\)</span> para todo <span class="math inline">\(A \in \mathcal{F}\)</span>.</li>
+<li>Si <span class="math inline">\(A_1, A_2, \dots\)</span> es una colección finita ó numerable de conjuntos disjuntos (<span class="math inline">\(A_i\cap A_j = \emptyset\)</span> para <span class="math inline">\(i \neq j\)</span>) entonces <span class="math inline">\(\mathbb{P}(\bigcup_{n} A_n) = \sum\limits_{n}\mathbb{P}(A_n)\)</span>.</li>
+</ol>
+<p>Estos últimos tres puntos se conocen como <strong>Axiomas de Kolmogorov</strong>. Una vez armados con los axiomas podíamos empezar a probar cosas con ellos; por ejemplo:</p>
+
+<div class="panel panel-primary">
+	<div id =  punions class="panel-heading">
+		<h4> Teorema 1 [ Probabilidad del complemento ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $(\Omega,\mathcal{F},\mathbb{P})$ un espacio de probabilidad. Sea $A$ evento de $\mathcal{F}$. Luego:
+$$
+\mathbb{P}(A^C) = 1 - \mathbb{P}(A)
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Podemos escribir $\Omega = A\cup A^C$ de donde se sigue que:
+$$
+1 = \mathbb{P}(\Omega) = \mathbb{P}(A \cup A^C) = \mathbb{P}(A) + \mathbb{P}(A^C)
+$$
+si despejamos obtenemos el resultado deseado.
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-primary">
+	<div id =  presta class="panel-heading">
+		<h4> Teorema 2 [ Probabilidad del complemento ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $(\Omega,\mathcal{F},\mathbb{P})$ un espacio de probabilidad. Sean $A,B$ eventos de $\mathcal{F}$. Luego:
+$$
+\mathbb{P}(A\setminus B) = \mathbb{P}(A) - \mathbb{P}(A \cap B)
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Podemos escribir $A = (A\setminus B) \cup (A \cap B)$ de donde se sigue que:
+$$
+\mathbb{P}(A) = \mathbb{P}\big((A\setminus B) \cup (A \cap B) \big) =  \mathbb{P}(A\setminus B) + \mathbb{P} (A \cap B)
+$$
+si despejamos obtenemos el resultado deseado.
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-primary">
+	<div id =  punions class="panel-heading">
+		<h4> Teorema 3 [ Probabilidad de la unión ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $(\Omega,\mathcal{F},\mathbb{P})$ un espacio de probabilidad. Sean $A,B$ eventos de $\mathcal{F}$. Luego:
+$$
+\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Podemos escribir $A\cup B$ como $A\cup B = (A\setminus B)\cup (A \cap B)\cup (B\setminus A)$ luego:
+\begin{equation}\nonumber
+\begin{aligned}
+\mathbb{P}(A\cup B) & = \mathbb{P}(A\setminus B) + \mathbb{P} (A \cap B) + \mathbb{P}(B\setminus A) \\
+& = \mathbb{P}(A) - \mathbb{P}(A \cap B) + \mathbb{P} (A \cap B) + \mathbb{P}(B) - \mathbb{P}(A \cap B)
+\\ & = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)
+\end{aligned}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="probabilidad-condicional" class="section level1">
+<h1><span class="header-section-number">4</span> Probabilidad condicional</h1>
+<p>Muchas veces la probabilidad cambia conforme obtenemos información extra. Por ejemplo, si consideramos los tiros de un dado <span class="math inline">\(\Omega = \{1,2,3,4,5,6\}\)</span> y se sabe que cayó par <span class="math inline">\(B = \{2,4,6 \}\)</span>, la probabilidad de obtener <span class="math inline">\(2\)</span> ó <span class="math inline">\(4\)</span> (el evento) <span class="math inline">\(A = \{ 2, 4\}\)</span> cambia de probabilidad: <span class="math display">\[
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+\]</span></p>
+<p>En particular hay dos teoremas principales con probabilidad condicional: la ley de probabilidad total que te permite reconstruirlas probabilidades originales a partir de las condicionales y el de Bayes.</p>
+<p>El teorema de Bayes puede deducirse a partir de un simple despeje pues notamos que: <span class="math display">\[
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+\]</span> y por otro lado: <span class="math display">\[
+\mathbb{P}(B | A) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(A)}
+\]</span> Si despejamos del segundo, obtenemos: <span class="math display">\[
+\mathbb{P}(B | A)\mathbb{P}(A) = \mathbb{P}(A \cap B)
+\]</span> Podemos sustituir la definición de intersección en <span class="math inline">\(\mathbb{P}(A|B)\)</span> y así obtener: <span class="math display">\[
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(B | A)\mathbb{P}(A)}{\mathbb{P}(B)}
+\]</span></p>
+
+<div class="panel panel-primary">
+	<div id =  bayes1 class="panel-heading">
+		<h4> Teorema 4 [ Bayes ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Para eventos $A,B$ con $\mathbb{P}(A)\cdot \mathbb{P}(B)\neq 0$ tenemos:
+$$
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(B | A)\mathbb{P}(A)}{\mathbb{P}(B)}
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Lo anterior. 
+		</div>
+	</div>
+</div>
+
+<p>Por otro lado, dada una partición <span class="math inline">\(B_1, B_2, \dots\)</span> finita o numerable de <span class="math inline">\(\Omega\)</span> podemos definir la probabilidad de <span class="math inline">\(A\)</span> en términos de cada uno de los pedazos:</p>
+<p><span class="math display">\[
+\mathbb{P}(A) = \sum\limits_{k} \mathbb{P}(A | B_k) \cdot \mathbb{P}(B_k)
+\]</span></p>
+<p>Esta identidad se sigue de que: <span class="math display">\[
+\mathbb{P}(A | B_k) = \dfrac{\mathbb{P}(A \cap B_k)}{\mathbb{P}(B_k)}
+\]</span></p>
+<p>de donde podemos sustituir arriba y obtener: <span class="math display">\[
+\mathbb{P}(A) = \sum\limits_{k} \dfrac{\mathbb{P}(A \cap B_k)}{\mathbb{P}(B_k)} \cdot \mathbb{P}(B_k) = \sum\limits_{k} \mathbb{P}(A \cap B_k) =  \mathbb{P}\big(A \cap (\bigcup_k B_k) \big) =  \mathbb{P}\big(A \cap \Omega \big) 
+\]</span></p>
+<p>Tenemos entonces el teorema:</p>
+
+<div class="panel panel-primary">
+	<div id =  ptotal class="panel-heading">
+		<h4> Teorema 5 [ Probabilidad Total ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $B_1, B_2, \dots $ eventos que forman una partición de $\Omega$; sea $A$ un evento cualquiera; luego:
+$$
+\mathbb{P}(A) = \sum\limits_{k} \mathbb{P}(A | B_k) \cdot \mathbb{P}(B_k)
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Lo anterior. 
+		</div>
+	</div>
+</div>
+
+<p>Usando probabilidad condicional podemos resolver problemas como el siguiente:</p>
+
+<div class="panel panel-success">
+	<div id =  ejcondicional class="panel-heading">
+		<h4> Ejercicio 1 [ Un ejercicio de probabilidad condicional ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Considera el conjunto $C = \{1,2,\dots, n\}$ para $n \geq 2$. Se extraen dos números $a$ y $b$ (primero el $a$ y luego el $b$) con probabilidad uniforme sin reemplazo. Determina la probabilidad de que $a > b$. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Solución:</b> 
+Podemos utilizar probabilidad condicional para representar el evento:
+\begin{equation}\nonumber
+\begin{aligned}
+\mathbb{P}(a > b) &  = \sum\limits_{k = 1}^{n} \mathbb{P}(a > b \quad |  \quad  a = k) \mathbb{P}(a = k)
+\end{aligned}
+\end{equation}
+Donde $\mathbb{P}(a = k) = \frac{1}{n}$ para todos los $k$ pues es uniforme (y es el primero en salir). Luego: 
+\begin{equation}\nonumber
+\begin{aligned}
+\mathbb{P}(a > b) &  = \sum\limits_{k = 1}^{n} \mathbb{P}(a > b \quad |  \quad  a = k) \mathbb{P}(a = k) \\
+& = \dfrac{1}{n} \sum\limits_{k = 1}^{n} \mathbb{P}(a > b \quad |  \quad  a = k) \\
+& = \dfrac{1}{n} \sum\limits_{k = 1}^{n} \mathbb{P}(k > b \quad |  \quad  a = k) \\
+\end{aligned}
+\end{equation}
+Notamos que cuando $k = 1$ no hay forma de que $k > b$; cuando $k = 2$ hay una única forma (que $b$ valga $1$); cuando $k = 3$ hay dos formas. En general para una $k$ genérica hay $k-1$ formas de seleccionar un $b$ menor a $k$ luego:
+\begin{equation}\nonumber
+\begin{aligned}
+\mathbb{P}(a > b) &  = \dfrac{1}{n} \sum\limits_{k = 1}^{n} \dfrac{k-1}{n}
+\\ & = \dfrac{1}{n^2} \sum\limits_{k = 1}^{n} k-1
+\\ & = \dfrac{1}{n^2} \sum\limits_{k = 0}^{n-1} k
+\\ & = \dfrac{1}{n^2} \dfrac{n(n-1)}{2}
+\\ & = \dfrac{n-1}{2n} 
+\end{aligned}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="variables-aleatorias-y-funcion-de-distribucion-acumulada" class="section level1">
+<h1><span class="header-section-number">5</span> Variables aleatorias y función de distribución (acumulada)</h1>
+<p>Para hablar de probabilidad uno de los ingredientes principales eran las variables aleatorias. Éstas son funciones (<strong>no son variables ni son aleatorias</strong>) de tal manera que su imagen inversa pertenece a la sigma-álgebra <span class="math inline">\(\mathcal{F}\)</span>:</p>
+
+<div class="panel panel-info">
+	<div id =  randomvar class="panel-heading">
+		<h4> Definición 1 [ Variable aleatoria ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una función $X: \Omega \to \mathbb{R}$ es una variable aleatoria si:
+$$
+X^{-1}(A) = \{ \omega \in \Omega \quad : \quad X(\omega) \in A \} \in \mathcal{F}
+$$
+para todo $A\subseteq\textrm{Dom}_X$
+</i>	</div>
+</div>
+
+<p>En general la pregunta <span class="math inline">\(\mathbb{P}(X \in A)\)</span> la traducíamos a una pregunta sobre conjuntos: <span class="math display">\[
+\mathbb{P}(X \in A) = \mathbb{P}\Big( \{ \omega \in \Omega \quad : \quad X(\omega) \in A \} \Big)
+\]</span></p>
+<p>y esto nos permitía hablar de probabilidades. En particular, construíamos la función de distribución acumulada como sigue:</p>
+
+<div class="panel panel-info">
+	<div id =  cumfun class="panel-heading">
+		<h4> Definición 2 [ Función de distirbución acumulada ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Definimos la función de distribución acumulada de una variable aleatoria $X: \Omega \to \mathbb{R}$ como:
+$$
+F_X(x) = \mathbb{P}(X \leq x)
+$$
+donde $X$ es la variable aleatoria y $x\in\mathbb{R}$ es un real. 
+</i>	</div>
+</div>
+
+<p>La función de distribución acumulada cumplía varias propiedades:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\lim_{x \to \infty} F_X(x) = 1\)</span></li>
+<li><span class="math inline">\(\lim_{x \to -\infty} F_X(x) = 0\)</span></li>
+<li><span class="math inline">\(F_X\)</span> es no decreciente.</li>
+<li><span class="math inline">\(F_X\)</span> es continua por la derecha.</li>
+<li><span class="math inline">\(F_X\)</span> tiene límites por la izquierda.</li>
+</ol>
+<p>Los puntos 4 y 5 se resumen diciendo que la función es <em>càdlág</em>.</p>
+<p>Tener la acumulada nos permitía calcular probabilidades de intervalos; por ejemplo: <span class="math display">\[
+\mathbb{P}(a &lt; X \leq b) = F_X(b) - F_X(a)
+\]</span> o bien: <span class="math display">\[
+\mathbb{P}(X &lt; x) = \lim_{z \to x^-} F(z)
+\]</span></p>
+<p>Las funciones de distribución acumulada más comunes se veían como en la imagen:</p>
+<p><img src="Repaso_files/figure-html/unnamed-chunk-11-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Si una función de distribución acumulada <span class="math inline">\(F_X\)</span> era continua entonces decíamos que la variable aleatoria asociada (<span class="math inline">\(X\)</span>) es <em>continua</em>. En particular, la continuidad implica que: <span class="math display">\[
+\mathbb{P}(X = k) = 0 \qquad \forall k 
+\]</span></p>
+</div>
+<div id="funciones-de-masa-de-probabilidad" class="section level1">
+<h1><span class="header-section-number">6</span> Funciones de masa de probabilidad</h1>
+<p>Si una variable aleatoria <span class="math inline">\(X\)</span> tomaba una cantidad finita o numerable de valores decíamos que <span class="math inline">\(X\)</span> es una variable aleatoria discreta. Dentro de las variables aleatorias discretas teníamos varios modelos. Una cosa importante de las variables aleatorias es la función de masa de probabilidad que se define como:</p>
+
+<div class="panel panel-info">
+	<div id =  fmp class="panel-heading">
+		<h4> Definición 3 [ Función de Masa de Probabilidad ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Dada una variable aleatoria discreta $X$ definimos la función de masa de probabilidad de $X$ como la función $p:\mathbb{R} \to \mathbb{R}$ tal que:
+$$
+p(x) = \mathbb{P}(X = x)
+$$
+para todo $x \in\mathbb{R}$.
+</i>	</div>
+</div>
+
+<p>Algunos modelos importantes son:</p>
+
+<div class="panel panel-success">
+	<div id =  unifdisc class="panel-heading">
+		<h4> Modelo 1 [ Uniforme Discreto ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $A = \{ a_1, a_2, \dots, a_n \}$ un conjunto finito de $n$ elementos. Una variable aleatoria $X$ tiene una distribución uniforme discreta si:
+$$
+\mathbb{P}\big( X = a_k \big) = \dfrac{1}{n} \cdot \mathbb{I}_{A}(a_k) \qquad \forall k \in \{ 1, 2, \dots, n \} 
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Un modelo particular salía de considerar el siguiente problema:</p>
+<blockquote>
+<p>Tenemos una moneda que cae Águila con probabilidad <span class="math inline">\(p\)</span> y Sol con probabilidad <span class="math inline">\((1-p)\)</span> (con <span class="math inline">\(0 &lt; p &lt; 1\)</span>). Nos interesa saber cuál es la probabilidad de tener <span class="math inline">\(k\)</span> Águilas en <span class="math inline">\(n\)</span> tiros.</p>
+</blockquote>
+<p>A fin de resolver este problema notamos que necesitamos acomodar las <span class="math inline">\(k\)</span> águilas en los <span class="math inline">\(n\)</span> tiros para ello hay <span class="math inline">\(\binom{n}{k}\)</span> formas de hacerlo; cada águila cae con probabilidad <span class="math inline">\(p\)</span> y hay <span class="math inline">\(k\)</span>; como son independientes esto nos da <span class="math inline">\(p^k\)</span>; por otro lado hay <span class="math inline">\(n-k\)</span> soles cada uno cayó con probabilidad <span class="math inline">\((1-p)\)</span>. Esta lógica da origen al modelo binomial:</p>
+
+<div class="panel panel-success">
+	<div id =  binomial class="panel-heading">
+		<h4> Modelo 2 [ Binomial ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Binomial}(n,p)$ si:
+$$
+\mathbb{P}\big(X = k \big) = \binom{n}{k} p^k (1-p)^{n-k} \mathbb{I}_{\{0,1,2,\dots,n \}}(k)
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-16-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Una pregunta distinta que nos pudimos hacer fue:</p>
+<blockquote>
+<p>Tenemos una moneda que cae Águila con probabilidad <span class="math inline">\(p\)</span> y Sol con probabilidad <span class="math inline">\((1-p)\)</span> (con <span class="math inline">\(0 &lt; p &lt; 1\)</span>). Arrojamos la moneda hasta obtener <span class="math inline">\(r\)</span> Águilas y en ese momento nos detenemos. Determina la probabilidad de que se aviente la moneda <span class="math inline">\(k\)</span> veces.</p>
+</blockquote>
+<p>Para ello notamos que la última Águila está fija por lo que sólo debemos poner las <span class="math inline">\(r-1\)</span> Águilas en los <span class="math inline">\(k-1\)</span> lugares restantes, <span class="math inline">\(\binom{k-1}{r-1}\)</span>. Por otro lado, cada Águila tiene probabilidad <span class="math inline">\(p\)</span> y como son <span class="math inline">\(k\)</span> tiros independientes entonces tenemos <span class="math inline">\(p^r\)</span>; para los soles tenemos <span class="math inline">\((1-p)^{k-r}\)</span>. Esto nos genera el modelo Binomial Negativo:</p>
+
+<div class="panel panel-success">
+	<div id =  negbinomial class="panel-heading">
+		<h4> Modelo 3 [ Binomial Negativo ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Binomial Negativa}(r,p)$ si:
+$$
+\mathbb{P}\big(X = k \big) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \mathbb{I}_{\{r, r+1, r+2, \dots \}}(k)
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-18-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Finalmente, otro modelo que pudimos hacer con monedas es un caso específico del <em>Binomial Negativo</em> . Aquí la pregunta es, se tira una moneda que tiene probabilidad <span class="math inline">\(p\)</span> de salir Águila hasta que se obtiene el águila. Contamos cuántos tiros ocurrieron hasta que ocurriera el primer Águila y la pregunta de interés es la probabilidad de haber realizado específicamente <span class="math inline">\(k\)</span> tiros. Para ello necesitamos tener <span class="math inline">\((k-1)\)</span> tiros que fueran sol: <span class="math inline">\((1-p)^{k-1}\)</span> y un tiro que saliera águila <span class="math inline">\(p\)</span>. Esto nos genera el modelo geométrico:</p>
+
+<div class="panel panel-success">
+	<div id =  geom class="panel-heading">
+		<h4> Modelo 4 [ Geométrico ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Geométrica}(p)$ si:
+$$
+\mathbb{P}\big(X = k \big) = (1-p)^k p \cdot \mathbb{I}_{\mathbb{N}}(k).
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-20-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Otro modelo de interés es el siguiente:</p>
+<blockquote>
+<p>Se tiene una población de tamaño <span class="math inline">\(M\)</span> donde <span class="math inline">\(N\)</span> individuos pertenecen al partido político AZUL y <span class="math inline">\(M-N\)</span> pertenecen al VERDE Se toma una submuestra de tamaño <span class="math inline">\(m\)</span>. Determina la probabilidad de que haya <span class="math inline">\(n\)</span> individuos del partido político AZUL.</p>
+</blockquote>
+<p>Para ello notamos que hay <span class="math inline">\(\binom{M}{m}\)</span> muestras totales. Por otro lado, necesitamos extraer de los <span class="math inline">\(N\)</span> azules a una submuestra de <span class="math inline">\(n\)</span>: <span class="math inline">\(\binom{N}{n}\)</span>; finalmente, de los <span class="math inline">\(M\)</span> verdes necesitamos extraer una submuestra de <span class="math inline">\(m\)</span>, hay <span class="math inline">\(\binom{M-N}{m-n}\)</span> formas de hacerlo. Concluimos entonces con el modelo hipergeométrico:</p>
+
+<div class="panel panel-success">
+	<div id =  hgeom class="panel-heading">
+		<h4> Modelo 5 [ Hipergeométrico ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Hipergeométrica}(M,N,m)$ si:
+$$
+\mathbb{P}\big(X = n \big) = \dfrac{\binom{M-N}{m-n} \binom{N}{n} }{\binom{M}{m}} \cdot \mathbb{I}_{\{0,1,\dots, \text{mín}\{m, N\} \}} (n)
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>El modelo Poisson va a ser bastante útil. Para estudiarlo, consideremos un modelo. Vamos a pensar en un servidor de computación (piensa en una página de Internet) que recibe solicitudes de entrar a la página de manera independiente y aleatoria en un intervalo de tiempo entre <span class="math inline">\(t = 0\)</span> y <span class="math inline">\(t = 1\)</span>. Como primera aproximación podemos dividir el intervalo en <span class="math inline">\(n\)</span> pedazos cada uno de longitud <span class="math inline">\(1/n\)</span> y asumir que, a fuerza, sólo una conexión se puede realizar en cada uno de esos pedazos. Finalmente, asumamos que la probabilidad <span class="math inline">\(p\)</span> de que se haga una conexión es proporcional a la longitud del intervalo y sea <span class="math inline">\(p = \lambda / n\)</span>. Con estas hipótesis, la probabilidad de tener <span class="math inline">\(k\)</span> conexiones (<span class="math inline">\(k\)</span> entero entre <span class="math inline">\(0\)</span> y <span class="math inline">\(n\)</span>) está dada por un modelo binomial: <span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+f_n(k) &amp; = \binom{n}{k} \Big( \frac{\lambda}{n} \Big)^k \Big(1 - \frac{\lambda}{n} \Big)^k \\
+&amp; = \frac{\lambda^k}{k!} \Big( 1 - \frac{\lambda}{n})^n \frac{n!}{n^k(n-k)!} \Big( 1 - \frac{\lambda}{n})^{-k}
+\end{aligned}
+\end{equation}\]</span> de donde concluimos que si continuamos partiendo el intervalo en pedazos cada vez más pequeños obtenemos: <span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+\lim_{n \to \infty} f_n(k) &amp; = \frac{e^{-\lambda} \lambda^k}{k!}
+\end{aligned}
+\end{equation}\]</span> Esto resulta en el modelo Poisson:</p>
+
+<div class="panel panel-success">
+	<div id =  poisson class="panel-heading">
+		<h4> Modelo 6 [ Poisson ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Poisson}(\lambda)$ si:
+$$
+\mathbb{P}\big(X = k \big) = \dfrac{\lambda^k e^{-\lambda}}{k!} \mathbb{I}_{\mathbb{N}\cup \{ 0 \}}(k)
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-24-1.png" width="384" style="display: block; margin: auto;" /></p>
+</div>
+<div id="funciones-de-densidad" class="section level1">
+<h1><span class="header-section-number">7</span> Funciones de densidad</h1>
+<p>Por construcción, las variables aleatorias continuas no tienen una función de masa de probabilidad (recuerda que <span class="math inline">\(\mathbb{P}(X = k) = 0\)</span> si <span class="math inline">\(X\)</span> es continua para todo <span class="math inline">\(k\)</span>). Sin embargo, es posible definir, si <span class="math inline">\(F_X\)</span> es diferenciable algo <em>similar</em>, la función de densidad.</p>
+
+<div class="panel panel-info">
+	<div id =  dfun class="panel-heading">
+		<h4> Definición 4 [ Función de densidad ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Para una variable aleatoria $X$ con función de distribución acumulada $F_X$ diferenciable, definimos la función de densidad como:
+$$
+f_X(x) = \dfrac{d}{dx} F_X(x)
+$$
+</i>	</div>
+</div>
+
+<p>Notamos que una función de densidad no es una probabilidad y no necesariamente sigue las mismas reglas; lo único que se requiere es:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(f_X(x) \geq 0\)</span> para toda <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\(\int\limits_{-\infty}^{\infty} f_X(x) dx = 1\)</span>.</li>
+</ol>
+<p>La primer función de densidad es la que a un intervalo <span class="math inline">\([a,b]\)</span> (ya sea abierto, cerrado o como sea) asigna a cada subintervalo una probabilidad proporcional a su longitud. Éste es el modelo uniforme:</p>
+
+<div class="panel panel-success">
+	<div id =  unif class="panel-heading">
+		<h4> Modelo 7 [ Uniforme ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Uniforme}(a,b)$ si:
+$$
+f_X(x) = \dfrac{1}{b-a}\mathbb{I}_{(a,b)}(x)
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-27-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Una generalización del modelo uniforme es el beta (eventualmente veremos de dónde sale):</p>
+
+<div class="panel panel-success">
+	<div id =  beta class="panel-heading">
+		<h4> Modelo 8 [ Beta ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Beta}(\alpha,\beta)$ si:
+$$
+f_X(x) = \dfrac{x^{\alpha - 1}(1-x)^{\beta - 1}}{B(\alpha, \beta)}\mathbb{I}_{(0,1)}(x)
+$$
+donde 
+$$
+B(\alpha, \beta) = \dfrac{\Gamma (\alpha) \Gamma (\beta)}{\Gamma (\alpha + \beta)}
+$$
+</i>	</div>
+</div>
+
+<p><img src="Repaso_files/figure-html/unnamed-chunk-29-1.png" width="384" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Modelo exponencial</li>
+<li>Modelo gamma</li>
+<li>Modelo normal</li>
+</ul>
+</div>
+<div id="teorema-de-cambio-de-variable" class="section level1">
+<h1><span class="header-section-number">8</span> Teorema de cambio de variable</h1>
+<p>Supongamos que tenemos una variable aleatoria <span class="math inline">\(X\)</span> y nos interesa ver cómo se ve la <span class="math inline">\(X\)</span> después de aplicarle una función <span class="math inline">\(\phi\)</span>. Por ejemplo, si <span class="math inline">\(X\sim\textrm{Normal}(0,1)\)</span> la función de densidad de <span class="math inline">\(e^X\)</span> está dada por:</p>
+<p><span class="math display">\[
+f_X(x) = \dfrac{1}{x \sqrt{2 \pi \sigma^2}}e^{-(\ln(x) - \mu)^2/2\sigma^2} \mathbb{I}_{(0,\infty)}(x).
+\]</span></p>
+<p>Lo cual cambia mucho la forma de la distribución:</p>
+<p><img src="Repaso_files/figure-html/unnamed-chunk-30-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>La pregunta es, cómo obtener la función de densidad de <span class="math inline">\(X\)</span> si se conoce la función <span class="math inline">\(\phi\)</span>; el teorema de cambio de variable nos da una respuesta cuando <span class="math inline">\(\phi\)</span> es monótona estrictamente creciente o bien estrictamente decreciente y diferenciable.</p>
+
+<div class="panel panel-primary">
+	<div id =  moncrec class="panel-heading">
+		<h4> Teorema 6 [ Cambio de variable ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $X$ una variable aleatoria continua y $\phi$ una función estrictamente creciente ó estrictamente decreciente y diferenciable. Entonces:
+$$
+f_{\phi(X)}(t)  = f_X( \phi^{-1}(t) ) \cdot \left| \dfrac{d}{dt}  \phi^{-1}(t)  \right|
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+<b> Caso estrictamente decreciente </b><br>
+Como $\phi$ es estrictamente decreciente es invertible y por tanto:
+\begin{equation}\nonumber
+\begin{aligned}
+F_{\phi(X)}(t) & =  \mathbb{P}(\phi(X) \leq t) \\
+& = \mathbb{P}(X \geq \phi^{-1}(t) ) \\
+& = 1 - \mathbb{P}(X \leq \phi^{-1}(t) ) \\
+& = 1 - F_X( \phi^{-1}(t) )
+\end{aligned}
+\end{equation}
+luego derivamos respecto a $t$:
+\begin{equation}\nonumber
+\begin{aligned}
+f_{\phi(X)}(t) & = \dfrac{d}{dt} F_{\phi(X)}(t) \\
+& = - \dfrac{d}{dt} F_X( \phi^{-1}(t) )  \\
+& = - f_X( \phi^{-1}(t) ) \cdot \dfrac{d}{dt} \phi^{-1}(t)  \\
+& = f_X( \phi^{-1}(t) ) \cdot \left| \dfrac{d}{dt}  \phi^{-1}(t)  \right|
+\end{aligned}
+\end{equation}
+Donde el valor absoluto sale de que $\phi^{-1}(t) < 0$ por ser estrictamente decreciente la $\phi$. 
+ 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="valor-esperado-varianza-y-mediana" class="section level1">
+<h1><span class="header-section-number">9</span> Valor esperado, varianza y mediana</h1>
+</div>
+<div id="generadora-de-momentos" class="section level1">
+<h1><span class="header-section-number">10</span> Generadora de momentos</h1>
+</div>
+<div id="ejercicios" class="section level1">
+<h1><span class="header-section-number">11</span> Ejercicios</h1>
+<ol style="list-style-type: decimal">
+<li>Demuestra las siguientes proposiciones sobre funciones indicadoras:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\mathbb{I}_{A \cap B} = \text{min}\{ \mathbb{I}_{A}, \mathbb{I}_{B} \}\)</span></li>
+<li><span class="math inline">\(\mathbb{I}_{A \cup B} = \text{máx}\{ \mathbb{I}_{A}, \mathbb{I}_{B} \}\)</span></li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Determina <span class="math inline">\(\text{Var}(\mathbb{I}_A(X))\)</span> para cualquier variable aleatoria <span class="math inline">\(X\)</span> (donde asumimos <span class="math inline">\(A \in \textrm{Dom}_X\)</span> y todo está bien definido).</p></li>
+<li>Obtén las funciones generadoras de momentos de las siguientes variables aleatorias:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\text{Gamma}(\alpha, \beta)\)</span></li>
+<li><span class="math inline">\(\text{Exponencial}(\lambda)\)</span></li>
+<li><span class="math inline">\(\text{Normal}(\mu, \sigma)\)</span></li>
+<li><span class="math inline">\(\text{Binomial}(n, p)\)</span></li>
+<li><span class="math inline">\(\text{Binomial Negativa}(r, p)\)</span></li>
+<li><span class="math inline">\(\text{Poisson}(\lambda)\)</span></li>
+<li><span class="math inline">\(\text{Geométrica}(p)\)</span></li>
+<li><span class="math inline">\(\text{Uniforme}(a,b)\)</span></li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>Obtén las funciones de distribución acumuladas para las siguientes variables aleatorias:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\text{Exponencial}(\lambda)\)</span></li>
+<li><span class="math inline">\(\text{Uniforme}(a,b)\)</span></li>
+<li><span class="math inline">\(\text{Geométrica}(p)\)</span></li>
+</ol>
+<ol start="5" style="list-style-type: decimal">
+<li><p>Considera el conjunto <span class="math inline">\(C = \{1,2,\dots, n\}\)</span> para <span class="math inline">\(n \geq 2\)</span>. Se extraen dos números <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> (primero el <span class="math inline">\(a\)</span> y luego el <span class="math inline">\(b\)</span>) con reemplazo. Determina la probabilidad de que <span class="math inline">\(a &gt; b\)</span>. Inspírate <a href="#ejcondicional">en el ejemplo de estas notas</a> .</p></li>
+<li><p>Dos personas, Alicia y Bob juegan a la lotería. La lotería se juega todos los miércoles y, en cada juego, la probabilidad de que un billete de lotería específico resulte ganador es <span class="math inline">\(p\)</span>. Alicia, cada miércoles, compra <span class="math inline">\(2\)</span> billetes mientras que Bob compra <span class="math inline">\(3\)</span>. Todos los billetes de lotería son distintos y sólo uno es el ganador. Determina la probabilidad de que Alicia gane la lotería antes de que Bob lo haga. Inspírate <a href="#ejcondicional">en el ejemplo de estas notas</a> .</p></li>
+<li><p>Sea <span class="math inline">\(X \sim \textrm{Normal}(0,1)\)</span>. Determina la densidad de <span class="math inline">\(X^2\)</span>. <strong>OJO</strong> No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo.</p></li>
+<li><p>Sea <span class="math inline">\(X\sim \textrm{Exp}(\lambda)\)</span>, determina la densidad de <span class="math inline">\(\sqrt{X}\)</span>. <strong>OJO</strong> No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo.</p></li>
+<li><p>Sea <span class="math inline">\(X\sim \textrm{Unif}(0, 2\pi)\)</span>, determina la densidad de <span class="math inline">\(\cos(X)\)</span>. <strong>OJO</strong> No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo.</p></li>
+<li><p>Demuestra el <a href="#moncrec">Teorema de Cambio de variable</a> para el caso estrictamente creciente.</p></li>
+</ol>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+      <b>Contáctame</b> en <a href="mailto:rodrigo.zepeda@itam.mx?Subject=Notas de Proba 1" target="_top">rodrigo.zepeda@itam.mx</a>
+    </div>
+    <div class="panel-footer"><span  xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><small><b>Notas de Cálculo de Probabilidades</b></span> por <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Rodrigo Zepeda</span> tiene una licencia <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. </small><br /></div>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

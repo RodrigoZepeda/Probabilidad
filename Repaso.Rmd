@@ -1,0 +1,755 @@
+---
+title: "Todo lo que necesitas saber de la primera parte del curso y nunca te atreviste a preguntar"
+author: "Rodrigo Zepeda"
+output:
+  html_document:
+    css: css/bootstrap.css
+    includes:
+      after_body: headers/footer.html
+      before_body: headers/head.html
+      in_header: headers/format.html
+    number_sections: yes
+    self_contained: no
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+linkcolor: blue
+urlcolor: blue
+bibliography: referencias.bib
+---
+
+```{r setup, include=FALSE}
+require(knitr)
+require(kableExtra)
+require(gridExtra)
+require(ggplot2)
+require(reshape2)
+require(data.tree)
+
+#Knitr table options
+options(knitr.table.format = "html") 
+
+#Chunk options
+opts_chunk$set(echo = FALSE)
+opts_chunk$set(results = 'asis')
+opts_chunk$set(fig.width  = 4)
+opts_chunk$set(fig.height = 4)
+opts_chunk$set(fig.align='center')
+
+#Function for authomatic theorem, corollary, example, counterexample, property, lemma and definition numbering
+source("Rfun/theorem_creator.R")
+```
+
+# Funciones indicadoras
+
+Dado un conjunto $A$ definimos la función indicadora de $A$ como sigue:
+$$
+\mathbb{I}_A (x)= \begin{cases}
+1 & \text{ si } x \in A\\
+0 & \text{ si } x \not\in A
+\end{cases}
+$$
+
+La función indicadora cumple las siguientes propiedades:
+```{r}
+props <- "Sean $A,B$ conjuntos; luego:
+<ol>
+<li>$\\mathbb{I}_{A \\cap B}(x) =  \\mathbb{I}_{A}(x) \\cdot \\mathbb{I}_{B}(x)$</li>
+<li>$\\mathbb{I}_{A \\cup B}(x) =   \\mathbb{I}_{A}(x) +  \\mathbb{I}_{B}(x) - \\mathbb{I}_{A}(x) \\cdot \\mathbb{I}_{B}(x)$</li>
+<li>$\\mathbb{E}_X[\\mathbb{I}_A(X)] = \\mathbb{P}(A)$ </li>
+</ol>
+"
+
+dem <- ""
+
+build_theorem("Propiedades",props, proof = dem, name = "", id ="formulatabla" )
+```
+
+# Muestreo 
+
+
+Intentemos resumir todas las formas de contar que tenemos con un ejemplo. 
+
+> En la lotería de Nueva York se eligen $6$ de $44$ números para un ticket. ¿Cuántos boletos de lotería posibles hay?
+
+Veamos todas las formas posibles de solución:
+
+a. **Ordenado y sin reemplazo** Si sólo importa el orden y una vez que sale un número no se vuelve a meter a los posibles entonces tenemos:
+$$
+\frac{44!}{(44-6)!}
+$$
+
+b. **Ordenado y con reemplazo**  En cada uno de los $6$ lugares hay $44$ números posibles:
+$$
+44^6
+$$
+
+c. **Sin orden y sin reemplazo** Esto es una combinación por lo que la forma de extraerlo es:
+$$
+\binom{44}{6}
+$$
+
+d. **Sin orden y con reemplazo** Para resolver este caso podemos usar la técnica de las barras y los puntos. Coloquemos barras y los huecos entre ellas representan cada uno de los $44$ números. 
+\begin{equation}\nonumber
+|\underbrace{\_}_{1}|\underbrace{\_}_{2}|\underbrace{\_}_{3}|\cdots |\underbrace{\_}_{n}|
+\end{equation}
+Coloquemos puntos ($\circ$) donde estén los números seleccionados. Por ejemplo la siguiente representa la combinación $113555$
+\begin{equation}\nonumber
+|\underbrace{\circ \circ}_{1}|\underbrace{\_}_{2}|\underbrace{\circ}_{3}||\underbrace{\_}_{4}|\underbrace{\circ \circ \circ}_{5}|\cdots |\underbrace{\_}_{n}|
+\end{equation}
+Tenemos entonces que el problema se reduce a colocar $n - 1= 43$ barritas (son un total de $45$ pero la primera y la última no deben cambiar de lugar) y $k = 6$ círculos por tanto colocamos $49$ elementos en total. De estos, nos interesa poner $6$ por lo que tenemos:
+$$
+\binom{44 + 6  - 1}{6}
+$$
+formas distintas. Esto nos lleva a la tabla siguiente:
+
+
+```{r}
+form <- "
+Para obtener una muestra de tamaño $k$ a partir de un conjunto de tamaño $n > 0$ éstas son las opciones: 
+<table>
+<tr>
+<td></td>
+<td></td>
+<td>$\\quad \\text{Con Reemplazo}$</td>
+<td></td>
+<td>$\\quad \\text{Sin Reemplazo}$</td>
+</tr>
+<tr>
+<td>$\\quad \\text{Con Orden}$ </td>
+<td></td>
+<td> $\\quad n^k$</td>
+<td></td>
+<td> $\\quad (n)_k$</td>
+</tr>
+<tr>
+<td>$\\quad \\text{Sin Orden}$ </td>
+<td></td>
+<td> $\\quad \\binom{n+k-1}{k}$</td>
+<td></td>
+<td> $\\quad \\binom{n}{k}$</td>
+</tr>
+</table>
+"
+
+build_theorem("Formulario",form, proof = "", name = "", id ="formulatabla" )
+```
+
+# Espacios de probabilidad
+
+Los ingredientes para un modelo probabilístico son $3$:
+
+1. Un conjunto $\Omega$ conocido como **espacio muestral** el cual es el conjunto de los resultados de interés. Por ejemplo, en el tiro de un dado $\Omega = \{1,2,3,4,5,6\}$, para el lanzamiento de una moneda $\Omega = \{\text{Águila},\text{Sol}\}$ o bien en seleccionar un número uniforme entre $0$ y $1$ tenemos que $\Omega = [0,1]$. 
+
+2. Una colección $\mathcal{F}$ de subconjuntos de $\Omega$ conocida como **sigma-álgebra** o bien como **espacio de eventos** la cual cumple las siguientes características: 
+
+  a. $\Omega \in \mathcal{F}$ 
+  b. Si $A\in\mathcal{F}$ entonces $A^C \in \mathcal{F}$
+  c. Si $A_1, A_2, \dots$ es una colección finita ó numerable de elementos de $\mathcal{F}$ entonces $\bigcup_{n} A_n \in \mathcal{F}$
+  
+Generalmente identificamos a la $\mathcal{F}$ con el potencia para conjuntos $\Omega$ finitos; para casos infinitos el teorema de Vitali nos dice que las cosas son más complicadas. 
+  
+3. Una función $\mathbb{P}:\mathcal{F} \to [0,1]$ que cumple que:
+
+  a. $\mathbb{P}(\Omega) = 1$.
+  b. $\mathbb{P}(A) \geq 0$ para todo $A \in \mathcal{F}$.
+  c. Si $A_1, A_2, \dots$ es una colección finita ó numerable de conjuntos disjuntos ($A_i\cap A_j = \emptyset$ para $i \neq j$) entonces $\mathbb{P}(\bigcup_{n} A_n) = \sum\limits_{n}\mathbb{P}(A_n)$.
+  
+Estos últimos tres puntos se conocen como **Axiomas de Kolmogorov**. Una vez armados con los axiomas podíamos empezar a probar cosas con ellos; por ejemplo:
+
+```{r}
+form <- "
+Sea $(\\Omega,\\mathcal{F},\\mathbb{P})$ un espacio de probabilidad. Sea $A$ evento de $\\mathcal{F}$. Luego:
+$$
+\\mathbb{P}(A^C) = 1 - \\mathbb{P}(A)
+$$
+"
+
+dem <- "
+Podemos escribir $\\Omega = A\\cup A^C$ de donde se sigue que:
+$$
+1 = \\mathbb{P}(\\Omega) = \\mathbb{P}(A \\cup A^C) = \\mathbb{P}(A) + \\mathbb{P}(A^C)
+$$
+si despejamos obtenemos el resultado deseado.
+"
+
+build_theorem("Teorema",form, proof = dem, name = "Probabilidad del complemento", id ="punions" )
+```
+
+```{r}
+form <- "
+Sea $(\\Omega,\\mathcal{F},\\mathbb{P})$ un espacio de probabilidad. Sean $A,B$ eventos de $\\mathcal{F}$. Luego:
+$$
+\\mathbb{P}(A\\setminus B) = \\mathbb{P}(A) - \\mathbb{P}(A \\cap B)
+$$
+"
+
+dem <- "
+Podemos escribir $A = (A\\setminus B) \\cup (A \\cap B)$ de donde se sigue que:
+$$
+\\mathbb{P}(A) = \\mathbb{P}\\big((A\\setminus B) \\cup (A \\cap B) \\big) =  \\mathbb{P}(A\\setminus B) + \\mathbb{P} (A \\cap B)
+$$
+si despejamos obtenemos el resultado deseado.
+"
+
+build_theorem("Teorema",form, proof = dem, name = "Probabilidad del complemento", id ="presta" )
+```
+
+```{r}
+form <- "
+Sea $(\\Omega,\\mathcal{F},\\mathbb{P})$ un espacio de probabilidad. Sean $A,B$ eventos de $\\mathcal{F}$. Luego:
+$$
+\\mathbb{P}(A \\cup B) = \\mathbb{P}(A) + \\mathbb{P}(B) - \\mathbb{P}(A \\cap B)
+$$
+"
+
+dem <- "
+Podemos escribir $A\\cup B$ como $A\\cup B = (A\\setminus B)\\cup (A \\cap B)\\cup (B\\setminus A)$ luego:
+\\begin{equation}\\nonumber
+\\begin{aligned}
+\\mathbb{P}(A\\cup B) & = \\mathbb{P}(A\\setminus B) + \\mathbb{P} (A \\cap B) + \\mathbb{P}(B\\setminus A) \\\\
+& = \\mathbb{P}(A) - \\mathbb{P}(A \\cap B) + \\mathbb{P} (A \\cap B) + \\mathbb{P}(B) - \\mathbb{P}(A \\cap B)
+\\\\ & = \\mathbb{P}(A) + \\mathbb{P}(B) - \\mathbb{P}(A \\cap B)
+\\end{aligned}
+\\end{equation}
+"
+
+build_theorem("Teorema",form, proof = dem, name = "Probabilidad de la unión", id ="punions" )
+```
+
+# Probabilidad condicional 
+
+Muchas veces la probabilidad cambia conforme obtenemos información extra. Por ejemplo, si consideramos los tiros de un dado $\Omega = \{1,2,3,4,5,6\}$ y se sabe que cayó par $B = \{2,4,6 \}$, la probabilidad de obtener $2$ ó $4$ (el evento) $A = \{ 2, 4\}$ cambia de probabilidad:
+$$
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+$$
+
+En particular hay dos teoremas principales con probabilidad condicional: la ley de probabilidad total que te permite reconstruirlas probabilidades originales a partir de las condicionales y el de Bayes. 
+
+El teorema de Bayes puede deducirse a partir de un simple despeje pues notamos que:
+$$
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+$$
+y por otro lado:
+$$
+\mathbb{P}(B | A) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(A)}
+$$
+Si despejamos del segundo, obtenemos: 
+$$
+\mathbb{P}(B | A)\mathbb{P}(A) = \mathbb{P}(A \cap B)
+$$
+Podemos sustituir la definición de intersección en $\mathbb{P}(A|B)$ y así obtener:
+$$
+\mathbb{P}(A | B) = \dfrac{\mathbb{P}(B | A)\mathbb{P}(A)}{\mathbb{P}(B)}
+$$
+
+```{r}
+ej <- "
+Para eventos $A,B$ con $\\mathbb{P}(A)\\cdot \\mathbb{P}(B)\\neq 0$ tenemos:
+$$
+\\mathbb{P}(A | B) = \\dfrac{\\mathbb{P}(B | A)\\mathbb{P}(A)}{\\mathbb{P}(B)}
+$$
+"
+
+
+build_theorem("Teorema",ej, proof = "Lo anterior.", name = "Bayes", id ="bayes1" )
+```
+
+Por otro lado, dada una partición $B_1, B_2, \dots$ finita o numerable de $\Omega$ podemos definir la probabilidad de $A$ en términos de cada uno de los pedazos:
+
+$$
+\mathbb{P}(A) = \sum\limits_{k} \mathbb{P}(A | B_k) \cdot \mathbb{P}(B_k)
+$$
+
+Esta identidad se sigue de que: 
+$$
+\mathbb{P}(A | B_k) = \dfrac{\mathbb{P}(A \cap B_k)}{\mathbb{P}(B_k)}
+$$
+
+de donde podemos sustituir arriba y obtener:
+$$
+\mathbb{P}(A) = \sum\limits_{k} \dfrac{\mathbb{P}(A \cap B_k)}{\mathbb{P}(B_k)} \cdot \mathbb{P}(B_k) = \sum\limits_{k} \mathbb{P}(A \cap B_k) =  \mathbb{P}\big(A \cap (\bigcup_k B_k) \big) =  \mathbb{P}\big(A \cap \Omega \big) 
+$$
+
+Tenemos entonces el teorema:
+
+```{r}
+ej <- "
+Sean $B_1, B_2, \\dots $ eventos que forman una partición de $\\Omega$; sea $A$ un evento cualquiera; luego:
+$$
+\\mathbb{P}(A) = \\sum\\limits_{k} \\mathbb{P}(A | B_k) \\cdot \\mathbb{P}(B_k)
+$$
+"
+
+
+build_theorem("Teorema",ej, proof = "Lo anterior.", name = "Probabilidad Total", id ="ptotal" )
+```
+
+
+Usando probabilidad condicional podemos resolver problemas como el siguiente:
+
+```{r}
+ej <- "
+Considera el conjunto $C = \\{1,2,\\dots, n\\}$ para $n \\geq 2$. Se extraen dos números $a$ y $b$ (primero el $a$ y luego el $b$) con probabilidad uniforme sin reemplazo. Determina la probabilidad de que $a > b$. 
+"
+
+sol <- "
+Podemos utilizar probabilidad condicional para representar el evento:
+\\begin{equation}\\nonumber
+\\begin{aligned}
+\\mathbb{P}(a > b) &  = \\sum\\limits_{k = 1}^{n} \\mathbb{P}(a > b \\quad |  \\quad  a = k) \\mathbb{P}(a = k)
+\\end{aligned}
+\\end{equation}
+Donde $\\mathbb{P}(a = k) = \\frac{1}{n}$ para todos los $k$ pues es uniforme (y es el primero en salir). Luego: 
+\\begin{equation}\\nonumber
+\\begin{aligned}
+\\mathbb{P}(a > b) &  = \\sum\\limits_{k = 1}^{n} \\mathbb{P}(a > b \\quad |  \\quad  a = k) \\mathbb{P}(a = k) \\\\
+& = \\dfrac{1}{n} \\sum\\limits_{k = 1}^{n} \\mathbb{P}(a > b \\quad |  \\quad  a = k) \\\\
+& = \\dfrac{1}{n} \\sum\\limits_{k = 1}^{n} \\mathbb{P}(k > b \\quad |  \\quad  a = k) \\\\
+\\end{aligned}
+\\end{equation}
+Notamos que cuando $k = 1$ no hay forma de que $k > b$; cuando $k = 2$ hay una única forma (que $b$ valga $1$); cuando $k = 3$ hay dos formas. En general para una $k$ genérica hay $k-1$ formas de seleccionar un $b$ menor a $k$ luego:
+\\begin{equation}\\nonumber
+\\begin{aligned}
+\\mathbb{P}(a > b) &  = \\dfrac{1}{n} \\sum\\limits_{k = 1}^{n} \\dfrac{k-1}{n}
+\\\\ & = \\dfrac{1}{n^2} \\sum\\limits_{k = 1}^{n} k-1
+\\\\ & = \\dfrac{1}{n^2} \\sum\\limits_{k = 0}^{n-1} k
+\\\\ & = \\dfrac{1}{n^2} \\dfrac{n(n-1)}{2}
+\\\\ & = \\dfrac{n-1}{2n} 
+\\end{aligned}
+\\end{equation}
+"
+
+
+build_theorem("Ejercicio",ej, proof = sol, name = "Un ejercicio de probabilidad condicional", id ="ejcondicional" )
+```
+
+
+
+# Variables aleatorias y función de distribución (acumulada)
+
+Para hablar de probabilidad uno de los ingredientes principales eran las variables aleatorias. Éstas son funciones (**no son variables ni son aleatorias**) de tal manera que su imagen inversa pertenece a la sigma-álgebra $\mathcal{F}$:
+
+```{r}
+form <- "
+Una función $X: \\Omega \\to \\mathbb{R}$ es una variable aleatoria si:
+$$
+X^{-1}(A) = \\{ \\omega \\in \\Omega \\quad : \\quad X(\\omega) \\in A \\} \\in \\mathcal{F}
+$$
+para todo $A\\subseteq\\textrm{Dom}_X$
+"
+
+
+build_theorem("Definición",form, proof = "", name = "Variable aleatoria", id ="randomvar" )
+```
+
+En general la pregunta $\mathbb{P}(X \in A)$ la traducíamos a una pregunta sobre conjuntos:
+$$
+\mathbb{P}(X \in A) = \mathbb{P}\Big( \{ \omega \in \Omega \quad : \quad X(\omega) \in A \} \Big)
+$$
+
+y esto nos permitía hablar de probabilidades. En particular, construíamos la función de distribución acumulada como sigue:
+
+```{r}
+form <- "
+Definimos la función de distribución acumulada de una variable aleatoria $X: \\Omega \\to \\mathbb{R}$ como:
+$$
+F_X(x) = \\mathbb{P}(X \\leq x)
+$$
+donde $X$ es la variable aleatoria y $x\\in\\mathbb{R}$ es un real. 
+"
+
+
+build_theorem("Definición",form, proof = "", name = "Función de distirbución acumulada", id ="cumfun" )
+```
+
+La función de distribución acumulada cumplía varias propiedades:
+
+1. $\lim_{x \to \infty} F_X(x) = 1$
+2. $\lim_{x \to -\infty} F_X(x) = 0$
+3. $F_X$ es no decreciente. 
+4. $F_X$ es continua por la derecha.
+5. $F_X$ tiene límites por la izquierda. 
+
+Los puntos 4 y 5 se resumen diciendo que la función es _càdlág_. 
+
+Tener la acumulada nos permitía calcular probabilidades de intervalos; por ejemplo:
+$$
+\mathbb{P}(a < X \leq b) = F_X(b) - F_X(a)
+$$
+o bien:
+$$
+\mathbb{P}(X < x) = \lim_{z \to x^-} F(z)
+$$
+
+Las funciones de distribución acumulada más comunes se veían como en la imagen:
+
+```{r}
+x <- seq(-5,5,length.out = 100)
+y <- pnorm(x)
+dats <- data.frame(x = x, y = y)
+plot1 <- ggplot(dats) + geom_line(aes(x = x, y = y), color = "deepskyblue3", size = 1) + theme_classic() + ggtitle("Distribución acumulada de la Normal(0,1)") +
+  xlab("x") + ylab("F_X(x)")
+x <- seq(0,5,length.out = 100)
+y <- ppois(x, lambda = 1)
+dats2 <- data.frame(x = x, y = y)
+plot2 <- ggplot(dats2) + geom_step(aes(x = x, y = y), color = "firebrick", size = 1) + theme_classic() + ggtitle("Distribución acumulada de la Poisson(1)") +
+  xlab("x") + ylab("F_X(x)")
+grid.arrange(plot1,plot2, ncol = 1)
+```
+
+Si una función de distribución acumulada $F_X$ era continua entonces decíamos que la variable aleatoria asociada ($X$) es _continua_. En particular, la continuidad implica que:
+$$
+\mathbb{P}(X = k) = 0 \qquad \forall k 
+$$
+
+
+# Funciones de masa de probabilidad
+
+Si una variable aleatoria $X$ tomaba una cantidad finita o numerable de valores decíamos que $X$ es una variable aleatoria discreta. Dentro de las variables aleatorias discretas teníamos varios modelos. Una cosa importante de las variables aleatorias es la función de masa de probabilidad que se define como:
+
+```{r}
+form <- "
+Dada una variable aleatoria discreta $X$ definimos la función de masa de probabilidad de $X$ como la función $p:\\mathbb{R} \\to \\mathbb{R}$ tal que:
+$$
+p(x) = \\mathbb{P}(X = x)
+$$
+para todo $x \\in\\mathbb{R}$.
+"
+
+
+build_theorem("Definición",form, proof = "", name = "Función de Masa de Probabilidad", id ="fmp" )
+```
+
+Algunos modelos importantes son:
+
+```{r}
+form <- "
+Sea $A = \\{ a_1, a_2, \\dots, a_n \\}$ un conjunto finito de $n$ elementos. Una variable aleatoria $X$ tiene una distribución uniforme discreta si:
+$$
+\\mathbb{P}\\big( X = a_k \\big) = \\dfrac{1}{n} \\cdot \\mathbb{I}_{A}(a_k) \\qquad \\forall k \\in \\{ 1, 2, \\dots, n \\} 
+$$
+"
+
+
+build_theorem("Modelo",form, proof = "", name = "Uniforme Discreto", id ="unifdisc" )
+```
+
+```{r}
+x <- 1:10
+y <- rep(1/length(x), length(x))
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 3) + theme_classic() + ggtitle("Función de masa de probabilidad\nuniforme discreta") +
+  xlab("x") + ylab("p(x)")
+```
+
+Un modelo particular salía de considerar el siguiente problema:
+
+> Tenemos una moneda que cae Águila con probabilidad $p$ y Sol con probabilidad $(1-p)$ (con $0 < p < 1$). Nos interesa saber cuál es la probabilidad de tener $k$ Águilas en $n$ tiros. 
+
+A fin de resolver este problema notamos que necesitamos acomodar las $k$ águilas en los $n$ tiros para ello hay $\binom{n}{k}$ formas de hacerlo; cada águila cae con probabilidad $p$ y hay $k$; como son independientes esto nos da $p^k$; por otro lado hay $n-k$ soles cada uno cayó con probabilidad $(1-p)$. Esta lógica da origen al modelo binomial: 
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Binomial}(n,p)$ si:
+$$
+\\mathbb{P}\\big(X = k \\big) = \\binom{n}{k} p^k (1-p)^{n-k} \\mathbb{I}_{\\{0,1,2,\\dots,n \\}}(k)
+$$
+"
+
+
+build_theorem("Modelo",form, proof = "", name = "Binomial", id ="binomial" )
+```
+
+```{r}
+x <- 0:10
+y <- dbinom(x, 10, 1/3)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 3) + theme_classic() + ggtitle("Función de masa de probabilidad\nBinomial(10,1/3)") +
+  xlab("x") + ylab("p(x)")
+```
+
+Una pregunta distinta que nos pudimos hacer fue:
+
+> Tenemos una moneda que cae Águila con probabilidad $p$ y Sol con probabilidad $(1-p)$ (con $0 < p < 1$). Arrojamos la moneda hasta obtener $r$ Águilas y en ese momento nos detenemos. Determina la probabilidad de que se aviente la moneda $k$ veces.
+
+Para ello notamos que la última Águila está fija por lo que sólo debemos poner las $r-1$ Águilas en los $k-1$ lugares restantes, $\binom{k-1}{r-1}$. Por otro lado, cada Águila tiene probabilidad $p$ y como son $k$ tiros independientes entonces tenemos $p^r$; para los soles tenemos $(1-p)^{k-r}$. Esto nos genera el modelo Binomial Negativo:
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Binomial Negativa}(r,p)$ si:
+$$
+\\mathbb{P}\\big(X = k \\big) = \\binom{k-1}{r-1} p^r (1-p)^{k-r} \\mathbb{I}_{\\{r, r+1, r+2, \\dots \\}}(k)
+$$
+"
+
+
+build_theorem("Modelo",form, proof = "", name = "Binomial Negativo", id ="negbinomial" )
+```
+
+```{r}
+x <- 0:100
+y <- dnbinom(x, 10, 1/3)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 3) + theme_classic() + ggtitle("Función de masa de probabilidad\nBinomialNegativo(10,1/3)") +
+  xlab("x") + ylab("p(x)")
+```
+
+Finalmente, otro modelo que pudimos hacer con monedas es un caso específico del _Binomial Negativo_ . Aquí la pregunta es, se tira una moneda que tiene probabilidad $p$ de salir Águila hasta que se obtiene el águila. Contamos cuántos tiros ocurrieron hasta que ocurriera el primer Águila y la pregunta de interés es la probabilidad de haber realizado específicamente $k$ tiros. Para ello necesitamos tener $(k-1)$ tiros que fueran sol: $(1-p)^{k-1}$ y un tiro que saliera águila $p$. Esto nos genera el modelo geométrico:
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Geométrica}(p)$ si:
+$$
+\\mathbb{P}\\big(X = k \\big) = (1-p)^k p \\cdot \\mathbb{I}_{\\mathbb{N}}(k).
+$$
+"
+
+
+build_theorem("Modelo",form, proof = "", name = "Geométrico", id ="geom" )
+```
+
+```{r}
+x <- 0:25
+y <- dgeom(x, 1/3)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 3) + theme_classic() + ggtitle("Función de masa de probabilidad\nGeométrica(1/3)") +
+  xlab("x") + ylab("p(x)")
+```
+
+Otro modelo de interés es el siguiente: 
+
+> Se tiene una población de tamaño $M$ donde $N$ individuos pertenecen al partido político AZUL y $M-N$ pertenecen al VERDE Se toma una submuestra de tamaño $m$. Determina la probabilidad de que haya $n$ individuos del partido político AZUL. 
+
+Para ello notamos que hay $\binom{M}{m}$ muestras totales. Por otro lado, necesitamos extraer de los $N$ azules a una submuestra de $n$: $\binom{N}{n}$; finalmente, de los $M$ verdes necesitamos extraer una submuestra de $m$, hay $\binom{M-N}{m-n}$ formas de hacerlo. Concluimos entonces con el modelo hipergeométrico:
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Hipergeométrica}(M,N,m)$ si:
+$$
+\\mathbb{P}\\big(X = n \\big) = \\dfrac{\\binom{M-N}{m-n} \\binom{N}{n} }{\\binom{M}{m}} \\cdot \\mathbb{I}_{\\{0,1,\\dots, \\text{mín}\\{m, N\\} \\}} (n)
+$$
+"
+
+
+build_theorem("Modelo",form, proof = "", name = "Hipergeométrico", id ="hgeom" )
+```
+
+```{r}
+x <- 0:50
+y <- dhyper(x, 100, 150, 50)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 3) + theme_classic() + ggtitle("Función de masa de probabilidad\nHipergeométrica(250, 150, 50)") +
+  xlab("x") + ylab("p(x)")
+```
+
+El modelo Poisson va a ser bastante útil. Para estudiarlo, consideremos un modelo. Vamos a pensar en un servidor de computación (piensa en una página de Internet) que recibe solicitudes de entrar a la página de manera independiente y aleatoria en un intervalo de tiempo entre $t = 0$ y $t = 1$.  Como primera aproximación podemos dividir el intervalo en $n$ pedazos cada uno de longitud $1/n$ y asumir que, a fuerza, sólo una conexión se puede realizar en cada uno de esos pedazos. Finalmente, asumamos que la probabilidad $p$ de que se haga una conexión es proporcional a la longitud del intervalo y sea $p = \lambda / n$. Con estas hipótesis, la probabilidad de tener $k$ conexiones ($k$ entero entre $0$ y $n$) está dada por un modelo binomial:
+\begin{equation}\nonumber
+\begin{aligned}
+f_n(k) & = \binom{n}{k} \Big( \frac{\lambda}{n} \Big)^k \Big(1 - \frac{\lambda}{n} \Big)^k \\
+& = \frac{\lambda^k}{k!} \Big( 1 - \frac{\lambda}{n})^n \frac{n!}{n^k(n-k)!} \Big( 1 - \frac{\lambda}{n})^{-k}
+\end{aligned}
+\end{equation}
+de donde concluimos que si continuamos partiendo el intervalo en pedazos cada vez más pequeños obtenemos:
+\begin{equation}\nonumber
+\begin{aligned}
+\lim_{n \to \infty} f_n(k) & = \frac{e^{-\lambda} \lambda^k}{k!}
+\end{aligned}
+\end{equation}
+Esto resulta en el modelo Poisson: 
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Poisson}(\\lambda)$ si:
+$$
+\\mathbb{P}\\big(X = k \\big) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!} \\mathbb{I}_{\\mathbb{N}\\cup \\{ 0 \\}}(k)
+$$
+"
+
+build_theorem("Modelo",form, proof = "", name = "Poisson", id ="poisson" )
+```
+
+```{r}
+x <- 0:15
+y <- dpois(x, 4)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 3) + theme_classic() + ggtitle("Función de masa de probabilidad\nPoisson(4)") +
+  xlab("x") + ylab("p(x)")
+```
+
+
+# Funciones de densidad
+
+Por construcción, las variables aleatorias continuas no tienen una función de masa de probabilidad (recuerda que $\mathbb{P}(X = k) = 0$ si $X$ es continua para todo $k$). Sin embargo, es posible definir, si $F_X$ es diferenciable algo _similar_, la función de densidad.
+
+```{r}
+form <- "
+Para una variable aleatoria $X$ con función de distribución acumulada $F_X$ diferenciable, definimos la función de densidad como:
+$$
+f_X(x) = \\dfrac{d}{dx} F_X(x)
+$$
+"
+
+build_theorem("Definición",form, proof = "", name = "Función de densidad", id ="dfun" )
+```
+
+Notamos que una función de densidad no es una probabilidad y no necesariamente sigue las mismas reglas; lo único que se requiere es: 
+
+1. $f_X(x) \geq 0$ para toda $x$.
+2. $\int\limits_{-\infty}^{\infty} f_X(x) dx = 1$. 
+
+La primer función de densidad es la que a un intervalo $[a,b]$ (ya sea abierto, cerrado o como sea) asigna a cada subintervalo una probabilidad proporcional a su longitud. Éste es el modelo uniforme:
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Uniforme}(a,b)$ si:
+$$
+f_X(x) = \\dfrac{1}{b-a}\\mathbb{I}_{(a,b)}(x)
+$$
+"
+
+build_theorem("Modelo",form, proof = "", name = "Uniforme", id ="unif" )
+```
+
+```{r}
+x <- seq(-2,2, length.out = 100)
+y <- dunif(x, -1, 1)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_step(aes(x = x, y = y), color = "deepskyblue3", size = 1) + theme_classic() + ggtitle("Función de densidad\nUniforme(-1,1)") +
+  xlab("x") + ylab("f_X(x)")
+```
+
+Una generalización del modelo uniforme es el beta (eventualmente veremos de dónde sale):
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Beta}(\\alpha,\\beta)$ si:
+$$
+f_X(x) = \\dfrac{x^{\\alpha - 1}(1-x)^{\\beta - 1}}{B(\\alpha, \\beta)}\\mathbb{I}_{(0,1)}(x)
+$$
+donde 
+$$
+B(\\alpha, \\beta) = \\dfrac{\\Gamma (\\alpha) \\Gamma (\\beta)}{\\Gamma (\\alpha + \\beta)}
+$$
+"
+
+build_theorem("Modelo",form, proof = "", name = "Beta", id ="beta" )
+```
+
+```{r}
+x  <- seq(0,1, length.out = 100)
+y1 <- dbeta(x, 2, 4)
+y2 <- dbeta(x, 4, 2)
+y3 <- dbeta(x, 2, 2)
+dats <- data.frame(x = x, y1 = y1, y2 = y2, y3 = y3)
+ggplot(dats) + 
+  geom_line(aes(x = x, y = y1, color = "a = 2; b = 4"), size = 1) + 
+  geom_line(aes(x = x, y = y2, color = "a = 4; b = 2"), size = 1) + 
+  geom_line(aes(x = x, y = y3, color = "a = 2; b = 2"), size = 1) + 
+  theme_classic() + ggtitle("Función de densidad\nBeta(a,b)") +
+  xlab("x") + ylab("f_X(x)") + 
+  scale_color_manual("Parámetros", values = c("deepskyblue3","firebrick","cyan"))
+```
+
+
+- Modelo exponencial
+- Modelo gamma
+- Modelo normal
+
+# Teorema de cambio de variable
+
+Supongamos que tenemos una variable aleatoria $X$ y nos interesa ver cómo se ve la $X$ después de aplicarle una función $\phi$. Por ejemplo, si $X\sim\textrm{Normal}(0,1)$ la función de densidad de $e^X$ está dada por:
+
+$$
+f_X(x) = \dfrac{1}{x \sqrt{2 \pi \sigma^2}}e^{-(\ln(x) - \mu)^2/2\sigma^2} \mathbb{I}_{(0,\infty)}(x).
+$$
+
+Lo cual cambia mucho la forma de la distribución:
+
+```{r}
+x <- seq(0,4, length.out = 1000)
+y <- dlnorm(x, 0, 1)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_line(aes(x = x, y = y), color = "deepskyblue3", size = 1) + theme_classic() + ggtitle("Función de densidad\nLognormal(0,1)") +
+  xlab("x") + ylab("f_X(x)")
+```
+
+La pregunta es, cómo obtener la función de densidad de $X$ si se conoce la función $\phi$; el teorema de cambio de variable nos da una respuesta cuando $\phi$ es monótona estrictamente creciente o bien estrictamente decreciente y diferenciable.
+
+```{r}
+form <- "
+Sea $X$ una variable aleatoria continua y $\\phi$ una función estrictamente creciente ó estrictamente decreciente y diferenciable. Entonces:
+$$
+f_{\\phi(X)}(t)  = f_X( \\phi^{-1}(t) ) \\cdot \\left| \\dfrac{d}{dt}  \\phi^{-1}(t)  \\right|
+$$
+"
+
+dem <- "
+<b> Caso estrictamente decreciente </b><br>
+Como $\\phi$ es estrictamente decreciente es invertible y por tanto:
+\\begin{equation}\\nonumber
+\\begin{aligned}
+F_{\\phi(X)}(t) & =  \\mathbb{P}(\\phi(X) \\leq t) \\\\
+& = \\mathbb{P}(X \\geq \\phi^{-1}(t) ) \\\\
+& = 1 - \\mathbb{P}(X \\leq \\phi^{-1}(t) ) \\\\
+& = 1 - F_X( \\phi^{-1}(t) )
+\\end{aligned}
+\\end{equation}
+luego derivamos respecto a $t$:
+\\begin{equation}\\nonumber
+\\begin{aligned}
+f_{\\phi(X)}(t) & = \\dfrac{d}{dt} F_{\\phi(X)}(t) \\\\
+& = - \\dfrac{d}{dt} F_X( \\phi^{-1}(t) )  \\\\
+& = - f_X( \\phi^{-1}(t) ) \\cdot \\dfrac{d}{dt} \\phi^{-1}(t)  \\\\
+& = f_X( \\phi^{-1}(t) ) \\cdot \\left| \\dfrac{d}{dt}  \\phi^{-1}(t)  \\right|
+\\end{aligned}
+\\end{equation}
+Donde el valor absoluto sale de que $\\phi^{-1}(t) < 0$ por ser estrictamente decreciente la $\\phi$. 
+"
+
+build_theorem("Teorema",form, proof = dem, name = "Cambio de variable", id ="moncrec" )
+```
+
+
+# Valor esperado, varianza y mediana
+
+# Generadora de momentos
+
+# Ejercicios
+
+1. Demuestra las siguientes proposiciones sobre funciones indicadoras:
+  a. $\mathbb{I}_{A \cap B} = \text{min}\{ \mathbb{I}_{A}, \mathbb{I}_{B}  \}$
+  b. $\mathbb{I}_{A \cup B} = \text{máx}\{ \mathbb{I}_{A}, \mathbb{I}_{B}  \}$
+
+2. Determina $\text{Var}(\mathbb{I}_A(X))$ para cualquier variable aleatoria $X$ (donde asumimos $A \in \textrm{Dom}_X$ y todo está bien definido). 
+
+3. Obtén las funciones generadoras de momentos de las siguientes variables aleatorias:
+  a. $\text{Gamma}(\alpha, \beta)$
+  b. $\text{Exponencial}(\lambda)$
+  c. $\text{Normal}(\mu, \sigma)$
+  d. $\text{Binomial}(n, p)$
+  e. $\text{Binomial Negativa}(r, p)$
+  f. $\text{Poisson}(\lambda)$
+  g. $\text{Geométrica}(p)$
+  h. $\text{Uniforme}(a,b)$
+
+4. Obtén las funciones de distribución acumuladas para las siguientes variables aleatorias:
+  a. $\text{Exponencial}(\lambda)$
+  b. $\text{Uniforme}(a,b)$
+  c. $\text{Geométrica}(p)$
+
+5. Considera el conjunto $C = \{1,2,\dots, n\}$ para $n \geq 2$. Se extraen dos números $a$ y $b$ (primero el $a$ y luego el $b$) con reemplazo. Determina la probabilidad de que $a > b$. Inspírate [en el ejemplo de estas notas](#ejcondicional) .
+
+6. Dos personas, Alicia y Bob juegan a la lotería. La lotería se juega todos los miércoles y, en cada juego, la probabilidad de que un billete de lotería específico resulte ganador es $p$. Alicia, cada miércoles, compra $2$ billetes mientras que Bob compra $3$. Todos los billetes de lotería son distintos y sólo uno es el ganador. Determina la probabilidad de que Alicia gane la lotería antes de que Bob lo haga. Inspírate [en el ejemplo de estas notas](#ejcondicional) . 
+
+7. Sea $X \sim \textrm{Normal}(0,1)$. Determina la densidad de $X^2$. **OJO** No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo. 
+
+8. Sea $X\sim \textrm{Exp}(\lambda)$, determina la densidad de $\sqrt{X}$. **OJO** No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo. 
+
+9. Sea $X\sim \textrm{Unif}(0, 2\pi)$, determina la densidad de $\cos(X)$. **OJO** No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo. 
+
+10. Demuestra el [Teorema de Cambio de variable](#moncrec) para el caso estrictamente creciente. 
+
+
