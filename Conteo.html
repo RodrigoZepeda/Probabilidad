@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Rodrigo Zepeda" />
+
+
+<title>Conteo sin tanteo</title>
+
+<script src="Conteo_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Conteo_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Conteo_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Conteo_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Conteo_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="Conteo_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="Conteo_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="Conteo_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="Conteo_files/navigation-1.1/tabsets.js"></script>
+<link href="Conteo_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="Conteo_files/highlightjs-9.12.0/highlight.js"></script>
+<script src="Conteo_files/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="Conteo_files/viz-0.3/viz.js"></script>
+<link href="Conteo_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="Conteo_files/grViz-binding-1.0.1/grViz.js"></script>
+<!-- Meta characteristics -->
+<meta name="description" content="Notas de Probabilidad">
+<meta name="keywords" content="Probabilidad, Cálculo de Probabilidades, Matemáticas, Curso de Matemáticas, Notas de Clase,
+Conteo">
+<meta name="author" content="Rodrigo Zepeda Tello">
+
+<!-- Add d3js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Nice mathjax format -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true, }, TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<style>
+td {
+   padding-left: 2px;
+}
+</style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<!--Navigation menu-->
+<link href="css/custom.css" rel="stylesheet">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Calculo3">Notas de Cálculo de Probabilidades</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-main">
+            <!--<ul class="nav navbar-nav">
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://github.com/RodrigoZepeda/Calculo3"><img src="images/GitHub-Mark-Light-32px.png"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Conteo sin tanteo</h1>
+<h4 class="author">Rodrigo Zepeda</h4>
+
+</div>
+
+
+<div id="el-problema-del-muestreo" class="section level1">
+<h1><span class="header-section-number">1</span> El problema del muestreo</h1>
+<p>Considera toda la población de México (país). <a href="https://en.www.inegi.org.mx/temas/estructura/">Según la más reciente estimación del INEGI</a>, en 2015 la población del país era de 119,938,473 habitantes. Supongamos que nos interesa hacer una encuesta para saber cuál partido político prefiere cada persona de tal forma que:</p>
+<ol style="list-style-type: decimal">
+<li><p>Se pueden hacer campañas dirigidas (por ejemplo, si las mujeres jóvenes muestran aversión a nuestro partido, hacer una campaña específica para ellas)</p></li>
+<li><p>Poder predecir si nuestro partido ganará la elección presidencial o no.</p></li>
+<li><p>Predecir en qué regiones nuestro partido contará con miembros del congreso y en cuáles no.</p></li>
+</ol>
+<p>Para lograr esto una opción sería salir a la calle y preguntar a todos los habitantes cuál es su partido preferido. Empero, esto es carísimo. ¿Te imaginas la cantidad de tiempo y personas que se requieren?</p>
+<p>La idea (bastante antigua<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>) es tomar un pedazo aleatorio de la población (muestra aleatoria), y asumir que el resto es igual. Si el pedazo fuera <em>lo suficientemente aleatorio</em> podríamos asumir que la proporción de gente que votará por nuestro partido, será la misma en la población total que en nuestra muestra.</p>
+<p><img src="Conteo_files/figure-html/unnamed-chunk-1-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Para poder hablar de la muestra vamos a considerar notación:</p>
+<ul>
+<li><span class="math inline">\(N\)</span> representará el tamaño de la población total (<span class="math inline">\(N \in \mathbb{N}\)</span>).</li>
+<li><span class="math inline">\(n\)</span> representará el tamaño de la muestra (<span class="math inline">\(n \in \mathbb{N}\)</span>).</li>
+</ul>
+<p>Por construcción, <span class="math inline">\(n \leq N\)</span> y, durante estas notas, <span class="math inline">\(0\not\in\mathbb{N}\)</span>. Hay varias preguntas que surgen de este procedimiento:</p>
+<ol style="list-style-type: decimal">
+<li><p>¿Cómo debe tomarse la muestra?</p></li>
+<li><p>¿De qué tamaño tiene que ser la muestra para que sean buenas sus predicciones?<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p></li>
+</ol>
+<p>Antes de resolver estas preguntas, repasemos tres de los principios fundamentales de conteo.</p>
+<div id="principio-de-adicion" class="section level2">
+<h2><span class="header-section-number">1.1</span> Principio de adición</h2>
+<p>El principio de la adición se basa en la siguiente proposición de teoría de conjuntos:</p>
+
+<div class="panel panel-default">
+	<div id =  cunion class="panel-heading">
+		<h4> Proposición  [ Cardinalidad de la unión ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $A$, $B$ conjuntos disjuntos ($A\cap B = \emptyset$) Denotemos su cardinalidad como $|A|$ y $|B|$ respectivamente. Entonces:
+$$
+|A \cup B| = |A| + |B|. 
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Sea $x\in A$. Como es disjunto cada $x$ en $A$ no está en $B$ por lo tanto un $x \in A \cup B$ que venía de $A$ sólo lo contamos una vez. Análogamente, para cada $y$ en $B$, como se tiene $y \not\in A$ entonces cada uno de los $y$ en $B$ está en $A\cup B$. Dado que son disjuntos no se repite ningún elemento por lo que:
+$$
+|A \cup B| = |A| + |B|. 
+$$
+ 
+		</div>
+	</div>
+</div>
+
+<p>Veamos un ejemplo sencillo de aplicación; la divesión empieza más adelante cuando combinemos con el principio de la multipicación:</p>
+
+<div class="panel panel-success">
+	<div id =  colores1 class="panel-heading">
+		<h4> Ejemplo 1 [ Colores de cuaderno ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>Se avienta una moneda justa (es decir que cae tantas veces águila como sol). Si cae Águila, entonces se selecciona al azar (con igual probabilidad) un cuaderno rojo o verde. Si cae Sol, entonces se selecciona al azar un cuaderno violeta, azul o negro. ¿Cuántos cuadernos posibles hay?</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Sea $A = \{\text{Rojo},\text{Verde} \}$ el conjunto con los resultados de tirar Águila. Sea $S = \{\text{Violeta},\text{Azul},\text{Negro} \}$ el conjunto con los resultados de tirar Sol. El total de los cuadernos está dado por:
+$$
+A \cup S =  \{\text{Rojo},\text{Verde},\text{Violeta},\text{Azul},\text{Negro} \}
+$$
+y su cardinalidad es $2 + 3 = 5$ (pues $|A| = 2$ y $|S| = 3$). 
+ 
+		</div>
+	</div>
+</div>
+
+<p>El principio de la adición que quizá viste en Álgebra no es nada más que un refraseo del teorema de la <a href="#cunion">cardinalidad de la unión</a>:</p>
+
+<div class="panel panel-primary">
+	<div id =  principio_adicion class="panel-heading">
+		<h4> Principio 1 [ Principio de la Adición ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $A$ una colección de $n_1$ eventos y $B$ una colección disjunta con $n_2$ eventos. Sea $C$ el evento de que ocurra uno y sólo uno de los dos: $A$ ó $B$. La cantidad de eventos que pueden ocurrir en $C$ es $n_1 + n_2$.
+</i>	</div>
+</div>
+
+</div>
+<div id="principio-de-multiplicacion" class="section level2">
+<h2><span class="header-section-number">1.2</span> Principio de multiplicación</h2>
+<p>Supongamos tenemos tres colores de calcetines: rojos, verdes y amarillos. Y dos colores de zapatos: negros y cafés. ¿Cuántas formas tenemos de decorar nuestros pies<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>?</p>
+<p>Para ello podemos plantear el problema como un árbol de decisión: <div id="htmlwidget-ca22398e887b3959f55f" style="width:384px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ca22398e887b3959f55f">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Negros\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Rojos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Verdes\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Amarillos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Cafés\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Rojos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Verdes\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Amarillos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"6\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"6\"->\"7\" \n  \"6\"->\"8\" \n  \"6\"->\"9\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></p>
+<p>Observa que tenemos <span class="math inline">\(2\)</span> opciones de zapatos y a cada una le podemos poner <span class="math inline">\(3\)</span> opciones de calcetines. En total, tenemos <span class="math inline">\(2 \times 3 = 6\)</span> opciones a elegir. Si queremos traducir esto a teoría de conjuntos podemos considerar un conjunto de zapatos: <span class="math inline">\(Z = \{ \text{Negro}, \text{Café} \}\)</span> y un conjunto de calcetines <span class="math inline">\(C = \{ \text{Rojo}, \text{Amarillo}, \text{Verde} \}\)</span>. Al generar las parejas de zapatos con calcetines hacemos el producto cartesiano de ambos conjuntos: <span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+Z \times C &amp; = \{ (\text{Negro}, \text{Rojo}), (\text{Negro}, \text{Amarillo}), (\text{Negro}, \text{Verde}), \\ &amp; \quad 
+(\text{Café}, \text{Rojo}), (\text{Café}, \text{Amarillo}), (\text{Café}, \text{Verde})\}
+\end{aligned}
+\end{equation}\]</span></p>
+<p>Podemos deducir de aquí (aunque falta demostrarlo) que <span class="math inline">\(|Z \times C| = |Z| \times |C|\)</span>.</p>
+
+<div class="panel panel-default">
+	<div id =  cardcart class="panel-heading">
+		<h4> Proposición  [ Cardinalidad del producto cartesiano ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $A$, $B$ conjuntos no vacíos con cardinalidades respectivas $|A|$ y $|B|$ entonces:
+\begin{equation}\nonumber
+|A \times B| = |A| \times |B|
+\end{equation}
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Existen $|A|$ posibilidades para la primera entrada en cada uno de los elementos $(a,b) \in A \times B$ mientras que existen $|B|$ posibilidades para la segunda entrada en cada uno de los elementos $(a,b)$ entonces en total hay $|A|\cdot |B|$ posibles en $A\times B$
+ 
+		</div>
+	</div>
+</div>
+
+<p>Veamos otro ejemplo del uso de dicho principio.</p>
+
+<div class="panel panel-success">
+	<div id =  ntweets class="panel-heading">
+		<h4> Ejemplo 2 [ Número de Tweets ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+En Unicode, el lenguaje encargado de configurar los símbolos de la computadora (letras, emojis, números, etc), existen $2^{21} = 2097152$ caracteres posibles. Un tweet contiene entre $1$ y $280$ caracteres. Determina cuántos tweets posibles existen si se utilizan EXACTAMENTE los $280$ caracteres.
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Tenemos que en cada uno de los $280$ espacios para caracter hay $2^{21}$ posibilidades:
+\begin{equation}\nonumber
+\begin{aligned}
+\overbrace{\underbrace{\_}_{2^{21} \text{posibles}} \quad \underbrace{\_}_{2^{21} \text{posibles}} \quad \underbrace{\_}_{2^{21} \text{posibles}} \quad \dots \quad \underbrace{\_}_{2^{21} \text{posibles}}}^{280\text{ veces}}
+\end{aligned}
+\end{equation}
+Por lo que el número de tweets posibles de $280$ caracteres son $(2^{21})^{280}$. 
+ 
+		</div>
+	</div>
+</div>
+
+<p>Los siguientes ejemplos serán bastante útiles a la hora de desarrollar un formulario para el conteo:</p>
+
+<div class="panel panel-success">
+	<div id =  ppv1 class="panel-heading">
+		<h4> Ejemplo 3 [ Playeras y personas vesión 1 ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen playeras de $5$ DISTINTOS colores: Rojo (R), Verde (V), Azul (A), Naranja (N) y Morado (M). Hay, además, tres personas DISTINTAS: Bruno (B), Camila (C) y Daniela (D). ¿De cuántas formas (combinaciones) pueden vestirse Bruno, Camila y Daniela?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Bruno tiene $5$ opciones de color, Camila tiene $5$ opciones y Daniela tiene otras $5$. En total se pueden vestir de $5^3$ formas distintas.
+\begin{equation}\nonumber
+\begin{aligned}
+\overbrace{\underbrace{\_}_{\text{Bruno}}}^{5 \text{ posibles}} & \quad \overbrace{\underbrace{\_}_{\text{Camila}}}^{5 \text{ posibles}} & \quad
+\overbrace{\underbrace{\_}_{\text{Daniela}}}^{5 \text{ posibles}} 
+\end{aligned}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+<div id="htmlwidget-75fdca5b653a098585e6" style="width:384px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75fdca5b653a098585e6">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"10\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"11\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"12\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"13\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"14\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"15\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"16\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"17\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"18\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"19\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"8\" \n  \"1\"->\"14\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"2\"->\"6\" \n  \"2\"->\"7\" \n  \"8\"->\"9\" \n  \"8\"->\"10\" \n  \"8\"->\"11\" \n  \"8\"->\"12\" \n  \"8\"->\"13\" \n  \"14\"->\"15\" \n  \"14\"->\"16\" \n  \"14\"->\"17\" \n  \"14\"->\"18\" \n  \"14\"->\"19\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+<div class="panel panel-success">
+	<div id =  ppv2 class="panel-heading">
+		<h4> Ejemplo 4 [ Playeras y personas vesión 2 ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen $5$ playeras de DISTINTOS colores: Rojo (R), Verde (V), Azul (A), Naranja (N) y Morado (M). Hay, además, $3$ nombres de personas DISTINTOS: Bruno (B), Camila (C) y Daniela (D). ¿De cuántas formas se pueden asignar los nombres a las playeras (como si fuera un equipo deportivo)?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+La playera roja tiene $3$ opciones de nombre: Bruno, Camila y Daniela; la playera verde tiene $3$ opciones; la azul tiene $3$ la naranja otros $3$ y la morada otras $3$. Tenemos entonces un total de $3^5$ opciones. 
+\begin{equation}\nonumber
+\begin{aligned}
+\overbrace{\underbrace{\_}_{\text{Rojo}}}^{3 \text{ posibles}} & \quad \overbrace{\underbrace{\_}_{\text{Verde}}}^{3 \text{ posibles}} & \quad
+\overbrace{\underbrace{\_}_{\text{Azul}}}^{3 \text{ posibles}} & \quad \overbrace{\underbrace{\_}_{\text{Naranja}}}^{3 \text{ posibles}} & \quad
+\overbrace{\underbrace{\_}_{\text{Morado}}}^{3 \text{ posibles}} 
+\end{aligned}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+<div id="htmlwidget-93acbb6fc36040b4f5ef" style="width:384px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-93acbb6fc36040b4f5ef">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"10\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"11\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"12\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"13\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"14\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"15\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"16\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"17\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"18\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"19\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"20\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"21\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"6\" \n  \"1\"->\"10\" \n  \"1\"->\"14\" \n  \"1\"->\"18\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"6\"->\"7\" \n  \"6\"->\"8\" \n  \"6\"->\"9\" \n  \"10\"->\"11\" \n  \"10\"->\"12\" \n  \"10\"->\"13\" \n  \"14\"->\"15\" \n  \"14\"->\"16\" \n  \"14\"->\"17\" \n  \"18\"->\"19\" \n  \"18\"->\"20\" \n  \"18\"->\"21\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>De ambos ejemplos lo que podemos aprender es que, para conteo, importa qué estamos asignando en qué. ¡Siempre hay que tenerlo muy claro!</p>
+<div id=" f1 " class="alert alert-info">
+<b> Formulario : </b><br> Si se desean asignar a <span class="math inline">\(m\)</span> objetos de un tipo una de <span class="math inline">\(n\)</span> posibles características SIN IMPORTAR REPETICIONES hay <span class="math inline">\(m^n\)</span> opciones.
+</div>
+<p>Falta considerar el caso de repeticiones. Regresemos al <a href="#ppv1">ejemplo de las playeras</a> pero esta vez con colores únicos.</p>
+
+<div class="panel panel-success">
+	<div id =  ppv3 class="panel-heading">
+		<h4> Ejemplo 5 [ Playeras y personas vesión 3 ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen $5$ playeras de DISTINTOS colores: Rojo (R), Verde (V), Azul (A), Naranja (N) y Morado (M). Hay, además, tres personas DISTINTAS: Bruno (B), Camila (C) y Daniela (D). ¿De cuántas formas se pueden vestir las personas SI NO PUEDEN REPETIR COLOR DE PLAYERA?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+La primer persona (digamos, Bruno) tiene puede vestir de $5$ colores distintos. Para la segunda persona (digamos, Camila) sólo hay $4$ colores posibles. Finalmente, para la tercer persona (digamos, Daniela) sólo hay $3$ opciones de color. Observamos que el ORDEN en el que vestimos a las personas NO IMPORTA. 
+\begin{equation}\nonumber
+\begin{aligned}
+\overbrace{\underbrace{\_}_{\text{Bruno}}}^{5 \text{ posibles}} & \quad \overbrace{\underbrace{\_}_{\text{Camila}}}^{4 \text{ posibles}} & \quad
+\overbrace{\underbrace{\_}_{\text{Daniela}}}^{3 \text{ posibles}} 
+\end{aligned}
+\end{equation}
+Observa que la solución es $5 \times 4 \times 3$ lo cual coincide con: 
+\begin{equation}\nonumber
+\frac{5!}{(5-3)!} = \frac{5\times 4 \times 3 \times 2 \times 1}{2 \times 1} = 5 \times 4 \times 3
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+<p>Podemos agregar esta nueva característica al formulario:</p>
+<div id=" f2 " class="alert alert-info">
+<b> Formulario : </b><br> Si se desean asignar a <span class="math inline">\(m\)</span> objetos de un tipo una de <span class="math inline">\(n\)</span> posibles características (<span class="math inline">\(n \geq m\)</span>) SIN REPETICIONES EN LAS CARACTERÍSTICAS Y SIN ORDEN EN LOS OBJETOS hay <span class="math inline">\(\frac{m!}{(m-n)!}\)</span> opciones.
+</div>
+<p>Justo cuando pensabas que ya no íbamos a ver el ejemplo de las playeras ¡volvamos a él! Esta vez supongamos que, además, vamos a formar a las personas en fila. Es decir, no sólo va a importar el color que visten sino su posición en la fila. De esta forma, si Daniela viste de azul, Bruno de rojo y Camila de verde es diferente si la fila es <span class="math inline">\(DBC\)</span> a si es <span class="math inline">\(CBD\)</span>.</p>
+<div class="figure" style="text-align: center">
+<img src="Conteo_files/figure-html/unnamed-chunk-16-1.png" alt="Algunas de las formas de alinear a Bruno, Camila y Daniela" width="384" />
+<p class="caption">
+Algunas de las formas de alinear a Bruno, Camila y Daniela
+</p>
+</div>
+
+<div class="panel panel-success">
+	<div id =  ppv4 class="panel-heading">
+		<h4> Ejemplo 6 [ Playeras y personas vesión 4 ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen $5$ playeras de DISTINTOS colores: Rojo (R), Verde (V), Azul (A), Naranja (N) y Morado (M). Hay, además, tres personas DISTINTAS: Bruno (B), Camila (C) y Daniela (D). ¿De cuántas formas se pueden vestir las personas SI NO PUEDEN REPETIR COLOR DE PLAYERA y si además el ORDEN en el que fueron vestidas importa?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+La primer persona puede vestir de $5$ colores distintos. Para la segunda persona sólo hay $4$ colores posibles. Finalmente, para la tercer persona sólo hay $3$ opciones de color.
+\begin{equation}\nonumber
+\begin{aligned}
+\overbrace{\underbrace{\_}_{\text{Persona 1}}}^{5 \text{ posibles}} & \quad \overbrace{\underbrace{\_}_{\text{Persona 2}}}^{4 \text{ posibles}} & \quad
+\overbrace{\underbrace{\_}_{\text{Persona 3}}}^{3 \text{ posibles}} 
+\end{aligned}
+\end{equation}
+Para cada uno de los órdenes de la fila hay $\frac{5!}{2!}$ formas de vestir a las personas. Por otro lado, analicemos las formas de formarlas. Para el primer lugar de la fila hay $3$ posibles personas (Bruno, Camila o Daniela); para el segundo lugar, existen $2$ posibilidades (pues una ya quedó en el primero). El último lugar ya está dado y sólo puede tener una persona. Por tanto hay $3!$ formas de ordenar personas en una fila. Si combinamos la información y aplicamos el principio de la multiplicación tenemos:
+$$
+3! \cdot \frac{5!}{2!}
+$$
+formas de acomodar la fila con distintos colores. 
+ 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="permutaciones-y-combinaciones" class="section level2">
+<h2><span class="header-section-number">1.3</span> Permutaciones y combinaciones</h2>
+<p>Sin saberlo, <a href="#ppv3">ya nos enfrentamos a un problema de permutaciones</a>. Veamos otro ejemplo. Consideremos un grupo de <span class="math inline">\(5\)</span> personas: <span class="math inline">\(\{\text{Andrés}, \text{Beatriz}, \text{Carlos}, \text{Diana}, \text{Ernesto} \}\)</span>. Si quisiéramos obtener un subgrupo de tamaño tres de estas personas ¿de cuántas formas es posible?</p>
+<p>Para responder esta pregunta la prioridad es saber si importa o no el <strong>ORDEN</strong>. Por ejemplo, si como en <a href="#ppv4">el ejemplo anterior</a> queremos hacer una fila con las personas y el orden es relevante podemos seguir el siguiente razonamiento:</p>
+<blockquote>
+<p>Para el primer lugar hay <span class="math inline">\(5\)</span> posibilidades; para el segundo <span class="math inline">\(4\)</span> y para el tercero <span class="math inline">\(3\)</span>. Lo podemos representar de la siguiente forma: <span class="math display">\[\begin{equation}\nonumber
+\underbrace{\_}_{5\text{ posibles}}\quad \underbrace{\_}_{4\text{ posibles}}\quad \underbrace{\_}_{3\text{ posibles}}
+\end{equation}\]</span> Por lo que tenemos <span class="math inline">\(5\times 4\times 3 = \frac{5!}{2!}\)</span> posibilidades.</p>
+</blockquote>
+<p>Nota que en el caso anterior estamos contando obtener los nombres <span class="math inline">\((\text{Beatriz}, \text{Carlos}, \text{Diana} )\)</span> de manera distinta a <span class="math inline">\((\text{Carlos}, \text{Beatriz}, \text{Diana} )\)</span>. Es decir no sólo importan los elementos seleccionados sino el orden en que fueron elegidos. Si el orden no importara y sólo las personas seleccionadas, el razonamiento es distinto:</p>
+
+<div class="panel panel-success">
+	<div id =  selecpers class="panel-heading">
+		<h4> Ejemplo 7 [ Selección de personal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen $5$ personas: $\{\text{Andrés}, \text{Beatriz}, \text{Carlos}, \text{Diana}, \text{Ernesto} \}$ ¿de cuántas maneras se pueden hacer grupos de $3$ si <b>EL ORDEN NO IMPORTA </b>?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+El proceso de conteo va a ser como sigue: primero vemos todas las formas de extraer a las $5$ personas; en segundo lugar, analizamos los casos repetidos y los removeremos. Para extraer $3$ de las $5$ personas, como vimos en el ejemplo anterior, hay $\frac{5!}{2!}$ formas. Esto nos permite seleccionar un grupo específico de personas, digamos (para aterrizarlo):
+$$
+\text{Carlos}, \text{Beatriz}, \text{Diana}
+$$
+Por otro lado, notamos que sobrecontamos todos los casos donde el orden es distinto. Por ejemplo, $(\text{Carlos}, \text{Beatriz}, \text{Diana})$, $(\text{Diana}, \text{Beatriz}, \text{Carlos})$ y $(\text{Beatriz}, \text{Carlos}, \text{Diana})$ para nosotros son la misma pues el orden no nos importa. Hay $3!$ formas de ordenarlos pues para el primer lugar tenemos $3$ posibles (A,B y C), una vez se determina el segundo lugar sólo tiene $2$ posibles y el último le queda un lugar posible. Por tanto tenemos:
+$$
+\begin{equation}\nonumber
+\overbrace{\underbrace{\_}_{\text{Persona 1}}}^{3 \text{ posibles}}  \quad \overbrace{\underbrace{\_}_{\text{Persona 2}}}^{2 \text{ posibles}}  \quad
+\overbrace{\underbrace{\_}_{\text{Persona 3}}}^{1 \text{ posibles}} 
+\end{equation}
+$$
+Esta repetición de $3!$ ocurre por <b>cada una de las selecciones</b>. Por tanto es necesario removerla: 
+$$
+\begin{equation}\nonumber
+\dfrac{5!}{3! \cdot 2!}
+\end{equation}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-default">
+	<div id =  cbinom class="panel-heading">
+		<h4> Notación  [ Coeficiente binomial y de permutación ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Denotamos el coeficiente binomial o las combinaciones de $n$ en $k$ como:
+$$
+\binom{n}{k} = \dfrac{n!}{k!(n-k)!}
+$$
+Otras notaciones incluyen $C(n,k)$, $C_{n}^k$ las cuales no usaremos. 
+Por otro lado definimos las permutaciones de $n$ en $k$ como:
+$$
+(n)_k = \dfrac{n!}{(n-k)!} = n \cdot (n-1) \cdot (n-2) \cdots (n - k + 1)
+$$
+Otras notaciones incluyen $P(n,k)$, $P_{n}^k$ las cuales no usaremos. 
+</i>	</div>
+</div>
+
+<p>Podemos extendernos, entonces, al siguiente teorema:</p>
+
+<div class="panel panel-primary">
+	<div id =  nsubconj class="panel-heading">
+		<h4> Teorema 1 [ Número de subconjuntos ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $A$ un conjunto con cardinalidad finita $n$. Luego, el número de subconjuntos de tamaño $k$ (con $0 \leq k \leq n$ entero) está dado por: 
+$$
+\binom{n}{k}
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Elegimos un subconjunto de tamaño $k$ de $A$. Para ello hay $\frac{n!}{(n-k)!}$ formas distintas por el siguiente argumento:
+$$
+\begin{equation}\nonumber
+\overbrace{\underbrace{\_}_{n \text{ posibles}}}^{\text{Lugar } 1}  \quad  \overbrace{\underbrace{\_}_{n-1 \text{ posibles}}}^{\text{Lugar } 2}  \quad 
+\overbrace{\underbrace{\_}_{n-2 \text{ posibles}}}^{\text{Lugar } 3}  \qquad \dots \qquad 
+\overbrace{\underbrace{\_}_{n-(k-1) \text{ posibles}}}^{\text{Lugar } k} 
+\end{equation}
+$$
+Lo que nos deja en $n \cdot (n-1) \cdot (n-2) \cdots 1 = \frac{n!}{(n-k)!}$. Por otro lado, una vez seleccionados los $k$ elementos, en un subconjunto el orden no importa por lo que hay que removerlos. Para cada uno de los $k$ hay $k!$ formas de acomodarlos como podemos ver:
+$$
+\begin{equation}\nonumber
+\overbrace{\underbrace{\_}_{k \text{ posibles}}}^{\text{Lugar } 1}  \quad  \overbrace{\underbrace{\_}_{k-1 \text{ posibles}}}^{\text{Lugar } 2}  \quad 
+\overbrace{\underbrace{\_}_{k-2 \text{ posibles}}}^{\text{Lugar } 3}  \qquad \dots \qquad 
+\overbrace{\underbrace{\_}_{1 \text{ posible}}}^{\text{Lugar } k} 
+\end{equation}
+$$
+Por lo cual, el número de subconjuntos de un conjunto de tamaño $k$ es $\binom{n}{k}$.
+ 
+		</div>
+	</div>
+</div>
+
+<p>Esto nos permite agregar al formulario la siguiente:</p>
+<div id=" f3 " class="alert alert-info">
+<b> Formulario : </b><br> El número de subconjuntos de tamaño <span class="math inline">\(k\)</span> de un conjunto de tamaño <span class="math inline">\(n\)</span> está dado por: <span class="math display">\[
+\binom{n}{k}
+\]</span>
+</div>
+<p>A partir de esta fórmula podemos deducir varios corolarios:</p>
+
+<div class="panel panel-primary">
+	<div id =  cardinalidadpotencia  class="panel-heading">
+		<h4> Corolario 1 </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Si $A$ es un conjunto no vacío de cardinalidad $n$ entonces su conjunto potencia, $\mathcal{P}(A)$ tiene cardinalidad $2^n$. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Dado un elemento de $A$ hay dos posibilidades: (1) que esté ó (2) que no esté. Esto se repite para cada uno de los $n$ elementos por tanto:
+\begin{equation}\nonumber
+\underbrace{2}_{\text{Que el } 1 \text{o esté o no}} \cdot \underbrace{2}_{\text{Que el } 2 \text{o esté o no}} \cdot \underbrace{2}_{\text{Que el } 3 \text{o esté o no}} 
+\cdots \underbrace{2}_{\text{Que el } n \text{-ésimo esté o no}}
+
+\end{equation}
+Por tanto hay $2^n$ subconjuntos. 
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-primary">
+	<div id =  identidadpotencia  class="panel-heading">
+		<h4> Corolario 2 </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+$$
+\sum\limits_{k=0}^{n} \binom{n}{k} = 2^n
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+En el conjunto potencia están todos los subconjuntos de tamaño $k$ para $0 \leq k \leq n$. Del teorema anterior sabemos que si un conjunto tiene $n$ elementos su conjunto potencia tiene $2^n$ por tanto:
+$$
+\underbrace{\sum\limits_{k=0}^{n} \binom{n}{k}}_{\text{Número de subconjuntos de tamaño } k 	ext{ para cada }k} = \underbrace{2^n}_{\text{Tamaño del potencia}}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-primary">
+	<div id =  newton class="panel-heading">
+		<h4> Corolario 3 [ Teorema del Binomio de Newton ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+$$
+(a + b)^n = \sum\limits_{k=0}^{n} \binom{n}{k} a^k b^{n-k}
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Notamos que $(a + b)^n = (a + b)(a + b) \cdots (a + b)$. En total tenemos que elegir $n$ elementos (combinados) ya sean $a$ ó $b$. Como es una multiplicación y el producto es conmutativo, el orden no es importante. Tenemos entonces que para cada sumando extendido de la forma $a^k b^{n-k}$ debemos elegir cuáles serán $a$'s (elegidas las $a$ en automático las otras son $b$). Para ello hay $k$ formas de elegir las $a$ de un total de $n$ por lo que tenemos $\binom{n}{k}$ maneras de hacerlo para cada $a^k b^{n-k}$. Esto concluye la prueba. 
+ 
+		</div>
+	</div>
+</div>
+
+<p>Intentemos resumir todas las formas de contar que tenemos con un ejemplo.</p>
+<blockquote>
+<p>En la lotería de Nueva York se eligen <span class="math inline">\(6\)</span> de <span class="math inline">\(44\)</span> números para un ticket. ¿Cuántos boletos de lotería posibles hay?</p>
+</blockquote>
+<p>Veamos todas las formas posibles de solución:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p><strong>Ordenado y sin reemplazo</strong> Si sólo importa el orden y una vez que sale un número no se vuelve a meter a los posibles entonces tenemos: <span class="math display">\[
+\frac{44!}{(44-6)!}
+\]</span></p></li>
+<li><p><strong>Ordenado y con reemplazo</strong> En cada uno de los <span class="math inline">\(6\)</span> lugares hay <span class="math inline">\(44\)</span> números posibles: <span class="math display">\[
+44^6
+\]</span></p></li>
+<li><p><strong>Sin orden y sin reemplazo</strong> Esto es una combinación por lo que la forma de extraerlo es: <span class="math display">\[
+\binom{44}{6}
+\]</span></p></li>
+<li><p><strong>Sin orden y con reemplazo</strong> Para resolver este caso podemos usar la técnica de las barras y los puntos. Coloquemos barras y los huecos entre ellas representan cada uno de los <span class="math inline">\(44\)</span> números. <span class="math display">\[\begin{equation}\nonumber
+|\underbrace{\_}_{1}|\underbrace{\_}_{2}|\underbrace{\_}_{3}|\cdots |\underbrace{\_}_{n}|
+\end{equation}\]</span> Coloquemos puntos (<span class="math inline">\(\circ\)</span>) donde estén los números seleccionados. Por ejemplo la siguiente representa la combinación <span class="math inline">\(113555\)</span> <span class="math display">\[\begin{equation}\nonumber
+|\underbrace{\circ \circ}_{1}|\underbrace{\_}_{2}|\underbrace{\circ}_{3}||\underbrace{\_}_{4}|\underbrace{\circ \circ \circ}_{5}|\cdots |\underbrace{\_}_{n}|
+\end{equation}\]</span> Tenemos entonces que el problema se reduce a colocar <span class="math inline">\(n - 1= 43\)</span> barritas (son un total de <span class="math inline">\(45\)</span> pero la primera y la última no deben cambiar de lugar) y <span class="math inline">\(k = 6\)</span> círculos por tanto colocamos <span class="math inline">\(49\)</span> elementos en total. De estos, nos interesa poner <span class="math inline">\(6\)</span> por lo que tenemos: <span class="math display">\[
+\binom{44 + 6  - 1}{6}
+\]</span> formas distintas. Esto nos lleva a la tabla siguiente:</p></li>
+</ol>
+<div id=" formulatabla " class="alert alert-info">
+<b> Formulario : </b><br> Para obtener una muestra de tamaño <span class="math inline">\(k\)</span> a partir de un conjunto de tamaño <span class="math inline">\(n &gt; 0\)</span> éstas son las opciones:
+<table>
+<tr>
+<td>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \text{Con Reemplazo}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \text{Sin Reemplazo}\)</span>
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(\quad \text{Con Orden}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad n^k\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad (n)_k\)</span>
+</td>
+</tr>
+<tr>
+<td>
+<span class="math inline">\(\quad \text{Sin Orden}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \binom{n+k-1}{k}\)</span>
+</td>
+<td>
+</td>
+<td>
+<span class="math inline">\(\quad \binom{n}{k}\)</span>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="probabilidad-uniforme" class="section level2">
+<h2><span class="header-section-number">1.4</span> Probabilidad uniforme</h2>
+<p>Por ahora, utilizaremos una definición <em>preliminar</em> de probabilidad <strong>uniforme</strong>.</p>
+
+<div class="panel panel-info">
+	<div id =  puni class="panel-heading">
+		<h4> Definición 1 [ Probabilidad Uniforme ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Dado un conjunto $A$ de cardinalidad finita $n > 0$ y un subconjunto $B \subseteq A$ definimos la <b>probabilidad uniforme</b> de $B$ como:
+$$
+\mathbb{P}(B) = \dfrac{|B|}{|A|}
+$$
+</i>	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  dado class="panel-heading">
+		<h4> Ejemplo 8 [ Dado ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+En un dado para analizar la probabilidad de que salga par: $A = \{1,2,3,4,5,6\}$ mientras que $B = \{2,4,6 \}$ y por tanto:
+$$
+\mathbb{P}(B) = \dfrac{3}{6} = \dfrac{1}{2}
+$$
+Mientras que la probabilidad de obtener el número cinco es:
+$$
+\mathbb{P}(\{ 5 \}) = \dfrac{1}{6}
+$$
+Nota que adentro de la $\mathbb{P}$ pongo las llaves porque el $\{ 5 \}$ es el conjunto que contiene al $5$
+</i>	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  moneda class="panel-heading">
+		<h4> Ejemplo 9 [ Moneda ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+En una moneda <b>justa</b> las posibilidades son Águila y Sol. La probabilidad de que $M = \{ \text{Águila},\text{Sol}\}$. Tenemos que la probabilidad uniforme de $\text{Sol}$ es:
+$$
+\mathbb{P}(\{ \text{Águila} \}) = \dfrac{1}{2}
+$$
+</i>	</div>
+</div>
+
+<p>Podemos empezar a combinar estos modelos con conteo para obtener probabilidades de eventos más complicados. Veamos algunos ejemplos:</p>
+
+<div class="panel panel-success">
+	<div id =  moneda1 class="panel-heading">
+		<h4> Ejemplo 10 [ Modelo Binomial (con simetría) ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tira una moneda justa $n$ veces. Determina la probabilidad de que $k$ de esas veces caiga Águila si se sabe que el resultado de un tiro no influye en el siguiente (independencia) y, además, que la probabilidad de Águila es $p = \frac{1}{2}$. (En una moneda justa la $p = 1/2$ pero si la moneda está cargada puede que $p = 1/7$ o algo así).  
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Lo que debemos hacer es colocar $k$ águilas con probabilidad $p = \frac{1}{2}$ dentro de $n$ posibles. En este caso el orden no nos importa por lo cual hay $\binom{n}{k}$ formas de colocar las Águilas. Por otro lado,  cada Águila tiene probabilidad $\frac{1}{2}$ y cada Sol probabilidad $\frac{1}{2}$ (a lo largo de este curso descartaremos la posibilidad de que la moneda caiga en diagonal sobre su borde, la moneda jamás caiga y vuele por el espacio, el mundo se termine o cualquier otra cosa extraña). Por tanto:
+\begin{equation}\nonumber
+\underbrace{\binom{n}{k}}_{\text{Formas de poner la moneda}} \underbrace{p}_{\text{Águila }1} \cdot \underbrace{p}_{\text{Águila }2} \cdots \underbrace{p}_{\text{Águila }k} \times \underbrace{p}_{\text{Sol }1} \cdot  \underbrace{p}_{\text{Sol }2} \cdots \underbrace{p}_{\text{Sol }n-k}
+\end{equation}
+y tenemos entonces que  la probabilidad de $k$ águilas en $n$ tiros es: 
+\begin{equation}\nonumber
+\binom{n}{k} \dfrac{1}{2^k} \cdot \dfrac{1}{2^{n-k}}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  monedabinomneg class="panel-heading">
+		<h4> Ejemplo 11 [ Modelo Binomial Negativo (con simetría) ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tira una moneda justa hasta obtener $20$ Águilas. En el momento en el que se obtienen $k$ Águilas nos detenemos. Determina la probabilidad de que se tenga que arrojar $250$ veces la moneda. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Como nos detenemos cuando tenemos $20$ Águilas sabemos que en el turno $250$ tuvimos que tener un águila. La colocamos. Nos restan $249$ espacios para colocar $19$ águilas y el resto de soles. 
+$$
+\overbrace{\underbrace{\_}_{\text{Águila o Sol}} \quad \underbrace{\_}_{\text{Águila o Sol}} \quad \underbrace{\_}_{\text{Águila o Sol}} \dots \quad \underbrace{\_}_{\text{Águila o Sol}}}^{249 \text{ espacios con } 19 \text{ águilas}} \underbrace{\text{Águila}}_{\text{La última es Águila}}
+$$
+Por tanto la probabilidad es:
+$$
+\underbrace{\binom{249}{19}}_{\text{Formas de sacar } 19 \text{ águilas}} \underbrace{\frac{1}{2^{19}}}_{\text{Proba de las }19 \text{ águilas}} \cdot \underbrace{\frac{1}{2^{230}}}_{\text{Proba de los }230 \text{ soles}} \cdot \underbrace{\frac{1}{2}}_{\text{Última águila}}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  moneda2 class="panel-heading">
+		<h4> Ejemplo 12 [ Modelo Geométrico v1 ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+La probabilidad de ganar la lotería es $p = \frac{1}{N}$ y la de perder es $q = \frac{N-1}{N}$ para una $N\in\mathbb{N}$ por cada juego de lotería en el que se participa. El resultado de un juego no afecta el otro (es decir independientemente de que pierdas o ganes, tus probabilidades de ganar o perder en el siguiente no cambian).  Supongamos que una persona juega la lotería cada miércoles hasta que gana. En el momento en el que gana deja de jugar. ¿Cuál es la probabilidad de que tenga que jugar EXACTAMENTE $1000$ días?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Para tener el triunfo en el día $1000$ necesitamos perder las $999$ primeras veces. Por lo cual colocamos $999$ $q$'s y finalmente el triunfo con probabilidad $p$:
+$$
+\overbrace{\underbrace{q}_{\text{Perdí}}\cdot \underbrace{q}_{\text{Perdí}} \cdot \underbrace{q}_{\text{Perdí}} \cdots \underbrace{q}_{\text{Perdí}}}^{999 \text{ veces}}\cdot \underbrace{p}_{\text{Gané}}
+$$
+Por lo cual la probabilidad de ganar en $1000$ días es:
+$$
+q^{999} p = \Bigg( \dfrac{N-1}{N} \Bigg)^{999} \cdot \frac{1}{N}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  moneda3 class="panel-heading">
+		<h4> Ejemplo 13 [ Modelo Geométrico v2 ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+La probabilidad de ganar la lotería es $p = \frac{1}{N}$ y la de perder es $q = \frac{N-1}{N}$ para una $N\in\mathbb{N}$ por cada juego de lotería en el que se participa. El resultado de un juego no afecta el otro (es decir independientemente de que pierdas o ganes, tus probabilidades de ganar o perder en el siguiente no cambian).  Supongamos que una persona juega la lotería cada miércoles hasta que gana. En el momento en el que gana deja de jugar. ¿Cuál es la probabilidad de que tenga que jugar AL MENOS $1000$ días?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Para tener el triunfo en AL MENOS $1000$ días necesitamos obtener el triunfo en $1000$ días ó en $1001$ días ó en $1002$ días, etcétera. Notamos que para el día mil el resultado es:
+$$
+\text{Día } 1000 = q^{999} p = \Bigg( \dfrac{N-1}{N} \Bigg)^{999} \cdot \frac{1}{N}
+$$
+Mientras que para el día $1001$:
+$$
+\text{Día } 1001 = q^{1000} p = \Bigg( \dfrac{N-1}{N} \Bigg)^{1000} \cdot \frac{1}{N}
+$$
+y para el $1002$:
+$$
+\text{Día } 1002 = q^{1001} p = \Bigg( \dfrac{N-1}{N} \Bigg)^{1001} \cdot \frac{1}{N}
+$$
+En general:
+$$
+\text{Día } k = q^{k-1} p = \Bigg( \dfrac{N-1}{N} \Bigg)^{k-1} \cdot \frac{1}{N}
+$$
+Luego por el principio de adición, la probabilidad de ganar en al menos $1000$ días es:
+$$
+\sum\limits_{k=1000}^{\infty}q^{k-1} \cdot \frac{1}{N} = \frac{1}{N} \sum\limits_{k=1000}^{\infty} q^{k-1}
+$$
+De donde recordamos la suma geométrica de Cálculo II y obtenemos:
+$$
+\sum\limits_{k=1000}^{\infty} q^{k-1} \cdot \frac{1}{N} = \frac{1}{N} \frac{q^{999}}{1-q}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+<p>Por cierto, si no recuerdas la suma geométrica o bien otras sumas, puedes checar <a href="https://rodrigozepeda.github.io/Calculo3/Sumas_1">mis notas al respecto</a>.</p>
+</div>
+<div id="de-vuelta-al-problema-de-muestreo" class="section level2">
+<h2><span class="header-section-number">1.5</span> De vuelta al problema de muestreo</h2>
+<p>Continuará el miércoles.</p>
+</div>
+</div>
+<div id="ejercicios" class="section level1">
+<h1><span class="header-section-number">2</span> Ejercicios</h1>
+<ol style="list-style-type: decimal">
+<li><p><a href="#ntweets">Anteriormente</a> consideramos cuántos tweets pueden escribirse de EXACTAMENTE 280 caracteres. En realidad, los tweets pueden ser desde 1 caracter hasta 280. El tweet <code>:D</code> contiene dos caracteres mientras que <code>Me encanta proba</code> contiene dieciseis. Determina cuántos tweets posibles existen considerando que la longitud de estos varía desde 1 hasta 280 caracteres.</p></li>
+<li><p>Demuestra la recurrencia de Pascal: <span class="math display">\[
+\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}
+\]</span> <em>Hint</em> Es más fácil verlo con un argumento combinatorio aunque también puede hacerse inducción.</p></li>
+<li><p>Demuestra: <span class="math display">\[
+\binom{n}{k} = \binom{n}{n - k}
+\]</span></p></li>
+<li><p>Demuestra; <span class="math display">\[
+(n)_k = (n-1)_k + k \cdot \Big[ (n-1)_{k-1} \Big]
+\]</span></p></li>
+<li><p>Demuestra: <span class="math display">\[
+n 2^{n-1} = \sum\limits_{k=0}^{n} k \binom{n}{k}
+\]</span></p></li>
+<li><p>Demuestra: <span class="math display">\[
+\sum\limits_{j = 0}^{n} \binom{j}{k} = \binom{n+1}{k+1}
+\]</span></p></li>
+<li><p>Demuestra: <span class="math display">\[
+\sum\limits_{k=0}^{n} (m)_k \cdot \binom{n}{k} = (m)_n 2^{n-m}
+\]</span></p></li>
+<li><p>¿Cuántos passwords de 8 caracteres existen si los passwords deben contener al menos una de las <span class="math inline">\(26\)</span> letras: <span class="math inline">\(\{ a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z\}\)</span> en mayúsculas; al menos una en minúsculas, al menos un dígito: <span class="math inline">\(\{0,1,2,3,4,5,6,7,8,9\}\)</span> y al menos uno de los siguientes signos: <span class="math inline">\(\{@, . , =, ?, ¿, \_, -, +, [, ], ¡,!,(,) \}\)</span>.</p></li>
+<li><p>El <a href="https://es.wikipedia.org/wiki/Tres_en_línea">juego de gato</a> (<em>tic-tac-toe</em>, tres en línea) consiste en dos jugadores cuya meta es tener tres símbolos idénticos alineados vertical, horizontal o digagonalmente sobre un tablero de <span class="math inline">\(3\times 3\)</span>. El símbolo del primer jugador es <span class="math inline">\(X\)</span> mientras que el del segundo es <span class="math inline">\(O\)</span>. El juego es por turnos y no pueden sobreescribirse ni borrarse símbolos. <img src="images/gato.png" width="20%" style="display: block; margin: auto;" /> ¿Cuántos juegos de <em>gato</em> posibles hay? (<strong>Resp</strong> <span class="math inline">\(255168\)</span>) <em> Hint</em> El mínimo número de turnos para que se acabe el juego es <span class="math inline">\(5\)</span>; el número máximo es <span class="math inline">\(9\)</span>. Realiza el análisis para cada turno. Por ejemplo, para el turno <span class="math inline">\(6\)</span>:</p></li>
+</ol>
+<blockquote>
+<p>Si el juego terminó en el turno <span class="math inline">\(6\)</span> debe haber una fila de tres <span class="math inline">\(O\)</span>’s y, además, deben haber tres <span class="math inline">\(X\)</span>’s colocadas en el tablero. Para ello elegimos una de las <span class="math inline">\(8\)</span> posibilidades para poner la línea de las <span class="math inline">\(O\)</span>’s que pueden estar en una de las <span class="math inline">\(3\)</span> filas, una de las <span class="math inline">\(3\)</span> columnas o una de las <span class="math inline">\(2\)</span> diagonales (<span class="math inline">\(3+3+2 = 8\)</span>). Una vez colocamos las <span class="math inline">\(O\)</span> hay <span class="math inline">\(3!\)</span> formas en las que pudieron haberse colocado (según el turno). Finalmente colocamos las <span class="math inline">\(X\)</span> en los restantes <span class="math inline">\((6)_3\)</span>. Esto nos deja con <span class="math inline">\(8 \cdot 3! \cdot (6)_3 = 5760\)</span> posibilidades; sin embargo, estamos contando de más pues está la posibilidad de que hayamos colocado las <span class="math inline">\(X\)</span> en una fila también. Para que esto pase las <span class="math inline">\(O\)</span> deben estar en una fila o columna (no en diagonal) por lo que hay <span class="math inline">\(6\)</span> posibilidades; para las <span class="math inline">\(X\)</span> nos quedan <span class="math inline">\(2\)</span> posibilidades una vez se fijó la fila de <span class="math inline">\(O\)</span>. Hay <span class="math inline">\(3!\)</span> formas de haber colocado esas <span class="math inline">\(X\)</span> y <span class="math inline">\(3!\)</span> de haber puesto las <span class="math inline">\(O\)</span>. Por tanto tenemos <span class="math inline">\(6 \cdot 2 \cdot 3! \cdot 3! = 432\)</span> formas de tener fila de <span class="math inline">\(X\)</span> y de <span class="math inline">\(O\)</span>. Si restamos nos quedan <span class="math inline">\(5760 - 432 = 5328\)</span></p>
+</blockquote>
+<ol start="10" style="list-style-type: decimal">
+<li>Se elige una muestra aleatoria de tamaño <span class="math inline">\(n\)</span> de un salón de <span class="math inline">\(N\)</span> personas (<span class="math inline">\(N \geq 2\)</span> y <span class="math inline">\(n \leq N\)</span>) donde están Mariana y Mateo.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>¿Cuál es la probabilidad de que no salgan ni Mariana ni Mateo en la muestra si ésta es con reemplazo y sin orden?</li>
+<li>¿Cuál es la probabilidad de que ambos estén en la muestra si ésta es sin reemplazo y sin orden?</li>
+<li>Determina la probabilidad de que sólo Mariana esté en la muestra si ésta es con reemplazo y con orden.</li>
+<li>¿Cuál es la probabilidad de que Mariana y Mateo estén en la muestra si ésta es sin reemplazo y con orden?</li>
+</ol>
+<ol start="11" style="list-style-type: decimal">
+<li><strong>Paradoja de De Méré</strong> ¿Cuál de los siguientes eventos tiene mayor probabilidad?</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Obtener al menos un <span class="math inline">\(6\)</span> cuando arrojamos un dado <span class="math inline">\(4\)</span> veces.</li>
+<li>Obtener un doble <span class="math inline">\(6\)</span> cuando arrojamos dos dados <span class="math inline">\(24\)</span> veces.</li>
+</ol>
+<ol start="12" style="list-style-type: decimal">
+<li><p>Un bosque tiene <span class="math inline">\(20\)</span> venados de los cuales <span class="math inline">\(5\)</span> son capturados, etiquetados y liberados. Después de un tiempo <span class="math inline">\(4\)</span> venados de los <span class="math inline">\(20\)</span> son capturados. ¿Cuál es la probabilidad de que <span class="math inline">\(2\)</span> de esos <span class="math inline">\(4\)</span> sean de los etiquetados?</p></li>
+<li><p>Al terminar una reunión de <span class="math inline">\(n\)</span> personas, éstas se despiden estrechando sus manos, ¿cuántas despedidas hubo? ¿Qué pasa si ahora, en lugar de ser personas, son <span class="math inline">\(n\)</span> pulpos los que se despiden usando todos sus tentáculos?</p></li>
+<li><p>Si <span class="math inline">\(n\)</span> pelotas indistinguibles se colocan en <span class="math inline">\(n\)</span> cajas indistinguibles ¿cuál es la probabilidad de que exactamente una permanezca vacía (respuesta <span class="math inline">\({n \choose 2}n!/n^n\)</span>).</p></li>
+<li><p>Si <span class="math inline">\(n\)</span> pelotas indistinguibles se colocan en <span class="math inline">\(n\)</span> cajas todas diferentes ¿cuál es la probabilidad de que exactamente una permanezca vacía? (no es la misma que la anterior).</p></li>
+<li><p>Si <span class="math inline">\(n\)</span> pelotas diferentes se colocan en <span class="math inline">\(n\)</span> cajas indistinguibles ¿cuál es la probabilidad de que exactamente una permanezca vacía?</p></li>
+<li><p>Si <span class="math inline">\(n\)</span> pelotas diferentes se colocan en <span class="math inline">\(n\)</span> cajas todas diferentes ¿cuál es la probabilidad de que exactamente una permanezca vacía?</p></li>
+<li><p>¿Cuál es la probabilidad de que si se tiran dos dados justos de <span class="math inline">\(6\)</span> caras cada uno, la suma de las caras sea <span class="math inline">\(7\)</span>?</p></li>
+<li><p>Hay <span class="math inline">\(18\)</span> invitados a tu cena. Los huéspedes pueden sentarse en una de <span class="math inline">\(3\)</span> mesas circulares con sillas indistinguibles. La primera mesa tiene <span class="math inline">\(8\)</span> asientos; la segunda tiene <span class="math inline">\(6\)</span> y la tercera <span class="math inline">\(4\)</span>. Dos de los huéspedes, Alicia y Bob, deben estar sentados en la misma mesa aunque no necesariamente uno junto al otro ¿Cuántas formas hay de hacer esto?</p></li>
+<li><p>Las Naciones Unidas tiene <span class="math inline">\(5\)</span> miembros <em>senior</em>: EE.UU, Rusia, China, Alemania y Francia y <span class="math inline">\(100\)</span> miembros <em>junior</em>. Encuentra la cantidad de comités de <span class="math inline">\(5\)</span> naciones que pueden usarse si cada comité debe contener dos miembros <em>senior</em> y tres <em>junior</em>.</p></li>
+<li><p>Cuántos caminos hay (del inicio al final) en la siguiente retícula si los únicos movimientos posibles son rectas hacia arriba o hacua la derecha y a fuerza debe pasarse por cada uno de los puntos:</p></li>
+</ol>
+<p><img src="Conteo_files/figure-html/unnamed-chunk-34-1.png" width="384" style="display: block; margin: auto;" /></p>
+<ol start="21" style="list-style-type: decimal">
+<li><p>Determina la cantidad de caminos (en la misma retícula que el anterior) pero que no atraviesan la diagonal (ojo: pueden tocarla pero no atravesarla). Resp <span class="math inline">\(\frac{1}{11}\binom{20}{10}\)</span></p></li>
+<li><p><strong>Difícil</strong> Considera la siguiente retícula de <span class="math inline">\(4 \times 4\)</span> donde se colocan cuatro líneas rectas de longitud <span class="math inline">\(3\)</span> puntos al azar. Determina la probabilidad de que se forme un cuadrado con esas líneas.</p></li>
+</ol>
+<p><img src="Conteo_files/figure-html/unnamed-chunk-35-1.png" width="384" style="display: block; margin: auto;" /></p>
+<ol start="22" style="list-style-type: decimal">
+<li><p>Se arroja una moneda justa hasta obtener <span class="math inline">\(18\)</span> Águilas. En el momento en el que se obtienen las <span class="math inline">\(18\)</span> se detiene el experimento. Determina la probabilidad de tener que hacer <span class="math inline">\(44\)</span> tiros.</p></li>
+<li><p>Se escogen al azar (de manera uniforme, sin reemplazo, extrayendo primero una y luego otra) dos letras de la palabra  y se retiran de su posición. Después se vuelven a colocar al azar (de manera uniforme y al mismo tiempo) las letras extraídas en los dos espacios que quedaron vacíos. Calcule la probabilidad de que la palabra no sea modificada.</p></li>
+<li><p>Se tira una moneda <span class="math inline">\(100\)</span> veces; si caen <span class="math inline">\(50\)</span> Águilas o menos (es decir <span class="math inline">\(0,1,2,\dots,50\)</span>) se repite el procedimiento (volviendo a tirar la moneda <span class="math inline">\(100\)</span> veces) hasta obtener al menos <span class="math inline">\(51\)</span> Águilas en esos <span class="math inline">\(100\)</span> tiros. Determina la probabilidad de tener que repetir el procedimiento <span class="math inline">\(k\)</span> veces si la probabilidad de Águila es <span class="math inline">\(p = 1/2\)</span>.</p></li>
+<li><p>En un examen de economía hay <span class="math inline">\(30\)</span> preguntas de <span class="math inline">\(4\)</span> incisos cada una. Los estudiantes deben elegir el inciso correcto para cada pregunta. Determina la probabilidad de que, si de los <span class="math inline">\(400\)</span> estudiantes inscritos en el curso, todos eligen las respuestas al azar en <span class="math inline">\(\{ a, b, c, d\}\)</span> haya al menos un estudiante que saque <span class="math inline">\(10\)</span>.</p></li>
+<li><p>En un centro de cómputo, un servidor tiene <span class="math inline">\(3\)</span> procesadores para recibir <span class="math inline">\(n\)</span> tareas. Las tareas se asignan a los procesadores de manera aleatoria de tal forma que hay <span class="math inline">\(3^n\)</span> asignaciones posibles. Determina la probabilidad de que EXACTAMENTE a uno de los procesadores no le sea asignada ninguna tarea.</p></li>
+<li><p>En un grupo de <span class="math inline">\(27\)</span> personas, al entrar al salón, todos dejan su formulario en manos del profesor (llamémosle Rod). EL profesor barajea los formularios y los reparte entre los alumnos aleatoriamente de manera uniforme. Determina la probabilidad de que a nadie le toque su formulario tras la repartición.</p></li>
+<li><p>En un salón de <span class="math inline">\(M\)</span> personas existen <span class="math inline">\(k\)</span> estudiantes de actuaría y <span class="math inline">\(M-k\)</span> estudiantes de matemáticas. Se selecciona al azar de manera uniforme un número <span class="math inline">\(n\)</span> elegido entre <span class="math inline">\(0\)</span> y <span class="math inline">\(M\)</span> y se sacan aleatoriamente a <span class="math inline">\(n\)</span> estudiantes del salón. Determina la probabilidad (en términos de <span class="math inline">\(k\)</span>) de que queden exactamente la misma estudiantes de actuaría como de matemáticas dentro del salón si se sabe que hay más actuarios que matemáticos.</p></li>
+<li>Se seleccionan <span class="math inline">\(k\)</span> dígitos entre el <span class="math inline">\(0\)</span> y el <span class="math inline">\(9\)</span> al azar. Determina la probabilidad de que:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>No aparezca el <span class="math inline">\(5\)</span>.</li>
+<li>El <span class="math inline">\(3\)</span> aparezca más de <span class="math inline">\(3\)</span> veces (en el caso <span class="math inline">\(k \geq 3\)</span>).</li>
+</ol>
+<ol start="30" style="list-style-type: decimal">
+<li><p>Una señal de satélite es enviado en binario a través del espacio. Cada señal mide <span class="math inline">\(10\)</span> de longitud e incluye los dígitos <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> solamente. (Ejemplos de señales: <span class="math inline">\(1110001011\)</span>, <span class="math inline">\(0000000001\)</span> y <span class="math inline">\(0011111010\)</span>). Se sabe que el ruido de la atmósfera altera uno y sólo uno de los dígitos de la señal de manera aleatoria ( se sabe que se altera un dígito pero no se sabe cuál de los <span class="math inline">\(10\)</span>). Determina la probabilidad de que la señal original fuera <span class="math inline">\(1110101110\)</span> si se recibió <span class="math inline">\(1110001110\)</span>.</p></li>
+<li><p>Una urna contiene <span class="math inline">\(n\)</span> pelotas rojas y <span class="math inline">\(m\)</span> pelotas azules. Se extraen de una por una hasta que se tienen <span class="math inline">\(r &lt; n\)</span> pelotas rojas. Determina la probabilidad de que un total de <span class="math inline">\(k\)</span> ($r k n + m $) pelotas hayan sido extraídas.</p></li>
+</ol>
+</div>
+<div id="referencias" class="section level1">
+<h1><span class="header-section-number">3</span> Referencias</h1>
+<!-- Aquí van las referencias -->
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p> <a href="file:///home/rod/Downloads/2009-15-x10-pub.pdf">John Graunt</a> fue de los primeros a quienes se les ocurrió.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Considera que si, por ejemplo, sólo entrevistamos a una persona, entonces pensaríamos que el <span class="math inline">\(100\%\)</span> de la población tiene las preferencias de esa persona, lo cual no tiene sentido. <a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Descalzos no es una opción para este problema.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+      <b>Contáctame</b> en <a href="mailto:rodrigo.zepeda@itam.mx?Subject=Notas de Proba 1" target="_top">rodrigo.zepeda@itam.mx</a>
+    </div>
+    <div class="panel-footer"><span  xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><small><b>Notas de Cálculo de Probabilidades</b></span> por <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Rodrigo Zepeda</span> tiene una licencia <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. </small><br /></div>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
