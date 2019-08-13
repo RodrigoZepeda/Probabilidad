@@ -58,11 +58,22 @@ props <- "Sean $A,B$ conjuntos; luego:
 <ol>
 <li>$\\mathbb{I}_{A \\cap B}(x) =  \\mathbb{I}_{A}(x) \\cdot \\mathbb{I}_{B}(x)$</li>
 <li>$\\mathbb{I}_{A \\cup B}(x) =   \\mathbb{I}_{A}(x) +  \\mathbb{I}_{B}(x) - \\mathbb{I}_{A}(x) \\cdot \\mathbb{I}_{B}(x)$</li>
-<li>$\\mathbb{E}_X[\\mathbb{I}_A(X)] = \\mathbb{P}(A)$ </li>
+<li>$\\mathbb{E}_X[\\mathbb{I}_A(X)] = \\mathbb{P}(X\\in A)$ </li>
 </ol>
 "
 
-dem <- ""
+dem <- "
+<ol>
+<li>Si $x\\in A \\cap B$ pasa que $\\mathbb{I}_{A \\cap B}(x) = 1$; además, por hipótesis $x\\in A$ y $x \\in B$ lo que implica que $\\mathbb{I}_{A}(x) = 1$ y $\\mathbb{I}_{B}(x) = 1$; en caso contrario $\\mathbb{I}_{A \\cap B}(x) = 1$ y como no está en el conjunto al menos uno $\\mathbb{I}_{A}(x)$ ó $\\mathbb{I}_{B}(x)$ es cero. Esto concluye la prueba.
+</li>
+<li>Demostración es similar</li>
+<li>Para cualquier variable aleatoria $X$, $\\mathbb{I}_{A}(X)$ sólo toma dos valores: $0$ si $X\\not\\in A$ y $1$ si $X\\in A$. Luego:
+$$
+\\mathbb{E}_X[\\mathbb{I}_A(X)] = 1 \\cdot \\mathbb{P}(X\\in A) + 0 \\cdot \\mathbb{P}(X\\not\\in A) = \\mathbb{P}(X\\in A) 
+$$
+</li>
+</ol>
+"
 
 build_theorem("Propiedades",props, proof = dem, name = "", id ="formulatabla" )
 ```
@@ -326,7 +337,17 @@ Notamos que cuando $k = 1$ no hay forma de que $k > b$; cuando $k = 2$ hay una �
 build_theorem("Ejercicio",ej, proof = sol, name = "Un ejercicio de probabilidad condicional", id ="ejcondicional" )
 ```
 
+# Independencia
 
+Dos eventos $A,B$ son independientes si:
+$$
+\mathbb{P}(A \cap B) = \mathbb{P}(A) \mathbb{P}(B)
+$$
+
+Intuitivamente esto significa que saber $A$ no me dice nada de $B$ pues la independencia implica que:
+$$
+\mathbb{P}(A | B) = \mathbb{P}(A)
+$$
 
 # Variables aleatorias y función de distribución (acumulada)
 
@@ -653,10 +674,121 @@ ggplot(dats) +
   scale_color_manual("Parámetros", values = c("deepskyblue3","firebrick","cyan"))
 ```
 
+Podemos deducir el modelo exponencial a partir de la descripción del Poisson. Volvamos al mismo problema del $\textrm{Poisson}(\lambda)$ donde hay computadoras conectándose a un servidor. Sea $W$ la variable aleatoria que denota el tiempo de espera hasta el primer evento. Analicemos su distribución acumulada; notamos que 
+$$
+F_W(w) = \mathbb{P}(W \leq w) = 1 - \mathbb{P}(W > w)
+$$
+Ahora, para que $W > w$ eso significa que ningún evento tuvo que haber ocurrido en los primeros $w$ minutos (horas, lo que sea la unidad de tiempo). Y ese evento es equivalente a que nuestra variable aleatoria Poisson (tasa $\lambda w$)^[Recuerda que $\lambda$ era para un tiempo entre $0$ y $1$; $\lambda w$ es para un escalamiento del tiempo entre $0$ y $w$.] no tenga ningún arribo:
+$$
+\mathbb{P}(X = 0) = \dfrac{(\lambda w)^0 e^{-\lambda w}}{0!} = e^{-\lambda}
+$$
+De donde se obtiene la función de distribución acumulada:
+$$
+F_W(w) = 1 - e^{-\lambda w}
+$$
+De donde, al derivar respecto a $w$, se obtiene el modelo  exponencial:
 
-- Modelo exponencial
-- Modelo gamma
-- Modelo normal
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Exponencial}(\\lambda)$ si:
+$$
+f_X(x) = \\lambda e^{-\\lambda x} \\mathbb{I}_{(0,\\infty)}(x)
+$$
+"
+
+build_theorem("Modelo",form, proof = "", name = "Exponencial", id ="exp" )
+```
+
+Para deducir la distribución gamma, vamos a preguntarnos por exactamente el mismo proceso pero esta vez, en lugar de preguntarnos por el tiempo para la primer conexión nos preguntaremos por el tiempo para la $\alpha$-ésima conexión. Para ello, sea $W_{\alpha}$ el tiempo hasta la $\alpha$-ésima conexión. Usamos el mismo truco del complemento que la vez pasada: 
+$$
+F_{W_{\alpha}}(w) = \mathbb{P}(W_{\alpha} \leq w) = 1 - \mathbb{P}(W_{\alpha} > w)
+$$
+Y notamos que para que $W_{\alpha} > w$ entonces a lo más debieron haber $\alpha-1$ conexiones. Podemos reescribir:
+$$
+F_{W_{\alpha}}(w) =  1 - \mathbb{P}(W_{\alpha} > w) = 1 - \sum\limits_{k = 0}^{\alpha - 1} \dfrac{(\lambda w)^k e^{-\lambda w}}{k!} = 1 - e^{- \lambda w} - \sum\limits_{k = 1}^{\alpha - 1} \dfrac{(\lambda w)^k e^{-\lambda w}}{k!}
+$$
+Derivamos:
+\begin{equation}\nonumber
+\begin{aligned}
+\dfrac{d}{dw}F_{W_{\alpha}}(w) & =  -\lambda e^{- \lambda w} - \sum\limits_{k = 1}^{\alpha - 1} \dfrac{k \lambda (\lambda w)^{k-1} e^{-\lambda w} - \lambda (\lambda w)^k e^{-\lambda w}}{k!} \\
+ & =  -\lambda e^{- \lambda w} - \lambda e^{- \lambda w} \sum\limits_{k = 1}^{\alpha - 1} \underbrace{\dfrac{(\lambda w)^{k-1}}{(k-1)!}  - \dfrac{(\lambda w)^k }{k!}}_{\text{Telescópica}} \\
+ & = -\lambda e^{- \lambda w} + \lambda e^{- \lambda w} \Bigg( \dfrac{(\lambda w)^{\alpha - 1} }{(\alpha - 1)!} - 1 \Bigg) \\ 
+ & = \lambda e^{- \lambda w} \dfrac{(\lambda w)^{\alpha - 1} }{(\alpha - 1)!} \\
+ & =  \dfrac{\beta^{\alpha} }{\Gamma (\alpha)} w^{\alpha - 1} e^{- \frac{w}{\beta}}  \\
+ \end{aligned}
+\end{equation}
+donde tomamos $\beta = \frac{1}{\lambda}$. Esto sugiere el modelo gamma:
+
+```{r}
+form <- "
+Una variable aleatoria $W$ tiene una distribución $\\text{Gamma}(\\alpha,\\beta)$ si:
+$$
+f_W(w) =  \\dfrac{\\beta^{\\alpha} }{\\Gamma (\\alpha)} w^{\\alpha - 1} e^{- \\frac{w}{\\beta}} \\mathbb{I}_{(0,\\infty)}
+$$
+para $\\alpha,\\beta > 0$.
+"
+
+build_theorem("Modelo",form, proof = "", name = "Gamma", id ="gamma" )
+```
+
+Para deducir el modelo normal consideremos lo siguiente. Pensemos que estamos midiendo la posición de las estrellas en el cielo. Para ello hay dos formas. Bajo coordenadas cartesianas $(x,y)$ pensemos que el error de medición es independiente; es decir, si $f(x,y)$ es la densidad de los errores entonces:
+
+$$
+\rho (x,y) = f(x) f(y) 
+$$
+
+Por otro lado, asumamos que existe también una representación en coordenadas polares de la posición de la estrella: 
+$$
+g (r, \theta)  = g(r) 
+$$
+donde el error de medición depende sólo del radio (no del ángulo). Notamos entonces que:
+$$
+f(x) f(y) = g\Big( \sqrt{x^2 + y^2} \Big) 
+$$
+Si tomamos $y = 0$ tenemos que $f(x) f(0) = g(x)$ (asumo $x > 0$; los otros casos son similares). Podemos entonces sustituir:
+
+$$
+\dfrac{f(x) f(y)}{f(0)^2} = \dfrac{f\Big( \sqrt{x^2 + y^2} \Big) }{f(0)}
+$$
+
+Tomamos logaritmo:
+$$
+\ln \dfrac{f(x)}{f(0)} + \ln \dfrac{f(y)}{f(0)}  = \ln \dfrac{f\Big( \sqrt{x^2 + y^2} \Big) }{f(0)}
+$$
+Notamos que una solución es que:
+$$
+\ln \dfrac{f(x)}{f(0)} = \alpha x^2
+$$
+de donde despejamos y obtenemos:
+$$
+f(x) = \frac{1}{f(0)} e^{\alpha x^2}
+$$
+Finalmente sabemos que debe integrar a $1$ y por tanto esto fuerza a $\alpha$ a ser negativo. En particular tomaremos $\alpha = -\frac{1}{2}$ 
+$$
+f(x) = \frac{1}{f(0)} e^{-\frac{1}{2} x^2}
+$$
+Y para que integre a $1$:s
+$$
+f(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2} x^2}
+$$
+
+Por último, notamos que si $Z\sim \textrm{Normal}(0,1)$ entonces $X = \sigma Z + \mu$ tiene la densidad dada por^[Por teorema de cambio de variable.]:
+$$
+f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2\sigma^2} (x - \mu)^2}
+$$
+
+
+```{r}
+form <- "
+Una variable aleatoria $X$ tiene una distribución $\\text{Normal}(\\mu,\\sigma)$ si:
+$$
+f_X(x) =  \\frac{1}{\\sqrt{2 \\pi \\sigma^2}} e^{-\\frac{(x - \\mu)^2}{2 \\sigma^2}} 
+$$
+
+"
+
+build_theorem("Modelo",form, proof = "", name = "Normal", id ="normal" )
+```
 
 # Teorema de cambio de variable
 

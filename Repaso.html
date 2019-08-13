@@ -318,9 +318,24 @@ div.tocify {
 <ol>
 <li>$\mathbb{I}_{A \cap B}(x) =  \mathbb{I}_{A}(x) \cdot \mathbb{I}_{B}(x)$</li>
 <li>$\mathbb{I}_{A \cup B}(x) =   \mathbb{I}_{A}(x) +  \mathbb{I}_{B}(x) - \mathbb{I}_{A}(x) \cdot \mathbb{I}_{B}(x)$</li>
-<li>$\mathbb{E}_X[\mathbb{I}_A(X)] = \mathbb{P}(A)$ </li>
+<li>$\mathbb{E}_X[\mathbb{I}_A(X)] = \mathbb{P}(X\in A)$ </li>
 </ol>
-</i>	</div>
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+<ol>
+<li>Si $x\in A \cap B$ pasa que $\mathbb{I}_{A \cap B}(x) = 1$; además, por hipótesis $x\in A$ y $x \in B$ lo que implica que $\mathbb{I}_{A}(x) = 1$ y $\mathbb{I}_{B}(x) = 1$; en caso contrario $\mathbb{I}_{A \cap B}(x) = 1$ y como no está en el conjunto al menos uno $\mathbb{I}_{A}(x)$ ó $\mathbb{I}_{B}(x)$ es cero. Esto concluye la prueba.
+</li>
+<li>Demostración es similar</li>
+<li>Para cualquier variable aleatoria $X$, $\mathbb{I}_{A}(X)$ sólo toma dos valores: $0$ si $X\not\in A$ y $1$ si $X\in A$. Luego:
+$$
+\mathbb{E}_X[\mathbb{I}_A(X)] = 1 \cdot \mathbb{P}(X\in A) + 0 \cdot \mathbb{P}(X\not\in A) = \mathbb{P}(X\in A) 
+$$
+</li>
+</ol>
+ 
+		</div>
+	</div>
 </div>
 </p>
 </div>
@@ -601,8 +616,17 @@ Notamos que cuando $k = 1$ no hay forma de que $k > b$; cuando $k = 2$ hay una �
 </div>
 
 </div>
+<div id="independencia" class="section level1">
+<h1><span class="header-section-number">5</span> Independencia</h1>
+<p>Dos eventos <span class="math inline">\(A,B\)</span> son independientes si: <span class="math display">\[
+\mathbb{P}(A \cap B) = \mathbb{P}(A) \mathbb{P}(B)
+\]</span></p>
+<p>Intuitivamente esto significa que saber <span class="math inline">\(A\)</span> no me dice nada de <span class="math inline">\(B\)</span> pues la independencia implica que: <span class="math display">\[
+\mathbb{P}(A | B) = \mathbb{P}(A)
+\]</span></p>
+</div>
 <div id="variables-aleatorias-y-funcion-de-distribucion-acumulada" class="section level1">
-<h1><span class="header-section-number">5</span> Variables aleatorias y función de distribución (acumulada)</h1>
+<h1><span class="header-section-number">6</span> Variables aleatorias y función de distribución (acumulada)</h1>
 <p>Para hablar de probabilidad uno de los ingredientes principales eran las variables aleatorias. Éstas son funciones (<strong>no son variables ni son aleatorias</strong>) de tal manera que su imagen inversa pertenece a la sigma-álgebra <span class="math inline">\(\mathcal{F}\)</span>:</p>
 
 <div class="panel panel-info">
@@ -659,7 +683,7 @@ donde $X$ es la variable aleatoria y $x\in\mathbb{R}$ es un real.
 \]</span></p>
 </div>
 <div id="funciones-de-masa-de-probabilidad" class="section level1">
-<h1><span class="header-section-number">6</span> Funciones de masa de probabilidad</h1>
+<h1><span class="header-section-number">7</span> Funciones de masa de probabilidad</h1>
 <p>Si una variable aleatoria <span class="math inline">\(X\)</span> tomaba una cantidad finita o numerable de valores decíamos que <span class="math inline">\(X\)</span> es una variable aleatoria discreta. Dentro de las variables aleatorias discretas teníamos varios modelos. Una cosa importante de las variables aleatorias es la función de masa de probabilidad que se define como:</p>
 
 <div class="panel panel-info">
@@ -795,7 +819,7 @@ $$
 <p><img src="Repaso_files/figure-html/unnamed-chunk-24-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="funciones-de-densidad" class="section level1">
-<h1><span class="header-section-number">7</span> Funciones de densidad</h1>
+<h1><span class="header-section-number">8</span> Funciones de densidad</h1>
 <p>Por construcción, las variables aleatorias continuas no tienen una función de masa de probabilidad (recuerda que <span class="math inline">\(\mathbb{P}(X = k) = 0\)</span> si <span class="math inline">\(X\)</span> es continua para todo <span class="math inline">\(k\)</span>). Sin embargo, es posible definir, si <span class="math inline">\(F_X\)</span> es diferenciable algo <em>similar</em>, la función de densidad.</p>
 
 <div class="panel panel-info">
@@ -852,20 +876,105 @@ $$
 </div>
 
 <p><img src="Repaso_files/figure-html/unnamed-chunk-29-1.png" width="384" style="display: block; margin: auto;" /></p>
-<ul>
-<li>Modelo exponencial</li>
-<li>Modelo gamma</li>
-<li>Modelo normal</li>
-</ul>
+<p>Podemos deducir el modelo exponencial a partir de la descripción del Poisson. Volvamos al mismo problema del <span class="math inline">\(\textrm{Poisson}(\lambda)\)</span> donde hay computadoras conectándose a un servidor. Sea <span class="math inline">\(W\)</span> la variable aleatoria que denota el tiempo de espera hasta el primer evento. Analicemos su distribución acumulada; notamos que <span class="math display">\[
+F_W(w) = \mathbb{P}(W \leq w) = 1 - \mathbb{P}(W &gt; w)
+\]</span> Ahora, para que <span class="math inline">\(W &gt; w\)</span> eso significa que ningún evento tuvo que haber ocurrido en los primeros <span class="math inline">\(w\)</span> minutos (horas, lo que sea la unidad de tiempo). Y ese evento es equivalente a que nuestra variable aleatoria Poisson (tasa <span class="math inline">\(\lambda w\)</span>)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> no tenga ningún arribo: <span class="math display">\[
+\mathbb{P}(X = 0) = \dfrac{(\lambda w)^0 e^{-\lambda w}}{0!} = e^{-\lambda}
+\]</span> De donde se obtiene la función de distribución acumulada: <span class="math display">\[
+F_W(w) = 1 - e^{-\lambda w}
+\]</span> De donde, al derivar respecto a <span class="math inline">\(w\)</span>, se obtiene el modelo exponencial:</p>
+
+<div class="panel panel-success">
+	<div id =  exp class="panel-heading">
+		<h4> Modelo 9 [ Exponencial ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Exponencial}(\lambda)$ si:
+$$
+f_X(x) = \lambda e^{-\lambda x} \mathbb{I}_{(0,\infty)}(x)
+$$
+</i>	</div>
+</div>
+
+<p>Para deducir la distribución gamma, vamos a preguntarnos por exactamente el mismo proceso pero esta vez, en lugar de preguntarnos por el tiempo para la primer conexión nos preguntaremos por el tiempo para la <span class="math inline">\(\alpha\)</span>-ésima conexión. Para ello, sea <span class="math inline">\(W_{\alpha}\)</span> el tiempo hasta la <span class="math inline">\(\alpha\)</span>-ésima conexión. Usamos el mismo truco del complemento que la vez pasada: <span class="math display">\[
+F_{W_{\alpha}}(w) = \mathbb{P}(W_{\alpha} \leq w) = 1 - \mathbb{P}(W_{\alpha} &gt; w)
+\]</span> Y notamos que para que <span class="math inline">\(W_{\alpha} &gt; w\)</span> entonces a lo más debieron haber <span class="math inline">\(\alpha-1\)</span> conexiones. Podemos reescribir: <span class="math display">\[
+F_{W_{\alpha}}(w) =  1 - \mathbb{P}(W_{\alpha} &gt; w) = 1 - \sum\limits_{k = 0}^{\alpha - 1} \dfrac{(\lambda w)^k e^{-\lambda w}}{k!} = 1 - e^{- \lambda w} - \sum\limits_{k = 1}^{\alpha - 1} \dfrac{(\lambda w)^k e^{-\lambda w}}{k!}
+\]</span> Derivamos: <span class="math display">\[\begin{equation}\nonumber
+\begin{aligned}
+\dfrac{d}{dw}F_{W_{\alpha}}(w) &amp; =  -\lambda e^{- \lambda w} - \sum\limits_{k = 1}^{\alpha - 1} \dfrac{k \lambda (\lambda w)^{k-1} e^{-\lambda w} - \lambda (\lambda w)^k e^{-\lambda w}}{k!} \\
+ &amp; =  -\lambda e^{- \lambda w} - \lambda e^{- \lambda w} \sum\limits_{k = 1}^{\alpha - 1} \underbrace{\dfrac{(\lambda w)^{k-1}}{(k-1)!}  - \dfrac{(\lambda w)^k }{k!}}_{\text{Telescópica}} \\
+ &amp; = -\lambda e^{- \lambda w} + \lambda e^{- \lambda w} \Bigg( \dfrac{(\lambda w)^{\alpha - 1} }{(\alpha - 1)!} - 1 \Bigg) \\ 
+ &amp; = \lambda e^{- \lambda w} \dfrac{(\lambda w)^{\alpha - 1} }{(\alpha - 1)!} \\
+ &amp; =  \dfrac{\beta^{\alpha} }{\Gamma (\alpha)} w^{\alpha - 1} e^{- \frac{w}{\beta}}  \\
+ \end{aligned}
+\end{equation}\]</span> donde tomamos <span class="math inline">\(\beta = \frac{1}{\lambda}\)</span>. Esto sugiere el modelo gamma:</p>
+
+<div class="panel panel-success">
+	<div id =  gamma class="panel-heading">
+		<h4> Modelo 10 [ Gamma ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $W$ tiene una distribución $\text{Gamma}(\alpha,\beta)$ si:
+$$
+f_W(w) =  \dfrac{\beta^{\alpha} }{\Gamma (\alpha)} w^{\alpha - 1} e^{- \frac{w}{\beta}} \mathbb{I}_{(0,\infty)}
+$$
+para $\alpha,\beta > 0$.
+</i>	</div>
+</div>
+
+<p>Para deducir el modelo normal consideremos lo siguiente. Pensemos que estamos midiendo la posición de las estrellas en el cielo. Para ello hay dos formas. Bajo coordenadas cartesianas <span class="math inline">\((x,y)\)</span> pensemos que el error de medición es independiente; es decir, si <span class="math inline">\(f(x,y)\)</span> es la densidad de los errores entonces:</p>
+<p><span class="math display">\[
+\rho (x,y) = f(x) f(y) 
+\]</span></p>
+<p>Por otro lado, asumamos que existe también una representación en coordenadas polares de la posición de la estrella: <span class="math display">\[
+g (r, \theta)  = g(r) 
+\]</span> donde el error de medición depende sólo del radio (no del ángulo). Notamos entonces que: <span class="math display">\[
+f(x) f(y) = g\Big( \sqrt{x^2 + y^2} \Big) 
+\]</span> Si tomamos <span class="math inline">\(y = 0\)</span> tenemos que <span class="math inline">\(f(x) f(0) = g(x)\)</span> (asumo <span class="math inline">\(x &gt; 0\)</span>; los otros casos son similares). Podemos entonces sustituir:</p>
+<p><span class="math display">\[
+\dfrac{f(x) f(y)}{f(0)^2} = \dfrac{f\Big( \sqrt{x^2 + y^2} \Big) }{f(0)}
+\]</span></p>
+<p>Tomamos logaritmo: <span class="math display">\[
+\ln \dfrac{f(x)}{f(0)} + \ln \dfrac{f(y)}{f(0)}  = \ln \dfrac{f\Big( \sqrt{x^2 + y^2} \Big) }{f(0)}
+\]</span> Notamos que una solución es que: <span class="math display">\[
+\ln \dfrac{f(x)}{f(0)} = \alpha x^2
+\]</span> de donde despejamos y obtenemos: <span class="math display">\[
+f(x) = \frac{1}{f(0)} e^{\alpha x^2}
+\]</span> Finalmente sabemos que debe integrar a <span class="math inline">\(1\)</span> y por tanto esto fuerza a <span class="math inline">\(\alpha\)</span> a ser negativo. En particular tomaremos <span class="math inline">\(\alpha = -\frac{1}{2}\)</span> <span class="math display">\[
+f(x) = \frac{1}{f(0)} e^{-\frac{1}{2} x^2}
+\]</span> Y para que integre a <span class="math inline">\(1\)</span>:s <span class="math display">\[
+f(x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2} x^2}
+\]</span></p>
+<p>Por último, notamos que si <span class="math inline">\(Z\sim \textrm{Normal}(0,1)\)</span> entonces <span class="math inline">\(X = \sigma Z + \mu\)</span> tiene la densidad dada por<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>: <span class="math display">\[
+f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2\sigma^2} (x - \mu)^2}
+\]</span></p>
+
+<div class="panel panel-success">
+	<div id =  normal class="panel-heading">
+		<h4> Modelo 11 [ Normal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ tiene una distribución $\text{Normal}(\mu,\sigma)$ si:
+$$
+f_X(x) =  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}} 
+$$
+
+</i>	</div>
+</div>
+
 </div>
 <div id="teorema-de-cambio-de-variable" class="section level1">
-<h1><span class="header-section-number">8</span> Teorema de cambio de variable</h1>
+<h1><span class="header-section-number">9</span> Teorema de cambio de variable</h1>
 <p>Supongamos que tenemos una variable aleatoria <span class="math inline">\(X\)</span> y nos interesa ver cómo se ve la <span class="math inline">\(X\)</span> después de aplicarle una función <span class="math inline">\(\phi\)</span>. Por ejemplo, si <span class="math inline">\(X\sim\textrm{Normal}(0,1)\)</span> la función de densidad de <span class="math inline">\(e^X\)</span> está dada por:</p>
 <p><span class="math display">\[
 f_X(x) = \dfrac{1}{x \sqrt{2 \pi \sigma^2}}e^{-(\ln(x) - \mu)^2/2\sigma^2} \mathbb{I}_{(0,\infty)}(x).
 \]</span></p>
 <p>Lo cual cambia mucho la forma de la distribución:</p>
-<p><img src="Repaso_files/figure-html/unnamed-chunk-30-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Repaso_files/figure-html/unnamed-chunk-33-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La pregunta es, cómo obtener la función de densidad de <span class="math inline">\(X\)</span> si se conoce la función <span class="math inline">\(\phi\)</span>; el teorema de cambio de variable nos da una respuesta cuando <span class="math inline">\(\phi\)</span> es monótona estrictamente creciente o bien estrictamente decreciente y diferenciable.</p>
 
 <div class="panel panel-primary">
@@ -908,13 +1017,13 @@ Donde el valor absoluto sale de que $\phi^{-1}(t) < 0$ por ser estrictamente dec
 
 </div>
 <div id="valor-esperado-varianza-y-mediana" class="section level1">
-<h1><span class="header-section-number">9</span> Valor esperado, varianza y mediana</h1>
+<h1><span class="header-section-number">10</span> Valor esperado, varianza y mediana</h1>
 </div>
 <div id="generadora-de-momentos" class="section level1">
-<h1><span class="header-section-number">10</span> Generadora de momentos</h1>
+<h1><span class="header-section-number">11</span> Generadora de momentos</h1>
 </div>
 <div id="ejercicios" class="section level1">
-<h1><span class="header-section-number">11</span> Ejercicios</h1>
+<h1><span class="header-section-number">12</span> Ejercicios</h1>
 <ol style="list-style-type: decimal">
 <li>Demuestra las siguientes proposiciones sobre funciones indicadoras:</li>
 </ol>
@@ -951,6 +1060,13 @@ Donde el valor absoluto sale de que $\phi^{-1}(t) < 0$ por ser estrictamente dec
 <li><p>Sea <span class="math inline">\(X\sim \textrm{Exp}(\lambda)\)</span>, determina la densidad de <span class="math inline">\(\sqrt{X}\)</span>. <strong>OJO</strong> No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo.</p></li>
 <li><p>Sea <span class="math inline">\(X\sim \textrm{Unif}(0, 2\pi)\)</span>, determina la densidad de <span class="math inline">\(\cos(X)\)</span>. <strong>OJO</strong> No necesariamente aplica el teorema de cambio de variable pero sí la técnica usada para probarlo.</p></li>
 <li><p>Demuestra el <a href="#moncrec">Teorema de Cambio de variable</a> para el caso estrictamente creciente.</p></li>
+</ol>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Recuerda que <span class="math inline">\(\lambda\)</span> era para un tiempo entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span>; <span class="math inline">\(\lambda w\)</span> es para un escalamiento del tiempo entre <span class="math inline">\(0\)</span> y <span class="math inline">\(w\)</span>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Por teorema de cambio de variable.<a href="#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 
