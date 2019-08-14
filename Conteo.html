@@ -317,10 +317,10 @@ div.tocify {
 <p><img src="Conteo_files/figure-html/unnamed-chunk-1-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Para poder hablar de la muestra vamos a considerar notación:</p>
 <ul>
-<li><span class="math inline">\(N\)</span> representará el tamaño de la población total (<span class="math inline">\(N \in \mathbb{N}\)</span>).</li>
-<li><span class="math inline">\(n\)</span> representará el tamaño de la muestra (<span class="math inline">\(n \in \mathbb{N}\)</span>).</li>
+<li><span class="math inline">\(M\)</span> representará el tamaño de la población total (<span class="math inline">\(M \in \mathbb{N}\)</span>).</li>
+<li><span class="math inline">\(m\)</span> representará el tamaño de la muestra (<span class="math inline">\(m \in \mathbb{N}\)</span>).</li>
 </ul>
-<p>Por construcción, <span class="math inline">\(n \leq N\)</span> y, durante estas notas, <span class="math inline">\(0\not\in\mathbb{N}\)</span>. Hay varias preguntas que surgen de este procedimiento:</p>
+<p>Por construcción, <span class="math inline">\(m \leq M\)</span> y, durante estas notas, <span class="math inline">\(0\not\in\mathbb{N}\)</span>. Hay varias preguntas que surgen de este procedimiento:</p>
 <ol style="list-style-type: decimal">
 <li><p>¿Cómo debe tomarse la muestra?</p></li>
 <li><p>¿De qué tamaño tiene que ser la muestra para que sean buenas sus predicciones?<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p></li>
@@ -607,6 +607,11 @@ $$
 	</div>
 </div>
 
+<div id=" ordensinorden " class="alert alert-info">
+<b> Formulario : </b><br> En general se tiene que: <span class="math display">\[
+\# \text{Formas con orden} = \# \text{Formas sin orden} \times \# \text{Formas de ordenar}
+\]</span>
+</div>
 
 <div class="panel panel-default">
 	<div id =  cbinom class="panel-heading">
@@ -975,11 +980,261 @@ $$
 </div>
 <div id="de-vuelta-al-problema-de-muestreo" class="section level2">
 <h2><span class="header-section-number">1.5</span> De vuelta al problema de muestreo</h2>
-<p>Continuará el miércoles.</p>
+<p>Usaremos conteo para resolver una pequeña parte del problema que planteamos inicialmente. Consideremos que hay <span class="math inline">\(M = 1000\)</span> personas en México de las cuales <span class="math inline">\(N\)</span> (cantidad desconocida) apoyan a nuestro partido y <span class="math inline">\(M-N\)</span> a cualquier otro. Tomemos una muestra de tamaño <span class="math inline">\(m = 100\)</span> y pensemos que observamos <span class="math inline">\(n = 75\)</span> personas que apoyan a nuestro partido en esa muestra. ¿Tiene sentido asumir que el <span class="math inline">\(N\)</span> corresponde al <span class="math inline">\(75\%\)</span> de <span class="math inline">\(M\)</span>?</p>
+<p>Para ello analicemos la probabilidad involucrada. Para que en nuestra muestra haya <span class="math inline">\(n\)</span> personas de nuestro partido tuvimos que haber seleccionado a <span class="math inline">\(n\)</span> de los <span class="math inline">\(N\)</span> (es decir, <span class="math inline">\(\binom{N}{n}\)</span>). Por otro lado, debimos haber seleccionado al resto <span class="math inline">\(m-n\)</span> de los que no nos apoyaban, <span class="math inline">\(M-N\)</span> resultando en <span class="math inline">\(\binom{M-N}{m-n}\)</span>. Finalmente hay <span class="math inline">\(\binom{M}{m}\)</span> muestras totales, por lo que la probabilidad de haber obtenido <span class="math inline">\(n\)</span> era: <span class="math display">\[
+\textrm{Proba de }n = \dfrac{\binom{N}{n}\binom{M-N}{m-n}}{\binom{M}{m}}
+\]</span></p>
+<p>Sustituyendo los valores conocidos: <span class="math display">\[
+\textrm{Proba de }75 = \dfrac{\binom{N}{75}\binom{1000-N}{100-75}}{\binom{1000}{100}}
+\]</span> Podemos graficar, para distintos valores de <span class="math inline">\(N\)</span> la probabilidad de haber obtenido una muestra de <span class="math inline">\(75\)</span>:</p>
+<p><img src="Conteo_files/figure-html/unnamed-chunk-34-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Notamos que el valor de <span class="math inline">\(N\)</span> que maximiza la probabilidad de nuestro resultado es <span class="math inline">\(N = 750\)</span> por lo que asumir que el <span class="math inline">\(75\%\)</span> de la población es el que votará por nuestro partido suena a lo más razonable.</p>
 </div>
 </div>
-<div id="ejercicios" class="section level1">
-<h1><span class="header-section-number">2</span> Ejercicios</h1>
+<div id="ejercicios-resueltos" class="section level1">
+<h1><span class="header-section-number">2</span> Ejercicios Resueltos</h1>
+
+<div class="panel panel-success">
+	<div id =  elevador class="panel-heading">
+		<h4> Ejemplo 14 [ Elevador con $r$ pasajeros ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+La probabilidad de ganar la lotería es $p = \frac{1}{N}$ y la de perder es $q = \frac{N-1}{N}$ para una $N\in\mathbb{N}$ por cada juego de lotería en el que se participa. El resultado de un juego no afecta el otro (es decir independientemente de que pierdas o ganes, tus probabilidades de ganar o perder en el siguiente no cambian).  Supongamos que una persona juega la lotería cada miércoles hasta que gana. En el momento en el que gana deja de jugar. ¿Cuál es la probabilidad de que tenga que jugar AL MENOS $1000$ días?
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+El primer pasajero tiene $10$ pisos para bajar. Una vez se le asigna su piso, el segundo cuenta con $9$ pisos; el tecero con $8$ y así, sucesivamente:
+$$
+10 \cdot 9 \cdot 8 \cdots 4
+$$
+Las formas totales en las que se pudieron haber bajado es $10^7$ correspondiente a cada pasajero descendiendo en un piso distinto. Luego la probabilidad es:
+$$
+\dfrac{(10)_ 7}{10^7}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  npelotas class="panel-heading">
+		<h4> Ejemplo 15 [ Llenar $n$ cajas con $n$ pelotas ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se colocan $n$ pelotas indistinguibles en $n$ cajas indistinguibles entre sí. Determina la probabilidad de que todas las cajas estén llenas. 
+
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Hay $n^n$ formas de colocar las pelotas (cada pelota puede ir a cada una de las $n$ cajas) y son $n$ pelotas:
+\begin{equation}\nonumber
+\overbrace{\underbrace{\_}_{\text{Lugar} 1}}^{n \text{ posibles}} \quad 
+\overbrace{\underbrace{\_}_{\text{Lugar} 2}}^{n \text{ posibles}} \quad 
+\overbrace{\underbrace{\_}_{\text{Lugar} 3}}^{n \text{ posibles}} \quad \cdots \quad
+\overbrace{\underbrace{\_}_{\text{Lugar} n}}^{n \text{ posibles}}  
+\end{equation}
+De ahí que los casos totales sean $n^n$. Por otro lado, si se desea una pelota por caja entonces hay $n!$ formas de poner las pelotas: 
+\begin{equation}\nonumber
+\overbrace{\underbrace{\_}_{\text{Caja} 1}}^{n \text{ posibles}} \quad 
+\overbrace{\underbrace{\_}_{\text{Caja} 2}}^{n-1 \text{ posibles}} \quad 
+\overbrace{\underbrace{\_}_{\text{Caja} 3}}^{n-2 \text{ posibles}} \quad \cdots \quad
+\overbrace{\underbrace{\_}_{\text{Caja} n}}^{1 \text{ posibles}}  
+\end{equation}
+Por tanto la probabilidad de todas llenas es $\frac{n!}{n^n}$. 
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  cumpleaños class="panel-heading">
+		<h4> Ejemplo 16 [ Problema del cumpleaños ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Considera un grupo de $n$ personas. Supongamos que no hay años bisiestos (es decir cada año es de $365$ días y que el hecho de que alguien nazca es equiprobable a lo largo del año). Determina la probabilidad de que haya al menos dos personas que cumplan el mismo día.
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Es más fácil estudiar el complemento: que nadie nazca el mismo día. La idea es que:
+\begin{equation}
+\text{Los que nacen el mismo día} + \text{Los que nacen en días diferentes} = \text{Casos Totales}
+\end{equation}
+(Esto no está escrito rigurosamente, es sólo la idea). Si dividimos entre casos totales:
+\begin{equation}\nonumber
+\dfrac{\text{Los que nacen el mismo día}}{\text{Casos Totales}} + \dfrac{\text{Los que nacen en días diferentes}}{\text{Casos Totales}} = 1
+\end{equation}
+Analizamos los casos que nacieron en diferentes días. Para ello notamos que la primer persona tiene $365$ días para nacer; la segunda $364$ días; la tercera $363$; etcétera. Luego la probabilidad está dada por:
+\begin{equation}\nonumber
+\dfrac{\text{Los que nacen en días diferentes}}{\text{Casos Totales}} = \dfrac{(365)_r}{365^r}
+\end{equation}
+Finalmente, la probabilidad de que al menos dos nazcan el mismo día es:
+$$
+1 - \dfrac{(365)_r}{365^r}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+<p><img src="Conteo_files/figure-html/unnamed-chunk-38-1.png" width="384" style="display: block; margin: auto;" /></p>
+
+<div class="panel panel-success">
+	<div id =  kpelotas class="panel-heading">
+		<h4> Ejemplo 17 [ $k$ pelotas en una caja azul ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Volvamos al problema de meter $r$ pelotas distinguibles en $n$ cajas (en total hay $n^r$ formas). Una de las cajas es azul; las demás son indistinguibles. Determina la probabilidad de que la caja azul contenga $k$ pelotas. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+De las $r$ pelotas seleccionamos las $k$ que irán en la caja azul: $\binom{r}{k}$. Para que esas pelotas caigan en la caja que deseamos necesitamos que caigan en una caja de $n$ las $r$ veces $\frac{1}{n^r}$. Las restantes pueden caer en las $n-1$ cajas que quedan de $(n-1)^{r-k}$ formas. Por tanto la probabilidad es:
+$$
+\binom{r}{k} \frac{1}{n^r} (n-1)^{r-k}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  kpelotas class="panel-heading">
+		<h4> Ejemplo 18 [ $k$ pelotas en una caja azul ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Mismo ejemplo que el anterior, si las pelotas hubieran sido indistinguibles. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+No hace falta el $\binom{r}{k}$ pues como todas las pelotas son iguales no es necesario seleccionarlas. Por tanto la probabilidad es:
+$$
+\frac{1}{n^r} (n-1)^{r-k}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  bincode class="panel-heading">
+		<h4> Ejemplo 19 [ Código binario ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Un mensaje en código binario es una lista de caracteres cuyo alfabeto sólo incluye el $0$ y el $1$. Supongamos que tenemos $A_1$ unos y $A_0$ ceros. ¿Cuántos mensajes podemos crear con ellos? 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Si pensamos que los elementos son distinguibles tenemos en total $A_1 + A_0$ elementos totales. Recordando que:
+$$
+\# \textrm{formas con repetición} = \# \textrm{formas de repetir} \times \# \textrm{formas sin repetir}
+$$
+Entonces tenemos que hay $(A_1 + A_0)!$ formas de acomodarlos de manera ordenada; por otro lado, una vez se tienen los elementos de $A_1$ hay $A_1!$ formas de ordenarlos y $A_0!$ formas de ordenar a los $A_0$; en total hay $A_1!A_0!$ formas de ordenar ambos y por tanto las formas sin repetir son:
+$$
+\dfrac{(A_1 + A_0)!}{A_1!A_0!}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  12dados class="panel-heading">
+		<h4> Ejemplo 20 [ Doce dados ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tiran $12$ dados justos de seis caras. Determina la probabilidad de que cada cara aparezca dos veces.  
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Para los dados en total tengo doce opciones: $(1,2,3,4,5,6,1,2,3,4,5,6)$ entonces la forma de colocar los dados es $12!$; por otro lado, debo quitar las repeticiones; es decir $(\unicode{x1D7D9},2,1,3,6,6,2,4,5,4,5,3)$ y $(1,2,\unicode{x1D7D9},3,6,6,2,4,5,4,5,3)$ son el mismo porque los $1$'s son indistinguibles. 
+Por ello, debo quitar los repetidos que son $2$ para el caso de los unos; $2$ para el caso de los dos; etcétera. Resulta entonces:
+$$
+\dfrac{12!}{2^6 \cdot 6^{12}}
+$$
+donde los casos $6^{12}$ salen de los casos totales. 
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  def class="panel-heading">
+		<h4> Ejemplo 21 [ Defectuosos en un lote ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+En una fábrica se producen $M$ productos distinguibles en total de los cuales $N$ son defectuosos. Para control de calidad se seleccionan $m$ (con $m \leq M$) y se estudian. Para $0 \leq n \leq \min\{N,m \}$ determina la probabilidad de que haya $n$ defectuosos en la submuestra de tamaño $m$. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+En total hay $\binom{M}{m}$ formas de extraer $m$ elementos. Los defectuosos se pueden extraer de $\binom{N}{n}$ formas mientras que los no defectuosos pueden extraerse de $\binom{M-N}{m-n}$ formas. Por tanto la probabilidad de sacar $n$:
+$$
+\dfrac{\binom{N}{n} \binom{M-N}{m-n}}{\binom{M}{m}}
+$$
+
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  infpelotas class="panel-heading">
+		<h4> Ejemplo 22 [ Infinitas pelotas en caja azul ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen $n$ cajas de las cuales una es azul y las demás son indistinguibles. Se colocan pelotas en las cajas de manera aleatoria hasta que haya una pelota en la caja azul. Determina la probabilidad de que, en total, se coloquen $m$ pelotas. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Como hay $n-1$ cajas no azules, debemos colocar las primeras $m-1$ en ellas con probabilidad (cada colocación de $\frac{n-1}{n}$). En el $m$-ésimo turno debemos colocar la pelota en la caja azul (con probabilidad $1/n$) de donde se sigue que:
+\begin{equation}\nonumber
+\textrm{Probabilidad} = \Big( \dfrac{n-1}{n} \Big)^{r-1} \dfrac{1}{n}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-success">
+	<div id =  pcajas class="panel-heading">
+		<h4> Ejemplo 23 [ Pelotas en cajas sin repetir ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Se tienen $n$ cajas y se colocan pelotas de manera aleatoria hasta que, en una de las cajas, haya dos pelotas. Determina la probabilidad de terminar en el paso $m$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Si $m > n$ por el principio del palomar el problema es trivial; si $m < n$ entonces tuvimos que colocar las primeras $m-1$ pelotas en cajas distintas $(n)_{m-1}$ y la última en una caja repetida (una de esas $m-1$ que ya teníamos). Los casos totales son $n^m$ por lo que:
+
+$$
+\begin{equation}\nonumber
+\textrm{Probabilidad} = \dfrac{(n)_{m-1} (m-1)}{n^m} 
+\end{equation}
+$$
+ 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="ejercicios-de-tarea" class="section level1">
+<h1><span class="header-section-number">3</span> Ejercicios de Tarea</h1>
 <ol style="list-style-type: decimal">
 <li><p><a href="#ntweets">Anteriormente</a> consideramos cuántos tweets pueden escribirse de EXACTAMENTE 280 caracteres. En realidad, los tweets pueden ser desde 1 caracter hasta 280. El tweet <code>:D</code> contiene dos caracteres mientras que <code>Me encanta proba</code> contiene dieciseis. Determina cuántos tweets posibles existen considerando que la longitud de estos varía desde 1 hasta 280 caracteres.</p></li>
 <li><p>Demuestra la recurrencia de Pascal: <span class="math display">\[
@@ -1034,12 +1289,12 @@ n 2^{n-1} = \sum\limits_{k=0}^{n} k \binom{n}{k}
 <li><p>Las Naciones Unidas tiene <span class="math inline">\(5\)</span> miembros <em>senior</em>: EE.UU, Rusia, China, Alemania y Francia y <span class="math inline">\(100\)</span> miembros <em>junior</em>. Encuentra la cantidad de comités de <span class="math inline">\(5\)</span> naciones que pueden usarse si cada comité debe contener dos miembros <em>senior</em> y tres <em>junior</em>.</p></li>
 <li><p>Cuántos caminos hay (del inicio al final) en la siguiente retícula si los únicos movimientos posibles son rectas hacia arriba o hacua la derecha y a fuerza debe pasarse por cada uno de los puntos:</p></li>
 </ol>
-<p><img src="Conteo_files/figure-html/unnamed-chunk-34-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Conteo_files/figure-html/unnamed-chunk-47-1.png" width="384" style="display: block; margin: auto;" /></p>
 <ol start="21" style="list-style-type: decimal">
 <li><p>Determina la cantidad de caminos (en la misma retícula que el anterior) pero que no atraviesan la diagonal (ojo: pueden tocarla pero no atravesarla). Resp <span class="math inline">\(\frac{1}{11}\binom{20}{10}\)</span></p></li>
 <li><p><strong>Difícil</strong> Considera la siguiente retícula de <span class="math inline">\(4 \times 4\)</span> donde se colocan cuatro líneas rectas de longitud <span class="math inline">\(3\)</span> puntos al azar. Determina la probabilidad de que se forme un cuadrado con esas líneas.</p></li>
 </ol>
-<p><img src="Conteo_files/figure-html/unnamed-chunk-35-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Conteo_files/figure-html/unnamed-chunk-48-1.png" width="384" style="display: block; margin: auto;" /></p>
 <ol start="22" style="list-style-type: decimal">
 <li><p>Se arroja una moneda justa hasta obtener <span class="math inline">\(18\)</span> Águilas. En el momento en el que se obtienen las <span class="math inline">\(18\)</span> se detiene el experimento. Determina la probabilidad de tener que hacer <span class="math inline">\(44\)</span> tiros.</p></li>
 <li><p>Se escogen al azar (de manera uniforme, sin reemplazo, extrayendo primero una y luego otra) dos letras de la palabra  y se retiran de su posición. Después se vuelven a colocar al azar (de manera uniforme y al mismo tiempo) las letras extraídas en los dos espacios que quedaron vacíos. Calcule la probabilidad de que la palabra no sea modificada.</p></li>
@@ -1056,11 +1311,38 @@ n 2^{n-1} = \sum\limits_{k=0}^{n} k \binom{n}{k}
 </ol>
 <ol start="30" style="list-style-type: decimal">
 <li><p>Una señal de satélite es enviado en binario a través del espacio. Cada señal mide <span class="math inline">\(10\)</span> de longitud e incluye los dígitos <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> solamente. (Ejemplos de señales: <span class="math inline">\(1110001011\)</span>, <span class="math inline">\(0000000001\)</span> y <span class="math inline">\(0011111010\)</span>). Se sabe que el ruido de la atmósfera altera uno y sólo uno de los dígitos de la señal de manera aleatoria ( se sabe que se altera un dígito pero no se sabe cuál de los <span class="math inline">\(10\)</span>). Determina la probabilidad de que la señal original fuera <span class="math inline">\(1110101110\)</span> si se recibió <span class="math inline">\(1110001110\)</span>.</p></li>
-<li><p>Una urna contiene <span class="math inline">\(n\)</span> pelotas rojas y <span class="math inline">\(m\)</span> pelotas azules. Se extraen de una por una hasta que se tienen <span class="math inline">\(r &lt; n\)</span> pelotas rojas. Determina la probabilidad de que un total de <span class="math inline">\(k\)</span> ($r k n + m $) pelotas hayan sido extraídas.</p></li>
+<li><p>Una urna contiene <span class="math inline">\(n\)</span> pelotas rojas y <span class="math inline">\(m\)</span> pelotas azules. Se extraen de una por una hasta que se tienen <span class="math inline">\(r &lt; n\)</span> pelotas rojas. Determina la probabilidad de que un total de <span class="math inline">\(k\)</span> (con <span class="math inline">\(r \leq k \leq n + m\)</span>) pelotas hayan sido extraídas.</p></li>
+<li>Supón que cada uno de <span class="math inline">\(n\)</span> palitos de longitud <span class="math inline">\(\ell + c\)</span> es partido en una parte larga de longitud <span class="math inline">\(\ell\)</span> y una parte corta de longitud <span class="math inline">\(c\)</span>. Las <span class="math inline">\(2n\)</span> partes resultantes son arregladas en <span class="math inline">\(n\)</span> parejas de manera aleatoria a partir de las cuales se forman nuevos palitos (pegándolas). Determina la probabilidad de que:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Todos los palitos resultantes tengan longitud <span class="math inline">\(\ell + c\)</span></li>
+<li>Todas los palitos se peguen con su pareja original</li>
+</ol>
+<ol start="33" style="list-style-type: decimal">
+<li><p>Una caja contiene <span class="math inline">\(90\)</span> tornillos buenos y <span class="math inline">\(10\)</span> defectuosos. Si se seleccionan <span class="math inline">\(10\)</span> tornillos al azar ¿cuál es la probabilidad de que exactamente <span class="math inline">\(3\)</span> sean defectuosos?</p></li>
+<li>Se tienen <span class="math inline">\(r_1\)</span> pelotas rojas y <span class="math inline">\(r_2\)</span> pelotas azules. Las pelotas son indistinguibles entre sí salvo por el color. Se colocan las pelotas de manera aleatoria en <span class="math inline">\(n\)</span> cajas indistinguibles entre sí.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>¿Cuántos arreglos indistinguibles en total hay?</li>
+<li>¿Cuál es la probabilidad de que una caja quede vacía?</li>
+</ol>
+<ol start="35" style="list-style-type: decimal">
+<li><p>Dado un grupo de <span class="math inline">\(30\)</span> personas. ¿Cuál es la probabilidad de que a lo largo de los doce meses haya un mes donde <span class="math inline">\(10\)</span> de esas personas cumplen años?</p></li>
+<li>Un detective cuenta con <span class="math inline">\(n\)</span> cajas de evidencia de las cuales sólo una de ellas resolverá el caso.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>El detective analiza cada caja sin reemplazo hasta encontrar aquélla que resuelve su caso. Determina la probabilidad de que tenga que estudiar <span class="math inline">\(m &lt; n\)</span> cajas antes de hallar la que resuelve el caso.</li>
+<li>El detective analiza cada caja con reemplazo hasta encontrar aquélla que resuelve su caso. Determina la probabilidad de que tenga que estudiar <span class="math inline">\(m\)</span> cajas antes de hallar la que resuelve el caso.</li>
+</ol>
+<ol start="37" style="list-style-type: decimal">
+<li><p>En una fábrica se generan dos tipos de productos: los buenos y los defectuosos. Se sabe que por cada <span class="math inline">\(19\)</span> buenos se genera <span class="math inline">\(1\)</span> defectuoso. Determina la probabilidad de que se tengan que estudiar <span class="math inline">\(275\)</span> productos en total a fin de hallar <span class="math inline">\(10\)</span> defectuosos.</p></li>
+<li><p>Se selecciona gente al azar en la calle de una por una. Determina la probabilidad de que tengas que entrevistar a <span class="math inline">\(m\)</span> (con <span class="math inline">\(0 &lt; m \leq 365\)</span>) personas hasta hallar a una que cumpla el mismo día que tú.</p></li>
+<li><p>Se tira un dado justo de seis caras tantas veces como sea necesaria hasta obtener un <span class="math inline">\(5\)</span>. Determina la probabilidad de que tengas que hacer <span class="math inline">\(100\)</span> tiros.</p></li>
+<li><p>En la Ciudad de México hay <span class="math inline">\(16\)</span> alcaldías. Asumiendo que es igualmente probable que la gente viva en cualquiera de las <span class="math inline">\(16\)</span>, determina la probabilidad de que, de <span class="math inline">\(100\)</span> personas, <span class="math inline">\(14\)</span> vivan en Tlalpan, <span class="math inline">\(21\)</span> vivan en Álvaro Obregón y <span class="math inline">\(12\)</span> en Iztapalapa (las demás pueden venir de cualquier otra delegación excepto estas <span class="math inline">\(3\)</span>).</p></li>
 </ol>
 </div>
 <div id="referencias" class="section level1">
-<h1><span class="header-section-number">3</span> Referencias</h1>
+<h1><span class="header-section-number">4</span> Referencias</h1>
 <!-- Aquí van las referencias -->
 </div>
 <div class="footnotes">

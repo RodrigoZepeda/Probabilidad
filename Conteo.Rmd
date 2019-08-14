@@ -70,10 +70,10 @@ ggplot(dat, aes(x = x, y = y, color = Partido)) + geom_point() +
 
 Para poder hablar de la muestra vamos a considerar notación:
 
-+ $N$ representará el tamaño de la población total ($N \in \mathbb{N}$).
-+ $n$ representará el tamaño de la muestra ($n \in \mathbb{N}$).
++ $M$ representará el tamaño de la población total ($M \in \mathbb{N}$).
++ $m$ representará el tamaño de la muestra ($m \in \mathbb{N}$).
 
-Por construcción, $n \leq N$ y, durante estas notas, $0\not\in\mathbb{N}$. 
+Por construcción, $m \leq M$ y, durante estas notas, $0\not\in\mathbb{N}$. 
 Hay varias preguntas que surgen de este procedimiento:
 
 1. ¿Cómo debe tomarse la muestra?
@@ -431,6 +431,19 @@ build_theorem("Ejemplo",ej, proof = sol, name = "Selección de personal", id ="s
 ```
 
 ```{r}
+ej <- "
+En general se tiene que:
+$$
+\\# \\text{Formas con orden} = \\# \\text{Formas sin orden} \\times \\# \\text{Formas de ordenar}
+$$
+"
+
+
+
+build_theorem("Formulario",ej, proof = "", name = "", id ="ordensinorden" )
+```
+
+```{r}
 not <- "
 Denotamos el coeficiente binomial o las combinaciones de $n$ en $k$ como:
 $$
@@ -754,9 +767,231 @@ Por cierto, si no recuerdas la suma geométrica o bien otras sumas, puedes checa
 
 ## De vuelta al problema de muestreo
 
-Continuará el miércoles. 
+Usaremos conteo para resolver una pequeña parte del problema que planteamos inicialmente. Consideremos que hay $M = 1000$ personas en México de las cuales $N$ (cantidad desconocida) apoyan a nuestro partido y $M-N$ a cualquier otro. Tomemos una muestra de tamaño $m = 100$ y pensemos que observamos $n = 75$ personas que apoyan a nuestro partido en esa muestra. ¿Tiene sentido asumir que el $N$ corresponde al $75\%$ de $M$?
 
-# Ejercicios
+Para ello analicemos la probabilidad involucrada. Para que en nuestra muestra haya $n$ personas de nuestro partido tuvimos que haber seleccionado a $n$ de los $N$ (es decir, $\binom{N}{n}$). Por otro lado, debimos haber seleccionado al resto $m-n$ de los que no nos apoyaban, $M-N$ resultando en $\binom{M-N}{m-n}$. Finalmente hay $\binom{M}{m}$ muestras totales, por lo que la probabilidad de haber obtenido $n$ era:
+$$
+\textrm{Proba de }n = \dfrac{\binom{N}{n}\binom{M-N}{m-n}}{\binom{M}{m}}
+$$
+
+Sustituyendo los valores conocidos:
+$$
+\textrm{Proba de }75 = \dfrac{\binom{N}{75}\binom{1000-N}{100-75}}{\binom{1000}{100}}
+$$
+Podemos graficar, para distintos valores de $N$ la probabilidad de haber obtenido una muestra de $75$:
+
+```{r}
+N <- 0:1000
+hgeom <- function(N){dhyper(25,1000-N,N,100)}
+y <- sapply(N, hgeom)
+dats <- data.frame(x = N, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 0.5) + theme_classic() + ggtitle("Probabilidad como función de N") +
+  xlab("N") + ylab("Probabilidad de N")
+```
+
+Notamos que el valor de $N$ que maximiza la probabilidad de nuestro resultado es $N = 750$ por lo que asumir que el $75\%$ de la población es el que votará por nuestro partido suena a lo más razonable. 
+
+# Ejercicios Resueltos
+
+```{r}
+elev <- "
+Un elevador inicia con $r = 7$ pasajeros; se detiene en $n = 10$ pisos. Determina la probabilidad de que todos los pasajeros desciendan en un piso distinto suponiendo que cada pasajero desciende del elevador de manera independiente y todos los pisos son igualmente posibles. 
+"
+
+sol <- "
+El primer pasajero tiene $10$ pisos para bajar. Una vez se le asigna su piso, el segundo cuenta con $9$ pisos; el tecero con $8$ y así, sucesivamente:
+$$
+10 \\cdot 9 \\cdot 8 \\cdots 4
+$$
+Las formas totales en las que se pudieron haber bajado es $10^7$ correspondiente a cada pasajero descendiendo en un piso distinto. Luego la probabilidad es:
+$$
+\\dfrac{(10)_ 7}{10^7}
+$$
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Elevador con $r$ pasajeros", id ="elevador" )
+```
+
+```{r}
+ej1 <- "
+Se colocan $n$ pelotas indistinguibles en $n$ cajas indistinguibles entre sí. Determina la probabilidad de que todas las cajas estén llenas. 
+
+"
+
+sol <- "
+Hay $n^n$ formas de colocar las pelotas (cada pelota puede ir a cada una de las $n$ cajas) y son $n$ pelotas:
+\\begin{equation}\\nonumber
+\\overbrace{\\underbrace{\\_}_{\\text{Lugar} 1}}^{n \\text{ posibles}} \\quad 
+\\overbrace{\\underbrace{\\_}_{\\text{Lugar} 2}}^{n \\text{ posibles}} \\quad 
+\\overbrace{\\underbrace{\\_}_{\\text{Lugar} 3}}^{n \\text{ posibles}} \\quad \\cdots \\quad
+\\overbrace{\\underbrace{\\_}_{\\text{Lugar} n}}^{n \\text{ posibles}}  
+\\end{equation}
+De ahí que los casos totales sean $n^n$. Por otro lado, si se desea una pelota por caja entonces hay $n!$ formas de poner las pelotas: 
+\\begin{equation}\\nonumber
+\\overbrace{\\underbrace{\\_}_{\\text{Caja} 1}}^{n \\text{ posibles}} \\quad 
+\\overbrace{\\underbrace{\\_}_{\\text{Caja} 2}}^{n-1 \\text{ posibles}} \\quad 
+\\overbrace{\\underbrace{\\_}_{\\text{Caja} 3}}^{n-2 \\text{ posibles}} \\quad \\cdots \\quad
+\\overbrace{\\underbrace{\\_}_{\\text{Caja} n}}^{1 \\text{ posibles}}  
+\\end{equation}
+Por tanto la probabilidad de todas llenas es $\\frac{n!}{n^n}$. 
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Llenar $n$ cajas con $n$ pelotas", id ="npelotas" )
+```
+
+```{r}
+ej1 <- "
+Considera un grupo de $n$ personas. Supongamos que no hay años bisiestos (es decir cada año es de $365$ días y que el hecho de que alguien nazca es equiprobable a lo largo del año). Determina la probabilidad de que haya al menos dos personas que cumplan el mismo día.
+"
+
+sol <- "
+Es más fácil estudiar el complemento: que nadie nazca el mismo día. La idea es que:
+\\begin{equation}
+\\text{Los que nacen el mismo día} + \\text{Los que nacen en días diferentes} = \\text{Casos Totales}
+\\end{equation}
+(Esto no está escrito rigurosamente, es sólo la idea). Si dividimos entre casos totales:
+\\begin{equation}\\nonumber
+\\dfrac{\\text{Los que nacen el mismo día}}{\\text{Casos Totales}} + \\dfrac{\\text{Los que nacen en días diferentes}}{\\text{Casos Totales}} = 1
+\\end{equation}
+Analizamos los casos que nacieron en diferentes días. Para ello notamos que la primer persona tiene $365$ días para nacer; la segunda $364$ días; la tercera $363$; etcétera. Luego la probabilidad está dada por:
+\\begin{equation}\\nonumber
+\\dfrac{\\text{Los que nacen en días diferentes}}{\\text{Casos Totales}} = \\dfrac{(365)_r}{365^r}
+\\end{equation}
+Finalmente, la probabilidad de que al menos dos nazcan el mismo día es:
+$$
+1 - \\dfrac{(365)_r}{365^r}
+$$
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Problema del cumpleaños", id ="cumpleaños" )
+```
+
+
+```{r}
+x <- 0:60
+y <- sapply(x, pbirthday)
+dats <- data.frame(x = x, y = y)
+ggplot(dats) + geom_point(aes(x = x, y = y), color = "deepskyblue3", size = 1) + theme_classic() + ggtitle("Probabilidad de que en un grupo de n\npersonas dos cumplan el mismo día") +
+  xlab("n") + ylab("Probabilidad")
+```
+
+```{r}
+ej1 <- "
+Volvamos al problema de meter $r$ pelotas distinguibles en $n$ cajas (en total hay $n^r$ formas). Una de las cajas es azul; las demás son indistinguibles. Determina la probabilidad de que la caja azul contenga $k$ pelotas. 
+"
+
+sol <- "
+De las $r$ pelotas seleccionamos las $k$ que irán en la caja azul: $\\binom{r}{k}$. Para que esas pelotas caigan en la caja que deseamos necesitamos que caigan en una caja de $n$ las $r$ veces $\\frac{1}{n^r}$. Las restantes pueden caer en las $n-1$ cajas que quedan de $(n-1)^{r-k}$ formas. Por tanto la probabilidad es:
+$$
+\\binom{r}{k} \\frac{1}{n^r} (n-1)^{r-k}
+$$
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "$k$ pelotas en una caja azul", id ="kpelotas" )
+```
+
+```{r}
+ej1 <- "
+Mismo ejemplo que el anterior, si las pelotas hubieran sido indistinguibles. 
+"
+
+sol <- "
+No hace falta el $\\binom{r}{k}$ pues como todas las pelotas son iguales no es necesario seleccionarlas. Por tanto la probabilidad es:
+$$
+\\frac{1}{n^r} (n-1)^{r-k}
+$$
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "$k$ pelotas en una caja azul", id ="kpelotas" )
+```
+
+```{r}
+ej1 <- "
+Un mensaje en código binario es una lista de caracteres cuyo alfabeto sólo incluye el $0$ y el $1$. Supongamos que tenemos $A_1$ unos y $A_0$ ceros. ¿Cuántos mensajes podemos crear con ellos? 
+"
+
+sol <- "
+Si pensamos que los elementos son distinguibles tenemos en total $A_1 + A_0$ elementos totales. Recordando que:
+$$
+\\# \\textrm{formas con repetición} = \\# \\textrm{formas de repetir} \\times \\# \\textrm{formas sin repetir}
+$$
+Entonces tenemos que hay $(A_1 + A_0)!$ formas de acomodarlos de manera ordenada; por otro lado, una vez se tienen los elementos de $A_1$ hay $A_1!$ formas de ordenarlos y $A_0!$ formas de ordenar a los $A_0$; en total hay $A_1!A_0!$ formas de ordenar ambos y por tanto las formas sin repetir son:
+$$
+\\dfrac{(A_1 + A_0)!}{A_1!A_0!}
+$$
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Código binario", id ="bincode" )
+```
+
+
+```{r}
+ej1 <- "
+Se tiran $12$ dados justos de seis caras. Determina la probabilidad de que cada cara aparezca dos veces.  
+"
+
+sol <- "
+Para los dados en total tengo doce opciones: $(1,2,3,4,5,6,1,2,3,4,5,6)$ entonces la forma de colocar los dados es $12!$; por otro lado, debo quitar las repeticiones; es decir $(\\unicode{x1D7D9},2,1,3,6,6,2,4,5,4,5,3)$ y $(1,2,\\unicode{x1D7D9},3,6,6,2,4,5,4,5,3)$ son el mismo porque los $1$'s son indistinguibles. 
+Por ello, debo quitar los repetidos que son $2$ para el caso de los unos; $2$ para el caso de los dos; etcétera. Resulta entonces:
+$$
+\\dfrac{12!}{2^6 \\cdot 6^{12}}
+$$
+donde los casos $6^{12}$ salen de los casos totales. 
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Doce dados", id ="12dados" )
+```
+
+```{r}
+ej1 <- "
+En una fábrica se producen $M$ productos distinguibles en total de los cuales $N$ son defectuosos. Para control de calidad se seleccionan $m$ (con $m \\leq M$) y se estudian. Para $0 \\leq n \\leq \\min\\{N,m \\}$ determina la probabilidad de que haya $n$ defectuosos en la submuestra de tamaño $m$. 
+"
+
+sol <- "
+En total hay $\\binom{M}{m}$ formas de extraer $m$ elementos. Los defectuosos se pueden extraer de $\\binom{N}{n}$ formas mientras que los no defectuosos pueden extraerse de $\\binom{M-N}{m-n}$ formas. Por tanto la probabilidad de sacar $n$:
+$$
+\\dfrac{\\binom{N}{n} \\binom{M-N}{m-n}}{\\binom{M}{m}}
+$$
+
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Defectuosos en un lote", id ="def" )
+```
+
+```{r}
+ej1 <- "
+Se tienen $n$ cajas de las cuales una es azul y las demás son indistinguibles. Se colocan pelotas en las cajas de manera aleatoria hasta que haya una pelota en la caja azul. Determina la probabilidad de que, en total, se coloquen $m$ pelotas. 
+"
+
+sol <- "
+Como hay $n-1$ cajas no azules, debemos colocar las primeras $m-1$ en ellas con probabilidad (cada colocación de $\\frac{n-1}{n}$). En el $m$-ésimo turno debemos colocar la pelota en la caja azul (con probabilidad $1/n$) de donde se sigue que:
+\\begin{equation}\\nonumber
+\\textrm{Probabilidad} = \\Big( \\dfrac{n-1}{n} \\Big)^{r-1} \\dfrac{1}{n}
+\\end{equation}
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Infinitas pelotas en caja azul", id ="infpelotas" )
+```
+
+```{r}
+ej1 <- "
+Se tienen $n$ cajas y se colocan pelotas de manera aleatoria hasta que, en una de las cajas, haya dos pelotas. Determina la probabilidad de terminar en el paso $m$
+"
+
+sol <- "
+Si $m > n$ por el principio del palomar el problema es trivial; si $m < n$ entonces tuvimos que colocar las primeras $m-1$ pelotas en cajas distintas $(n)_{m-1}$ y la última en una caja repetida (una de esas $m-1$ que ya teníamos). Los casos totales son $n^m$ por lo que:
+
+$$
+\\begin{equation}\\nonumber
+\\textrm{Probabilidad} = \\dfrac{(n)_{m-1} (m-1)}{n^m} 
+\\end{equation}
+$$
+"
+
+build_theorem("Ejemplo", ej1, proof = sol, name = "Pelotas en cajas sin repetir", id ="pcajas" )
+```
+
+# Ejercicios de Tarea
 
 1. [Anteriormente](#ntweets) consideramos cuántos tweets pueden escribirse de EXACTAMENTE 280 caracteres. En realidad, los tweets pueden ser desde 1 caracter hasta 280. El tweet ```:D``` contiene dos caracteres mientras que ```Me encanta proba``` contiene dieciseis. Determina cuántos tweets posibles existen considerando que la longitud de estos varía desde 1 hasta 280 caracteres. 
 
@@ -880,8 +1115,32 @@ ggplot(dats) + geom_point(aes(x,y), size = 5, color = "firebrick") + theme_void(
 
 30. Una señal de satélite es enviado en binario a través del espacio. Cada señal mide $10$ de longitud e incluye los dígitos $0$ y $1$ solamente. (Ejemplos de señales: $1110001011$, $0000000001$ y $0011111010$). Se sabe que el ruido de la atmósfera altera uno y sólo uno de los dígitos de la señal de manera aleatoria (\textit{i.e.} se sabe que se altera un dígito pero no se sabe cuál de los $10$). Determina la probabilidad de que la señal original fuera $1110101110$ si se recibió $1110001110$.
 
-31. Una urna contiene $n$ pelotas rojas y $m$ pelotas azules. Se extraen de una por una hasta que se tienen $r < n$ pelotas rojas. Determina la probabilidad de que un total de $k$ ($r \geq k \leq n + m $) pelotas hayan sido extraídas.
+31. Una urna contiene $n$ pelotas rojas y $m$ pelotas azules. Se extraen de una por una hasta que se tienen $r < n$ pelotas rojas. Determina la probabilidad de que un total de $k$ (con $r \leq k \leq n + m$) pelotas hayan sido extraídas.
 
+32. Supón que cada uno de $n$ palitos de longitud $\ell + c$ es partido en una parte larga de longitud $\ell$ y una parte corta de longitud $c$. Las $2n$ partes resultantes son arregladas en $n$ parejas de manera aleatoria a partir de las cuales se forman nuevos palitos (pegándolas). Determina la probabilidad de que:
+  a. Todos los palitos resultantes tengan longitud $\ell + c$
+  b. Todas los palitos se peguen con su pareja original 
+  
+33. Una caja contiene $90$ tornillos buenos y $10$ defectuosos. Si se seleccionan $10$ tornillos al azar ¿cuál es la probabilidad de que exactamente $3$ sean defectuosos?
+
+34. Se tienen $r_1$ pelotas rojas y $r_2$ pelotas azules. Las pelotas son indistinguibles entre sí salvo por el color. Se colocan las pelotas de manera aleatoria en $n$ cajas indistinguibles entre sí. 
+  a. ¿Cuántos arreglos indistinguibles en total hay? 
+  b. ¿Cuál es la probabilidad de que una caja quede vacía? 
+
+35. Dado un grupo de $30$ personas. ¿Cuál es la probabilidad de que a lo largo de los doce meses haya un mes donde $10$ de esas personas cumplen años?  
+
+36. Un detective cuenta con $n$ cajas de evidencia de las cuales sólo una de ellas resolverá el caso. 
+  a. El detective analiza cada caja sin reemplazo hasta encontrar aquélla que resuelve su caso. Determina la probabilidad de que tenga que estudiar $m < n$ cajas antes de hallar la que resuelve el caso. 
+  b. El detective analiza cada caja con reemplazo hasta encontrar aquélla que resuelve su caso. Determina la probabilidad de que tenga que estudiar $m$ cajas antes de hallar la que resuelve el caso. 
+  
+  37. En una fábrica se generan dos tipos de productos: los buenos y los defectuosos. Se sabe que por cada $19$ buenos se genera $1$ defectuoso. Determina la probabilidad de que se tengan que estudiar $275$ productos en total a fin de hallar $10$ defectuosos. 
+  
+  38. Se selecciona gente al azar en la calle de una por una. Determina la probabilidad de que tengas que entrevistar a $m$ (con $0 < m \leq 365$) personas hasta hallar a una que cumpla el mismo día que tú. 
+  
+  39. Se tira un dado justo de seis caras tantas veces como sea necesaria hasta obtener un $5$. Determina la probabilidad de que tengas que hacer $100$ tiros. 
+
+  40. En la Ciudad de México hay $16$ alcaldías. Asumiendo que es igualmente probable que la gente viva en cualquiera de las $16$, determina la probabilidad de que, de $100$ personas, $14$ vivan en Tlalpan, $21$ vivan en Álvaro Obregón y $12$ en Iztapalapa (las demás pueden venir de cualquier otra delegación excepto estas $3$).  
+  
 # Referencias
 
 <!-- Aquí van las referencias -->
