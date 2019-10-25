@@ -714,7 +714,7 @@ Derivamos:
  & =  -\lambda e^{- \lambda w} - \lambda e^{- \lambda w} \sum\limits_{k = 1}^{\alpha - 1} \underbrace{\dfrac{(\lambda w)^{k-1}}{(k-1)!}  - \dfrac{(\lambda w)^k }{k!}}_{\text{Telescópica}} \\
  & = -\lambda e^{- \lambda w} + \lambda e^{- \lambda w} \Bigg( \dfrac{(\lambda w)^{\alpha - 1} }{(\alpha - 1)!} - 1 \Bigg) \\ 
  & = \lambda e^{- \lambda w} \dfrac{(\lambda w)^{\alpha - 1} }{(\alpha - 1)!} \\
- & =  \dfrac{\beta^{\alpha} }{\Gamma (\alpha)} w^{\alpha - 1} e^{- \frac{w}{\beta}}  \\
+ & =  \dfrac{1 }{\beta^{\alpha} \Gamma (\alpha)} w^{\alpha - 1} e^{- \frac{w}{\beta}}  \\
  \end{aligned}
 \end{equation}
 donde tomamos $\beta = \frac{1}{\lambda}$. Esto sugiere el modelo gamma:
@@ -723,7 +723,7 @@ donde tomamos $\beta = \frac{1}{\lambda}$. Esto sugiere el modelo gamma:
 form <- "
 Una variable aleatoria $W$ tiene una distribución $\\text{Gamma}(\\alpha,\\beta)$ si:
 $$
-f_W(w) =  \\dfrac{\\beta^{\\alpha} }{\\Gamma (\\alpha)} w^{\\alpha - 1} e^{- \\frac{w}{\\beta}} \\mathbb{I}_{(0,\\infty)}
+f_W(w) =  \\dfrac{1 }{\\beta^{\\alpha} \\Gamma (\\alpha)} w^{\\alpha - 1} e^{- \\frac{w}{\\beta}} \\mathbb{I}_{(0,\\infty)}
 $$
 para $\\alpha,\\beta > 0$.
 "
@@ -846,6 +846,59 @@ build_theorem("Teorema",form, proof = dem, name = "Cambio de variable", id ="mon
 
 
 # Valor esperado, varianza y mediana
+
+Para una variable aleatoria $X$ definimos su valor esperado (promedio o media) como:
+$$
+\mathbb{E}[X] = \begin{cases}
+\sum\limits_{x = -\infty}^{\infty} x \cdot P(X = x) & \textrm{ si } X \textrm{ es discreta,}\\
+\int\limits_{-\infty}^{\infty} x \cdot f_X(x)dx & \textrm{ si } X \textrm{ es continua.}\\
+\end{cases}
+$$
+
+por otro lado, para una variable aleatoria $X$ con media $\mu$ definimos la varianza como:
+```{r}
+form <- "
+Para $X$ una variable aleatoria con media $\\mu$ finita, la varianza está dada por:
+$$
+\\textrm{Var}[X] = \\mathbb{E}[(X-\\mu)^2]
+$$
+"
+build_theorem("Definición",form, proof = "", name = "Varianza", id ="varianza" )
+```
+
+Podemos analizar algunas de las propiedades del valor esperado:
+
+```{r}
+form <- "
+Para $X$ una variable aleatoria con media $\\mu$ finita definimos las siguientes propiedades:
+<ol>
+  <li> <b> Linealidad (v1): </b> $\\mathbb{E}[a X + b] = a \\mathbb{E}[X] + b$ para $a,b\\in\\mathbb{R}$. </li>
+   <li> <b> Linealidad (v2): </b> $\\mathbb{E}[ g(X) + h(X)] =  \\mathbb{E}[g(X)] + \\mathbb{E}[h(X)]$ para $a,b\\in\\mathbb{R}$. </li>
+  <li> <b> No degeneracidad: </b> Si $\\mathbb{E}[|X|] = 0$ entonces $\\mathbb{P}(X = 0) = 1$. </li>
+  <li> <b> Ley del estadístico inconsciente: </b> $\\mathbb{E}[g(X)] = \\sum\\limits_{x=-\\infty}^{\\infty} g(x) \\mathbb{P}(X = x)$  en el caso discreto y $\\mathbb{E}[g(X)] = \\int\\limits_{-\\infty}^{\\infty} g(x) f_X(x) dx$ en el caso continuo </li>
+    <li> <b> Valor esperado generaliza probabilidad: </b> $\\mathbb{E}[\\mathbb{I}_A] = \\mathbb{P}(A)$ para un $A \\in \\mathcal{F}$ </li>
+</ol>
+"
+
+dem <- "La demostración la haré para el caso discreto. El caso continuo es análogo. 
+
+<ol>
+  <li>
+  $$
+  
+  \\mathbb{E}[a X + b] = \\sum\\limits_{x=-\\infty}^{\\infty} (aX+b) \\mathbb{P}(X = x) = \\sum\\limits_{x=-\\infty}^{\\infty} aX \\mathbb{P}(X = x) + \\sum\\limits_{x=-\\infty}^{\\infty} b \\mathbb{P}(X = x)
+  = a \\sum\\limits_{x=-\\infty}^{\\infty} X \\mathbb{P}(X = x) + b \\sum\\limits_{x=-\\infty}^{\\infty}  \\mathbb{P}(X = x) = 
+  a \\mathbb{E}[X] + b$ pues $\\sum\\limits_{x=-\\infty}^{\\infty}  \\mathbb{P}(X = x) = \\mathbb{P}(\\Omega) = 1
+  $$</li>
+   <li> <b> Linealidad (v2): </b> $\\mathbb{E}[ g(X) + h(X)] =  \\mathbb{E}[g(X)] + \\mathbb{E}[h(X)]$ para $a,b\\in\\mathbb{R}$. </li>
+  <li> <b> No degeneracidad: </b> Si $\\mathbb{E}[|X|] = 0$ entonces $\\mathbb{P}(X = 0) = 1$. </li>
+  <li> <b> Ley del estadístico inconsciente: </b> $\\mathbb{E}[g(X)] = \\sum\\limits_{x=-\\infty}^{\\infty} g(x) \\mathbb{P}(X = x)$  en el caso discreto y $\\mathbb{E}[g(X)] = \\int\\limits_{-\\infty}^{\\infty} g(x) f_X(x) dx$ en el caso continuo </li>
+    <li> <b> Valor esperado generaliza probabilidad: </b> $\\mathbb{E}[\\mathbb{I}_A] = \\mathbb{P}(A)$ para un $A \\in \\mathcal{F}$ </li>
+</ol>
+"
+
+build_theorem("Propiedades",form, proof = dem, name = "Valor Esperado", id ="propesperadas" )
+```
 
 # Generadora de momentos
 
