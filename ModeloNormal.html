@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Rodrigo Zepeda" />
+
+
+<title>Distribución Gaussiana (alias ‘La Normal’)</title>
+
+<script src="ModeloNormal_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="ModeloNormal_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="ModeloNormal_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="ModeloNormal_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="ModeloNormal_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="ModeloNormal_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="ModeloNormal_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="ModeloNormal_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="ModeloNormal_files/navigation-1.1/tabsets.js"></script>
+<link href="ModeloNormal_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="ModeloNormal_files/highlightjs-9.12.0/highlight.js"></script>
+<!-- Meta characteristics -->
+<meta name="description" content="Notas de Probabilidad">
+<meta name="keywords" content="Probabilidad, Cálculo de Probabilidades, Matemáticas, Curso de Matemáticas, Notas de Clase,
+Conteo">
+<meta name="author" content="Rodrigo Zepeda Tello">
+
+<!-- Add d3js -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Nice mathjax format -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true, }, TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<style>
+td {
+   padding-left: 2px;
+}
+</style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<!--Navigation menu-->
+<link href="css/custom.css" rel="stylesheet">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Calculo3">Notas de Cálculo de Probabilidades</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-main">
+            <!--<ul class="nav navbar-nav">
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://github.com/RodrigoZepeda/Calculo3"><img src="images/GitHub-Mark-Light-32px.png"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Distribución Gaussiana (alias ‘La Normal’)</h1>
+<h4 class="author">Rodrigo Zepeda</h4>
+
+</div>
+
+
+<div id="deducción-del-modelo" class="section level1">
+<h1><span class="header-section-number">1</span> Deducción del Modelo</h1>
+<p>Pensemos que estamos midiendo la posición de las estrellas en el cielo. Para ello hay dos formas. Bajo coordenadas cartesianas <span class="math inline">\((x,y)\)</span> pensemos que el error de medición es independiente; es decir, si <span class="math inline">\(\rho(x,y)\)</span> es la densidad conjunta de los errores en cada coordenada entonces:</p>
+<p><span class="math display">\[
+\rho (x,y) = f_X(x) f_Y(y) 
+\]</span></p>
+<p>Por otro lado, supongamos que existe también una representación en coordenadas polares de la posición de la estrella: <span class="math display">\[
+p (r, \theta)  = g_R(r) 
+\]</span></p>
+<p>donde el error de medición depende sólo del radio <span class="math inline">\(R\)</span> (no del ángulo). Notamos entonces que:</p>
+<p><span class="math display">\[
+f_X(x) f_Y(y) = g_R\Big( \sqrt{x^2 + y^2} \Big) 
+\]</span> donde sustituimos <span class="math inline">\(r\)</span> por su definición en coordenadas polares. Si tomamos <span class="math inline">\(y = 0\)</span> tenemos que <span class="math inline">\(f_X(x) f_Y(0) = g_R(x)\)</span> (a partir de aquí supondré <span class="math inline">\(x &gt; 0\)</span>; los otros casos son similares). A partir de esa expresión se tiene que:</p>
+<p><span class="math display">\[
+f_X(\sqrt{x^2 + y^2} ) f_Y(0) = g_R(\sqrt{x^2 + y^2} )
+\]</span></p>
+<p>Podemos entonces sustituir:</p>
+<p><span class="math display">\[
+f_X(x) f_Y(y) = f_X(\sqrt{x^2 + y^2} ) f_Y(0)
+\]</span></p>
+<p>y dividimos entre <span class="math inline">\(f_X(0)^2\)</span> para normalizar:</p>
+<p><span class="math display">\[
+\dfrac{f_X(x) \cdot f_X(y)}{f_X(0)\cdot f_X(0)} = \dfrac{f_X\Big( \sqrt{x^2 + y^2} \Big) }{f_X(0)}
+\]</span></p>
+<p>Tomamos logaritmo: <span class="math display">\[
+\ln \Big(\dfrac{f(x)}{f(0)}\Big) + \ln \Big(\dfrac{f(y)}{f(0)}\Big)  = \ln \Bigg( \dfrac{f\Big( \sqrt{x^2 + y^2} \Big) }{f(0)} \Bigg)
+\]</span></p>
+<p>Si reescribimos <span class="math inline">\(h(x) = \ln \Big(\dfrac{f(x)}{f(0)}\Big)\)</span> tenemos entonces que el problema es hallar una función <span class="math inline">\(h\)</span> tal que:</p>
+<p><span class="math display">\[
+h(x) + h(y) = h\Big(\sqrt{x^2+y^2}\Big)
+\]</span></p>
+<p>Pensando que dicha función es diferenciable podríamos buscarla haciendo:</p>
+<p><span class="math display">\[
+\dfrac{\partial}{\partial x} \Big[ h(x) + h(y) \Big] = \dfrac{\partial}{\partial x} h\Big(\sqrt{x^2+y^2}\Big)
+\]</span></p>
+<p>De donde obtenemos:</p>
+<p><span class="math display">\[
+h&#39;(x) = h&#39;(\sqrt{x^2 + y^2}) \dfrac{x}{\sqrt{x^2+y^2}}
+\]</span></p>
+<p>Notamos entonces que:</p>
+<p><span class="math display">\[
+\dfrac{h&#39;(x)} {h&#39;(\sqrt{x^2 + y^2})}= \dfrac{x}{\sqrt{x^2+y^2}}
+\]</span></p>
+<p>Por lo cual, una propuesta para <span class="math inline">\(h&#39;(x) = \alpha x\)</span> para alguna <span class="math inline">\(\alpha\)</span> (no es la única solución al problema, de hecho hay infinitas) y se sigue que <span class="math inline">\(h(x) = \alpha x^2/2 + C\)</span>. La constante debe ser cero pues se tiene que:</p>
+<p><span class="math display">\[
+\underbrace{h(x) + h(y)}_{ \alpha x^2/2 +  \alpha y^2/2 + 2C} = \underbrace{h\Big(\sqrt{x^2+y^2}\Big)}_{ \alpha(x^2+y^2)/2 + C}
+\]</span></p>
+<p>Al sustituir se tiene que:</p>
+<p><span class="math display">\[
+\ln \Big( \dfrac{f(x)}{f(0)} \Big)= \dfrac{\alpha x^2}{2}
+\]</span></p>
+<p>de donde despejamos y obtenemos:</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{f(0)} e^{\frac{\alpha x^2
+}{2}}
+\]</span></p>
+<p>Finalmente sabemos que para ser densidad debe integrar a <span class="math inline">\(1\)</span> y ser positiva (por tanto <span class="math inline">\(f(0) &gt; 0\)</span>) por tanto esto fuerza a <span class="math inline">\(\alpha\)</span> a ser negativo. En particular tomaremos <span class="math inline">\(\alpha = -1\)</span> por ser el negativo más sencillo para este problema (pudo haber sido cualquier otro negativo).</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{f(0)} e^{-\frac{1}{2} x^2}
+\]</span></p>
+<p>Y para que integre a <span class="math inline">\(1\)</span>: <span class="math display">\[
+1 = \int\limits_{-\infty}^{\infty} f(x) dx = \frac{1}{f(0)} \int\limits_{-\infty}^{\infty}  e^{-\frac{1}{2} x^2} dx
+\]</span></p>
+<p>Por tanto <span class="math inline">\(f(0) = \int\limits_{-\infty}^{\infty} e^{-\frac{1}{2} x^2} dx\)</span>. La siguiente sección se dedica a evaluar dicha integral.</p>
+</div>
+<div id="integración-de-la-gaussiana" class="section level1">
+<h1><span class="header-section-number">2</span> Integración de la gaussiana</h1>
+<p>De la sección anterior notamos que sólo nos falta por integrar:</p>
+<p><span class="math display">\[
+\int\limits_{-\infty}^{\infty}  e^{-\frac{1}{2} x^2} dx
+\]</span></p>
+<p>la cual puede reescribirse como:</p>
+<p><span class="math display">\[
+2 \int\limits_{0}^{\infty}  e^{-\frac{1}{2} x^2} dx
+\]</span></p>
+<p>Por lo que la integral a resolver en este caso es <span class="math inline">\(\int\limits_{0}^{\infty} e^{-\frac{1}{2} x^2} dx\)</span>. Para ello definiremos una función auxiliar <span class="math inline">\(g\)</span> que nos ayudará en el proceso de integración:</p>
+<p><span class="math display">\[
+g(t) = \Big[ \int\limits_{0}^{t}  e^{-\frac{1}{2} x^2} dx \Big]^2
+\]</span></p>
+<p>Notamos que:</p>
+<p><span class="math display">\[
+\lim_{t \to \infty} \sqrt{g(t)} = \int\limits_{0}^{\infty}  e^{-\frac{1}{2} x^2} dx
+\]</span></p>
+<p>De donde toda nuestra atención se enfocará en ese límite. Para resolverlo utilizaremos <a href="http://fy.chalmers.se/~tfkhj/FeynmanIntegration.pdf">el truco de Feynman</a> una técnica que no se estudia en las clases tradicionales de Cálculo<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>La derivada de <span class="math inline">\(g\)</span> está dada por:</p>
+<p><span class="math display">\[
+\dfrac{dg}{dt} = 2 \Bigg[ \int\limits_{0}^{t} e^{-x^2/2}dx \Bigg] e^{-t^2/2} = 2 \int\limits_{0}^{t} e^{-(t^2+x^2)/2}dx
+\]</span></p>
+<p>Hacemos el cambio de variable <span class="math inline">\(u = x/t\)</span> lo que implica que <span class="math inline">\(x = ut\)</span> y que <span class="math inline">\(dx = tdu\)</span> donde además cuando <span class="math inline">\(x \in (0,t)\)</span> entonces <span class="math inline">\(u \in (0,1)\)</span>:</p>
+<p><span class="math display">\[
+\dfrac{dg}{dt} =  2 \int\limits_{0}^{1} t e^{-(1+u^2)t^2 /2}du
+\]</span></p>
+<p>Notamos que:</p>
+<p><span class="math display">\[
+\dfrac{\partial}{\partial t}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg] = 2te^{-(1+u^2)t^2/2}
+\]</span></p>
+<p>En resumen:</p>
+<p><span class="math display">\[
+\dfrac{dg}{dt} = \int\limits_{0}^{1} \dfrac{\partial}{\partial t}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  du = \dfrac{d}{d t}  \int\limits_{0}^{1}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  du 
+\]</span></p>
+<p>Por tanto, mediante integración obtenemos que:</p>
+<p><span class="math display">\[
+g(t) =  \int\limits_{0}^{1}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  du  + C
+\]</span></p>
+<p>Para determinar la constante de integración <span class="math inline">\(C\)</span> observamos que si <span class="math inline">\(t \to 0\)</span> se tiene:</p>
+<p><span class="math display">\[
+\lim_{t\to 0} g(t) = \Big[ \int\limits_{0}^{0}  e^{-\frac{1}{2} x^2} dx \Big]^2 = 0
+\]</span></p>
+<p>Mientras que por otro lado:</p>
+<p>$$ <em>{t0} g(t) = </em>{t0} <em>{0}^{1} du + C = </em>{t0} -2 <em>{0}^{1} du + C = -2(u)|</em>{u = 0}^{u = 1} + C = -2  + C</p>
+<p>$$</p>
+<p>Por tanto, <span class="math inline">\(C = \pi/2\)</span>. Finalmente, <span class="math inline">\(g(t) = \int\limits_{0}^{1} \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg] du + \dfrac{\pi}{2}\)</span>. Por otro lado, notamos que:</p>
+<p><span class="math display">\[
+\lim_{t \to \infty} g(t) = \int\limits_{0}^{1}  \Bigg[ - \lim_{t \to \infty} \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  du  + \dfrac{\pi}{2} = \dfrac{\pi}{2}
+\]</span></p>
+<p>Por lo cual: <span class="math display">\[
+\lim_{t \to \infty} \sqrt{g(t)} = \int\limits_{0}^{\infty}  e^{-\frac{1}{2} x^2} dx  = \sqrt{\dfrac{\pi}{2}}
+\]</span></p>
+<p>De donde:</p>
+<p><span class="math display">\[
+\int\limits_{-\infty}^{\infty}  e^{-\frac{1}{2} x^2} dx = \sqrt{2 \pi}
+\]</span> Concluimos entonces que <span class="math inline">\(f(0) = \sqrt{2 \pi}\)</span> lo cual nos permite definir la distribución normal estándar:</p>
+
+<div class="panel panel-default">
+	<div id =  normal class="panel-heading">
+		<h4> Modelo  [ Normal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $Z$ tiene una distribución $\text{NormalEstándar}$ (o $\text{Normal}(0,1)$ si:
+$$
+f_X(x) =  \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} 
+$$
+
+</i>	</div>
+</div>
+
+<!--
+# Funciones generadoras, valor esperado y otras características
+
+# Teorema central del límite
+-->
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Otra opción es usar integrales polares pero no necesariamente todos sabemos hacerlo.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+      <b>Contáctame</b> en <a href="mailto:rodrigo.zepeda@itam.mx?Subject=Notas de Proba 1" target="_top">rodrigo.zepeda@itam.mx</a>
+    </div>
+    <div class="panel-footer"><span  xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><small><b>Notas de Cálculo de Probabilidades</b></span> por <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Rodrigo Zepeda</span> tiene una licencia <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>. </small><br /></div>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
