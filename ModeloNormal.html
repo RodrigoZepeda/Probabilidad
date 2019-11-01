@@ -272,7 +272,7 @@ div.tocify {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Calculo3">Notas de Cálculo de Probabilidades</a>
+            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Probabilidad/">Notas de Cálculo de Probabilidades</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-main">
@@ -282,7 +282,7 @@ div.tocify {
             </ul>-->
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="https://github.com/RodrigoZepeda/Calculo3"><img src="images/GitHub-Mark-Light-32px.png"></a>
+                    <a href="https://github.com/RodrigoZepeda/Probabilidad"><img src="images/GitHub-Mark-Light-32px.png"></a>
                 </li>
             </ul>
         </div>
@@ -299,34 +299,43 @@ div.tocify {
 </div>
 
 
+<p><img src="images/paranormal.jpg" width="50%" style="display: block; margin: auto;" /></p>
 <div id="deducción-del-modelo" class="section level1">
 <h1><span class="header-section-number">1</span> Deducción del Modelo</h1>
-<p>Pensemos que estamos midiendo la posición de las estrellas en el cielo. Para ello hay dos formas. Bajo coordenadas cartesianas <span class="math inline">\((x,y)\)</span> pensemos que el error de medición es independiente; es decir, si <span class="math inline">\(\rho(x,y)\)</span> es la densidad conjunta de los errores en cada coordenada entonces:</p>
+<p>Pensemos que estamos midiendo la posición de las estrellas en el cielo. Para ello hay dos formas.</p>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Bajo coordenadas cartesianas <span class="math inline">\((x,y)\)</span> pensemos que el error de medición es independiente; es decir, si <span class="math inline">\(\rho(x,y)\)</span> es la densidad conjunta de los errores en cada coordenada entonces:</p>
 <p><span class="math display">\[
 \rho (x,y) = f_X(x) f_Y(y) 
+\]</span></p>
+<p>Podemos asumir que los errores de medición tienen la misma distribución en la coordenada <span class="math inline">\(x\)</span> que la coordenada <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[
+\rho (x,y) = f_X(x) f_X(y) 
 \]</span></p>
 <p>Por otro lado, supongamos que existe también una representación en coordenadas polares de la posición de la estrella: <span class="math display">\[
 p (r, \theta)  = g_R(r) 
 \]</span></p>
-<p>donde el error de medición depende sólo del radio <span class="math inline">\(R\)</span> (no del ángulo). Notamos entonces que:</p>
+<p>donde el error de medición depende sólo del radio <span class="math inline">\(R\)</span> (no del ángulo).</p>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Notamos entonces que:</p>
 <p><span class="math display">\[
-f_X(x) f_Y(y) = g_R\Big( \sqrt{x^2 + y^2} \Big) 
-\]</span> donde sustituimos <span class="math inline">\(r\)</span> por su definición en coordenadas polares. Si tomamos <span class="math inline">\(y = 0\)</span> tenemos que <span class="math inline">\(f_X(x) f_Y(0) = g_R(x)\)</span> (a partir de aquí supondré <span class="math inline">\(x &gt; 0\)</span>; los otros casos son similares). A partir de esa expresión se tiene que:</p>
+f_X(x) f_X(y) = g_R\Big( \sqrt{x^2 + y^2} \Big) 
+\]</span> donde sustituimos <span class="math inline">\(r\)</span> por su definición en coordenadas polares. Si tomamos <span class="math inline">\(y = 0\)</span> tenemos que <span class="math inline">\(f_X(x) f_X(0) = g_R(x)\)</span> (a partir de aquí supondré <span class="math inline">\(x &gt; 0\)</span>; los otros casos son similares). A partir de esa expresión se tiene que:</p>
 <p><span class="math display">\[
-f_X(\sqrt{x^2 + y^2} ) f_Y(0) = g_R(\sqrt{x^2 + y^2} )
+f_X(\sqrt{x^2 + y^2} ) f_X(0) = g_R(\sqrt{x^2 + y^2} )
 \]</span></p>
 <p>Podemos entonces sustituir:</p>
 <p><span class="math display">\[
-f_X(x) f_Y(y) = f_X(\sqrt{x^2 + y^2} ) f_Y(0)
+f_X(x) f_X(y) = f_X(\sqrt{x^2 + y^2} ) f_X(0)
 \]</span></p>
 <p>y dividimos entre <span class="math inline">\(f_X(0)^2\)</span> para normalizar:</p>
 <p><span class="math display">\[
 \dfrac{f_X(x) \cdot f_X(y)}{f_X(0)\cdot f_X(0)} = \dfrac{f_X\Big( \sqrt{x^2 + y^2} \Big) }{f_X(0)}
 \]</span></p>
 <p>Tomamos logaritmo: <span class="math display">\[
-\ln \Big(\dfrac{f(x)}{f(0)}\Big) + \ln \Big(\dfrac{f(y)}{f(0)}\Big)  = \ln \Bigg( \dfrac{f\Big( \sqrt{x^2 + y^2} \Big) }{f(0)} \Bigg)
+\ln \Big(\dfrac{f_X(x)}{f_X(0)}\Big) + \ln \Big(\dfrac{f_X(y)}{f_X(0)}\Big)  = \ln \Bigg( \dfrac{f_X\Big( \sqrt{x^2 + y^2} \Big) }{f_X(0)} \Bigg)
 \]</span></p>
-<p>Si reescribimos <span class="math inline">\(h(x) = \ln \Big(\dfrac{f(x)}{f(0)}\Big)\)</span> tenemos entonces que el problema es hallar una función <span class="math inline">\(h\)</span> tal que:</p>
+<p>Si reescribimos <span class="math inline">\(h(x) = \ln \Big(\dfrac{f_X(x)}{f_X(0)}\Big)\)</span> tenemos entonces que el problema es hallar una función <span class="math inline">\(h\)</span> tal que:</p>
 <p><span class="math display">\[
 h(x) + h(y) = h\Big(\sqrt{x^2+y^2}\Big)
 \]</span></p>
@@ -348,21 +357,21 @@ h&#39;(x) = h&#39;(\sqrt{x^2 + y^2}) \dfrac{x}{\sqrt{x^2+y^2}}
 \]</span></p>
 <p>Al sustituir se tiene que:</p>
 <p><span class="math display">\[
-\ln \Big( \dfrac{f(x)}{f(0)} \Big)= \dfrac{\alpha x^2}{2}
+\ln \Big( \dfrac{f_X(x)}{f_X(0)} \Big)= \dfrac{\alpha x^2}{2}
 \]</span></p>
 <p>de donde despejamos y obtenemos:</p>
 <p><span class="math display">\[
-f(x) = \frac{1}{f(0)} e^{\frac{\alpha x^2
+f_X(x) = \frac{1}{f_X(0)} e^{\frac{\alpha x^2
 }{2}}
 \]</span></p>
-<p>Finalmente sabemos que para ser densidad debe integrar a <span class="math inline">\(1\)</span> y ser positiva (por tanto <span class="math inline">\(f(0) &gt; 0\)</span>) por tanto esto fuerza a <span class="math inline">\(\alpha\)</span> a ser negativo. En particular tomaremos <span class="math inline">\(\alpha = -1\)</span> por ser el negativo más sencillo para este problema (pudo haber sido cualquier otro negativo).</p>
+<p>Finalmente sabemos que para ser densidad debe integrar a <span class="math inline">\(1\)</span> y ser positiva (por tanto <span class="math inline">\(f_X(0) &gt; 0\)</span>) por tanto esto fuerza a <span class="math inline">\(\alpha\)</span> a ser negativo. En particular tomaremos <span class="math inline">\(\alpha = -1\)</span> por ser el negativo más sencillo para este problema (pudo haber sido cualquier otro negativo).</p>
 <p><span class="math display">\[
-f(x) = \frac{1}{f(0)} e^{-\frac{1}{2} x^2}
+f_X(x) = \frac{1}{f_X(0)} e^{-\frac{1}{2} x^2}
 \]</span></p>
 <p>Y para que integre a <span class="math inline">\(1\)</span>: <span class="math display">\[
-1 = \int\limits_{-\infty}^{\infty} f(x) dx = \frac{1}{f(0)} \int\limits_{-\infty}^{\infty}  e^{-\frac{1}{2} x^2} dx
+1 = \int\limits_{-\infty}^{\infty} f_X(x) dx = \frac{1}{f_X(0)} \int\limits_{-\infty}^{\infty}  e^{-\frac{1}{2} x^2} dx
 \]</span></p>
-<p>Por tanto <span class="math inline">\(f(0) = \int\limits_{-\infty}^{\infty} e^{-\frac{1}{2} x^2} dx\)</span>. La siguiente sección se dedica a evaluar dicha integral.</p>
+<p>Por tanto <span class="math inline">\(f_X(0) = \int\limits_{-\infty}^{\infty} e^{-\frac{1}{2} x^2} dx\)</span>. La siguiente sección se dedica a evaluar dicha integral.</p>
 </div>
 <div id="integración-de-la-gaussiana" class="section level1">
 <h1><span class="header-section-number">2</span> Integración de la gaussiana</h1>
@@ -408,8 +417,14 @@ g(t) =  \int\limits_{0}^{1}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  
 \lim_{t\to 0} g(t) = \Big[ \int\limits_{0}^{0}  e^{-\frac{1}{2} x^2} dx \Big]^2 = 0
 \]</span></p>
 <p>Mientras que por otro lado:</p>
-<p>$$ <em>{t0} g(t) = </em>{t0} <em>{0}^{1} du + C = </em>{t0} -2 <em>{0}^{1} du + C = -2(u)|</em>{u = 0}^{u = 1} + C = -2  + C</p>
-<p>$$</p>
+<p><span class="math display">\[\begin{equation}
+\begin{aligned}
+\lim_{t\to 0}  g(t) &amp;=  \lim_{t\to 0}   \int\limits_{0}^{1}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  du  + C 
+\\ &amp; = \lim_{t\to 0}   -2 \int\limits_{0}^{1}  \Bigg[  \dfrac{1}{1+u^2} \Bigg]  du  + C 
+\\ &amp; = -2\arctan(u)\Bigg|_{u = 0}^{u = 1} + C 
+\\ &amp; = -2 \dfrac{\pi}{4} + C 
+\end{aligned}
+\end{equation}\]</span></p>
 <p>Por tanto, <span class="math inline">\(C = \pi/2\)</span>. Finalmente, <span class="math inline">\(g(t) = \int\limits_{0}^{1} \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg] du + \dfrac{\pi}{2}\)</span>. Por otro lado, notamos que:</p>
 <p><span class="math display">\[
 \lim_{t \to \infty} g(t) = \int\limits_{0}^{1}  \Bigg[ - \lim_{t \to \infty} \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  du  + \dfrac{\pi}{2} = \dfrac{\pi}{2}
@@ -420,15 +435,15 @@ g(t) =  \int\limits_{0}^{1}  \Bigg[ - \dfrac{2e^{-(1+u^2)t^2/2}}{1+u^2} \Bigg]  
 <p>De donde:</p>
 <p><span class="math display">\[
 \int\limits_{-\infty}^{\infty}  e^{-\frac{1}{2} x^2} dx = \sqrt{2 \pi}
-\]</span> Concluimos entonces que <span class="math inline">\(f(0) = \sqrt{2 \pi}\)</span> lo cual nos permite definir la distribución normal estándar:</p>
+\]</span> Concluimos entonces que <span class="math inline">\(f_X(0) = \sqrt{2 \pi}\)</span> lo cual nos permite definir la distribución normal estándar:</p>
 
 <div class="panel panel-default">
 	<div id =  normal class="panel-heading">
-		<h4> Modelo  [ Normal ] </h4>
+		<h4> Modelo  [ Normal Estándar ] </h4>
 	</div>
 	<div class="panel-body">
 		<i>
-Una variable aleatoria $Z$ tiene una distribución $\text{NormalEstándar}$ (o $\text{Normal}(0,1)$ si:
+Una variable aleatoria $Z$ tiene una distribución $\text{NormalEstándar}$ (o $\text{Normal}(0,1)$) si:
 $$
 f_X(x) =  \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} 
 $$
@@ -436,6 +451,65 @@ $$
 </i>	</div>
 </div>
 
+<p>A partir de un cambio de variable podemos definir el modelo <span class="math inline">\(\text{Normal}(\mu,\sigma^2)\)</span> en general:</p>
+
+<div class="panel panel-primary">
+	<div id =  normalgral class="panel-heading">
+		<h4> Teorema 1 [ Normal($\mu,\sigma$) ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $Z$ variable aleatoria $Z$ con distribución $\text{NormalEstándar}$ (o $\text{Normal}(0,1)$). Para $\sigma > 0$ definimos una nueva variable aleatoria $X$ dada por:
+$$
+X = \sigma Z + \mu
+$$
+Entonces la función de densidad de $X$ es:
+$$
+f_X(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} 
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Operaremos con la función de distribución acumulada:
+\begin{equation}
+\begin{aligned}
+F_X(x) & = \mathbb{P}(X \leq x) \\
+& = \mathbb{P}(\sigma Z + \mu \leq x) \\
+& = \mathbb{P}( Z  \leq \frac{x - \mu}{\sigma}) \\
+& = F_Z\Big( \frac{x - \mu}{\sigma} \Big)
+\end{aligned}
+\end{equation}
+de donde, al derivar, obtenemos la densidad:
+\begin{equation}
+\begin{aligned}
+f_X(x) & = \dfrac{d}{dx} F_X(x) \\
+& = \dfrac{d}{dx} F_Z\Big( \frac{x - \mu}{\sigma}  \Big) \\
+& = f_Z\Big( \frac{x - \mu}{\sigma} \Big) \cdot \frac{1}{\sigma} \\
+& =  \dfrac{1}{\sqrt{2\pi}} e^{-\frac{\big(\frac{x - \mu}{\sigma}\big)^2}{2}}\cdot \frac{1}{\sigma}\\
+& = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} 
+\end{aligned}
+\end{equation}
+ 
+		</div>
+	</div>
+</div>
+
+
+<div class="panel panel-default">
+	<div id =  normalgral2 class="panel-heading">
+		<h4> Modelo  [ Normal($\mu,\sigma$) ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X$ se distribuye $\text{Normal}(\mu,\sigma)$ si su densidad está dada por:
+$$
+f_X(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} 
+$$
+</i>	</div>
+</div>
+
+<p>La normal se ve así:</p>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 <!--
 # Funciones generadoras, valor esperado y otras características
 
