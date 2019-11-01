@@ -27,7 +27,7 @@
 <script src="Conteo_files/navigation-1.1/tabsets.js"></script>
 <link href="Conteo_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="Conteo_files/highlightjs-9.12.0/highlight.js"></script>
-<script src="Conteo_files/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="Conteo_files/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <script src="Conteo_files/viz-0.3/viz.js"></script>
 <link href="Conteo_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="Conteo_files/grViz-binding-1.0.1/grViz.js"></script>
@@ -112,7 +112,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -277,7 +276,7 @@ div.tocify {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Calculo3">Notas de Cálculo de Probabilidades</a>
+            <a class="navbar-brand" href="https://rodrigozepeda.github.io/Probabilidad/">Notas de Cálculo de Probabilidades</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-main">
@@ -287,7 +286,7 @@ div.tocify {
             </ul>-->
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="https://github.com/RodrigoZepeda/Calculo3"><img src="images/GitHub-Mark-Light-32px.png"></a>
+                    <a href="https://github.com/RodrigoZepeda/Probabilidad"><img src="images/GitHub-Mark-Light-32px.png"></a>
                 </li>
             </ul>
         </div>
@@ -326,7 +325,7 @@ div.tocify {
 <li><p>¿De qué tamaño tiene que ser la muestra para que sean buenas sus predicciones?<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p></li>
 </ol>
 <p>Antes de resolver estas preguntas, repasemos tres de los principios fundamentales de conteo.</p>
-<div id="principio-de-adicion" class="section level2">
+<div id="principio-de-adición" class="section level2">
 <h2><span class="header-section-number">1.1</span> Principio de adición</h2>
 <p>El principio de la adición se basa en la siguiente proposición de teoría de conjuntos:</p>
 
@@ -384,11 +383,11 @@ Sea $A$ una colección de $n_1$ eventos y $B$ una colección disjunta con $n_2$ 
 </div>
 
 </div>
-<div id="principio-de-multiplicacion" class="section level2">
+<div id="principio-de-multiplicación" class="section level2">
 <h2><span class="header-section-number">1.2</span> Principio de multiplicación</h2>
 <p>Supongamos tenemos tres colores de calcetines: rojos, verdes y amarillos. Y dos colores de zapatos: negros y cafés. ¿Cuántas formas tenemos de decorar nuestros pies<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>?</p>
-<p>Para ello podemos plantear el problema como un árbol de decisión: <div id="htmlwidget-ca22398e887b3959f55f" style="width:384px;height:384px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ca22398e887b3959f55f">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Negros\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Rojos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Verdes\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Amarillos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Cafés\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Rojos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Verdes\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Amarillos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"6\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"6\"->\"7\" \n  \"6\"->\"8\" \n  \"6\"->\"9\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></p>
+<p>Para ello podemos plantear el problema como un árbol de decisión: <div id="htmlwidget-5adcd950c730f7c3f3a5" style="width:384px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5adcd950c730f7c3f3a5">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Negros\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Rojos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Verdes\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Amarillos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Cafés\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Rojos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Verdes\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Amarillos\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"6\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"6\"->\"7\" \n  \"6\"->\"8\" \n  \"6\"->\"9\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></p>
 <p>Observa que tenemos <span class="math inline">\(2\)</span> opciones de zapatos y a cada una le podemos poner <span class="math inline">\(3\)</span> opciones de calcetines. En total, tenemos <span class="math inline">\(2 \times 3 = 6\)</span> opciones a elegir. Si queremos traducir esto a teoría de conjuntos podemos considerar un conjunto de zapatos: <span class="math inline">\(Z = \{ \text{Negro}, \text{Café} \}\)</span> y un conjunto de calcetines <span class="math inline">\(C = \{ \text{Rojo}, \text{Amarillo}, \text{Verde} \}\)</span>. Al generar las parejas de zapatos con calcetines hacemos el producto cartesiano de ambos conjuntos: <span class="math display">\[\begin{equation}\nonumber
 \begin{aligned}
 Z \times C &amp; = \{ (\text{Negro}, \text{Rojo}), (\text{Negro}, \text{Amarillo}), (\text{Negro}, \text{Verde}), \\ &amp; \quad 
@@ -464,8 +463,8 @@ Bruno tiene $5$ opciones de color, Camila tiene $5$ opciones y Daniela tiene otr
 	</div>
 </div>
 
-<div id="htmlwidget-75fdca5b653a098585e6" style="width:384px;height:384px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75fdca5b653a098585e6">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"10\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"11\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"12\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"13\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"14\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"15\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"16\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"17\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"18\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"19\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"8\" \n  \"1\"->\"14\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"2\"->\"6\" \n  \"2\"->\"7\" \n  \"8\"->\"9\" \n  \"8\"->\"10\" \n  \"8\"->\"11\" \n  \"8\"->\"12\" \n  \"8\"->\"13\" \n  \"14\"->\"15\" \n  \"14\"->\"16\" \n  \"14\"->\"17\" \n  \"14\"->\"18\" \n  \"14\"->\"19\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5bd23d7d6108aef001e8" style="width:384px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5bd23d7d6108aef001e8">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"10\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"11\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"12\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"13\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"14\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"15\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"16\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"17\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"18\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"19\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"8\" \n  \"1\"->\"14\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"2\"->\"6\" \n  \"2\"->\"7\" \n  \"8\"->\"9\" \n  \"8\"->\"10\" \n  \"8\"->\"11\" \n  \"8\"->\"12\" \n  \"8\"->\"13\" \n  \"14\"->\"15\" \n  \"14\"->\"16\" \n  \"14\"->\"17\" \n  \"14\"->\"18\" \n  \"14\"->\"19\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 <div class="panel panel-success">
 	<div id =  ppv2 class="panel-heading">
@@ -490,8 +489,8 @@ La playera roja tiene $3$ opciones de nombre: Bruno, Camila y Daniela; la player
 	</div>
 </div>
 
-<div id="htmlwidget-93acbb6fc36040b4f5ef" style="width:384px;height:384px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-93acbb6fc36040b4f5ef">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"10\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"11\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"12\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"13\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"14\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"15\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"16\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"17\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"18\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"19\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"20\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"21\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"6\" \n  \"1\"->\"10\" \n  \"1\"->\"14\" \n  \"1\"->\"18\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"6\"->\"7\" \n  \"6\"->\"8\" \n  \"6\"->\"9\" \n  \"10\"->\"11\" \n  \"10\"->\"12\" \n  \"10\"->\"13\" \n  \"14\"->\"15\" \n  \"14\"->\"16\" \n  \"14\"->\"17\" \n  \"18\"->\"19\" \n  \"18\"->\"20\" \n  \"18\"->\"21\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8bef4ede95902729df17" style="width:384px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8bef4ede95902729df17">{"x":{"diagram":"digraph {\n\ngraph [rankdir = \"LR\"]\n\n\n\n  \"1\" [label = \"Inicio\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Rojo\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"6\" [label = \"Verde\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"7\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"8\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"9\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"10\" [label = \"Naranja\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"11\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"12\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"13\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"14\" [label = \"Morado\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"15\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"16\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"17\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"18\" [label = \"Azul\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"19\" [label = \"Bruno\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"20\" [label = \"Camila\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"21\" [label = \"Daniela\", fillcolor = \"#FFFFFF\", fontcolor = \"#000000\"] \n  \"1\"->\"2\" \n  \"1\"->\"6\" \n  \"1\"->\"10\" \n  \"1\"->\"14\" \n  \"1\"->\"18\" \n  \"2\"->\"3\" \n  \"2\"->\"4\" \n  \"2\"->\"5\" \n  \"6\"->\"7\" \n  \"6\"->\"8\" \n  \"6\"->\"9\" \n  \"10\"->\"11\" \n  \"10\"->\"12\" \n  \"10\"->\"13\" \n  \"14\"->\"15\" \n  \"14\"->\"16\" \n  \"14\"->\"17\" \n  \"18\"->\"19\" \n  \"18\"->\"20\" \n  \"18\"->\"21\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p>De ambos ejemplos lo que podemos aprender es que, para conteo, importa qué estamos asignando en qué. ¡Siempre hay que tenerlo muy claro!</p>
 <div id=" f1 " class="alert alert-info">
 <b> Formulario : </b><br> Si se desean asignar a <span class="math inline">\(m\)</span> objetos de un tipo una de <span class="math inline">\(n\)</span> posibles características SIN IMPORTAR REPETICIONES hay <span class="math inline">\(m^n\)</span> opciones.
