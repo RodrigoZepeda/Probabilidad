@@ -510,11 +510,276 @@ $$
 
 <p>La normal se ve así:</p>
 <p><img src="ModeloNormal_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
-<!--
-# Funciones generadoras, valor esperado y otras características
+</div>
+<div id="funciones-generadoras-valor-esperado-y-otras-propiedades" class="section level1">
+<h1><span class="header-section-number">3</span> Funciones generadoras, valor esperado y otras propiedades</h1>
+<div id="valor-esperado-y-varianza" class="section level2">
+<h2><span class="header-section-number">3.1</span> Valor esperado y varianza</h2>
+<p>Podemos utilizar que cualquier variable aleatoria normal <span class="math inline">\(X\sim\text{Normal}(\mu,\sigma^2)\)</span> puede escribirse como: <span class="math display">\[
+X = \sigma Z + \mu
+\]</span> donde <span class="math inline">\(Z\sim\text{Normal(0,1)}\)</span> es una normal estándar. A través de propiedades de valor esperado podemos ver que:</p>
+<p><span class="math display">\[\begin{equation}
+\begin{aligned}
+\mathbb{E}[X] &amp; = \sigma \cdot \mathbb{E}[Z] + \mu \\
+\text{Var}[X] &amp; = \sigma^2 \cdot \text{Var}[Z]
+\end{aligned}
+\end{equation}\]</span></p>
+<p>Basta entonces con calcular <span class="math inline">\(\mathbb{E}[Z]\)</span> y <span class="math inline">\(\text{Var}[Z]\)</span>: <span class="math display">\[\begin{equation}
+\begin{aligned}
+\mathbb{E}[Z] &amp; = \int\limits_{-\infty}^{\infty} z f_Z(z) dz \\
+&amp; = \int\limits_{-\infty}^{\infty} z \dfrac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} dz \\
+&amp; = 2 \int\limits_{0}^{\infty} z \dfrac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} dz \\
+&amp; = 2 \int\limits_{0}^{\infty} \dfrac{1}{\sqrt{2\pi}} e^{-u} du \\
+&amp; = 0.
+\end{aligned}
+\end{equation}\]</span> donde hicimos el cambio de variable <span class="math inline">\(u = \frac{z^2}{2}\)</span> y <span class="math inline">\(du = zdz\)</span></p>
+<p>Por otro lado, bajo el cambio de variable <span class="math inline">\(u = z\)</span>, <span class="math inline">\(dv = z e^{-\frac{z^2}{2}}dz\)</span> con <span class="math inline">\(du = dz\)</span> y <span class="math inline">\(v = - e^{-\frac{z^2}{2}}\)</span> podemos calcular la varianza:</p>
+<p><span class="math display">\[\begin{equation}
+\begin{aligned}
+\text{Var}[Z] &amp; = \int\limits_{-\infty}^{\infty} z^2 f_Z(z) dz \\
+&amp; = \int\limits_{-\infty}^{\infty} z^2 \dfrac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} dz \\
+&amp; = \dfrac{1}{\sqrt{2\pi}} \Bigg[ \underbrace{- z e^{-\frac{z^2}{2}} \bigg|_{z=0}^{z=\infty}}_{uv} + \underbrace{\int\limits_{-\infty}^{\infty} e^{-\frac{z^2}{2}} dz}_{\int v du} \Bigg] \\
+&amp; = \underbrace{\int\limits_{-\infty}^{\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} dz }_{\text{Densidad Normal}(0,1)}¸\\
+&amp; = 1
+\end{aligned}
+\end{equation}\]</span></p>
+<p>Al combinar los resultados anteriores podemos concluir el siguiente teorema:</p>
 
-# Teorema central del límite
--->
+<div class="panel panel-primary">
+	<div id =  mvarnormal class="panel-heading">
+		<h4> Teorema 2 [ Media y varianza de una normal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X\sim\text{Normal}(\mu,\sigma)$ tiene media $\mu$ y varianza $\sigma^2$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Lo anterior 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="moda" class="section level2">
+<h2><span class="header-section-number">3.2</span> Moda</h2>
+<p>La moda se define como el valor <span class="math inline">\(x\)</span> donde la densidad alcanza su máximo en el caso de las continuas. Para la <span class="math inline">\(\text{Normal}(\mu,\sigma^2)\)</span>, buscamos el valor que maximiza: <span class="math display">\[
+f_X(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\]</span> Como la función es diferenciable, derivamos e igualamos a <span class="math inline">\(0\)</span>. Nos podemos ahorrar el <span class="math inline">\(\frac{1}{\sqrt{2\pi\sigma^2}}\)</span> por ser una constante positiva:</p>
+<p><span class="math display">\[
+f&#39;_X(x) = - \frac{(x-\mu)}{\sigma^2}\cdot e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\]</span></p>
+<p>de donde obtenemos <span class="math inline">\(x = \mu\)</span>. Para verificar que es un máximo comprobamos la convexidad en torno al punto:</p>
+<p><span class="math display">\[
+f&#39;&#39;_X(x) = - \frac{e^{-\frac{(x-\mu)^2}{2\sigma^2}}}{\sigma^2} + \frac{(x-\mu)^2}{\sigma^4}\cdot e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\]</span></p>
+<p>La convexidad cambia en <span class="math inline">\(\mu \pm \sigma^2\)</span>. En particular, dicha derivada en torno a <span class="math inline">\(x = \mu\)</span> es negativa por lo cual es cóncava y se tiene que <span class="math inline">\(\mu\)</span> es un máximo; por tanto:</p>
+
+<div class="panel panel-primary">
+	<div id =  modanormal class="panel-heading">
+		<h4> Teorema 3 [ Moda de una normal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X\sim\text{Normal}(\mu,\sigma)$ tiene moda $\mu$.
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Lo anterior 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="función-generadora-de-momentos" class="section level2">
+<h2><span class="header-section-number">3.3</span> Función generadora de momentos</h2>
+<p>La función generadora de momentos para una <span class="math inline">\(\text{Normal}(\mu,\sigma)\)</span> puede calcularse, también, a través de una <span class="math inline">\(\text{Normal}(0,1)\)</span>. Para ello sea <span class="math inline">\(X\sim \text{Normal}(\mu,\sigma)\)</span> y escribamos <span class="math inline">\(X\)</span> como <span class="math inline">\(X = \sigma Z + \mu\)</span> donde <span class="math inline">\(Z\sim\text{Normal}(0,1)\)</span>. Entonces tenemos: <span class="math display">\[
+M_X(t) = \mathbb{E}[e^{tX}] = \mathbb{E}[e^{t(\sigma Z + \mu)}] = \mathbb{E}[e^{t\sigma Z}e^{t \mu}] = e^{t\mu} M_Z(\sigma t) 
+\]</span> donde <span class="math inline">\(M_Z\)</span> es la función generadora de momentos de <span class="math inline">\(Z\)</span>. Calculamos entonces la de esta última:</p>
+<p><span class="math display">\[\begin{equation}
+\begin{aligned}
+M_Z(\tau) &amp; = \mathbb{E}[e^{tZ}] \\
+&amp; = \int\limits_{-\infty}^{\infty} e^{tz} \dfrac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}} dz \\
+&amp; = \int\limits_{-\infty}^{\infty} \dfrac{1}{\sqrt{2\pi}}e^{tz-\frac{z^2}{2}} dz \\
+&amp; = \int\limits_{-\infty}^{\infty} \dfrac{1}{\sqrt{2\pi}}e^{-(\frac{z}{\sqrt{2}}-\frac{t}{\sqrt{2}})^2 +\frac{t^2}{2}}dz \\
+&amp; = e^{\frac{t^2}{2}}\int\limits_{-\infty}^{\infty} \underbrace{\dfrac{1}{\sqrt{2\pi}}e^{-\frac{(z-t)^2}{2}}}_{\text{Normal}(t,1)} dz \\
+&amp; =  e^{\frac{t^2}{2}}.
+\end{aligned}
+\end{equation}\]</span> Lo anterior nos permite concluir el teorema:</p>
+
+<div class="panel panel-primary">
+	<div id =  gennormal class="panel-heading">
+		<h4> Teorema 4 [ Generadora de momentos de una normal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X\sim\text{Normal}(\mu,\sigma)$ tiene función generadora de momentos: 
+$$
+M_X(t) = e^{\mu t + \frac{t^2 \sigma^2}{2}}
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Lo anterior 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="mediana" class="section level2">
+<h2><span class="header-section-number">3.4</span> Mediana</h2>
+<p>Para encontrar la mediana de una variable aleatoria normal utilizaremos un teorema mucho más general que establece que, si una densidad es simétrica en torno a un valor <span class="math inline">\(m\)</span> entonces <span class="math inline">\(m\)</span> es la mediana. Esto lo podemos ver, intuitivamente, en la gráfica inferior con una densidad Laplace:</p>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-11-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Lo cual nos inspira para el siguiente teorema: 
+<div class="panel panel-primary">
+	<div id =  medianasim class="panel-heading">
+		<h4> Teorema 5 [ Mediana de simétricas ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sea $X$ una variable aleatoria continua  con densidad $f_X$ simétrica en torno a $m$; es decir:
+$$
+f_X(m + x) = f_X(m - x)
+$$
+Entonces $m$ es la mediana de la distribución. 
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> 
+Notamos que:
+\begin{equation}
+\begin{aligned}
+1 & = \int\limits_{-\infty}^{\infty} f_X(x) dx \\
+& = \underbrace{\int\limits_{-\infty}^{0} f_X(x) dx}_{u = m-x; du = -dx} + \underbrace{\int\limits_{0}^{\infty} f_X(x) dx}_{w = m + x; dw = dx} \\
+& = - \int\limits_{\infty}^{m} f_X(u) du + \int\limits_{m}^{\infty} f_X(w) dw \\
+& = 2 \int\limits_{m}^{\infty} f_X(w) dw 
+\end{aligned} 
+\end{equation}
+Lo cual implica que:
+$$
+P(X \geq m) = 1 - P(X \leq m) = \int\limits_{m}^{\infty} f_X(w) dw =  \dfrac{1}{2}
+$$
+y por tanto $m$ es la mediana. 
+ 
+		</div>
+	</div>
+</div>
+</p>
+<p>En particular, como una normal es simétrica en torno a <span class="math inline">\(\mu\)</span> tenemos el siguiente teorema:</p>
+
+<div class="panel panel-primary">
+	<div id =  mednormal class="panel-heading">
+		<h4> Teorema 6 [ Mediana de una normal ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Una variable aleatoria $X\sim\text{Normal}(\mu,\sigma)$ tiene mediana:
+$$
+\text{Mediana}[X] = \mu
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> La simetría de la normal. 
+		</div>
+	</div>
+</div>
+
+</div>
+</div>
+<div id="teorema-central-del-límite" class="section level1">
+<h1><span class="header-section-number">4</span> Teorema central del límite</h1>
+<p>Esta sección contiene sólo una introducción a un tema que nos dice por qué la normal es tan importante. Para ver esto, haremos un análisis de distribuciones conocidas. El proceso de simulación es el siguiente:</p>
+<ol style="list-style-type: decimal">
+<li><p>Tomaré una muestra aleatoria <span class="math inline">\(M_i = \{X_1, X_2,\dots,X_n \}\)</span> de <span class="math inline">\(n\)</span> variables aleatorias independientes todas con la misma distribución. Supongamos que dichas variables tienen media finita <span class="math inline">\(\mu\)</span>, varianza finita <span class="math inline">\(\sigma^2 &gt; 0\)</span> y su generadora de momentos existe para algún intervalo abierto.</p></li>
+<li><p>Calcularé:</p></li>
+</ol>
+<p><span class="math display">\[
+Z_i(n) = \sqrt{n} \Big( \dfrac{1}{n}\sum\limits_{k=1}^{n} X_k - \mu \Big)
+\]</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Repetiré el proceso para <span class="math inline">\(i = 1,\dots, 1000\)</span> y graficaré un histograma de dichas muestras. Notaremos que conforme aumentamos el tamaño de muestra <span class="math inline">\(n\)</span>, las <span class="math inline">\(Z_i\)</span> se aproximan en distirbución a una normal con varianza <span class="math inline">\(\sigma^2\)</span>.</li>
+</ol>
+<p>El siguiente código de <code>R</code> ejecuta las simulaciones:</p>
+<pre class="r"><code>TeoremaCentralLimite &lt;- function(numero_simulaciones = 1000, n = c(10,100,1000,10000), 
+                                 distribucion = rpois, mu = 1, sigma = 1, bins = 50, 
+                                 ncol = 2, distname = &quot;Poisson(1)&quot;, 
+                                 rcolor = sample(rainbow(100),1), ...){
+  #Creamos
+  plot_list &lt;- list()
+  
+  for (k in n){
+    
+    #Guardamos las Zi en un vector
+    Z &lt;- rep(NA, numero_simulaciones)
+    
+    #Simulamos todas las simulaciones
+    for (i in 1:numero_simulaciones){
+      simulaciones_X &lt;- distribucion(n = k, ...)
+      Z[i]         &lt;- sqrt(k)*(sum(simulaciones_X/k) - mu)
+    }
+    
+    #Graficación
+    x &lt;- seq(min(Z)-1, max(Z) + 1, length.out = 1000)
+    y &lt;- dnorm(x, sd = sigma)
+    plot_list &lt;- list.append(
+      plot_list, 
+      ggplot() + 
+      geom_histogram(aes(x = Z, y = ..density..), bins = bins, fill = rcolor, 
+                     data = data.frame(Z = Z)) +
+      geom_line(aes_string(x = x, y = y), color = &quot;black&quot;, data = data.frame(x = x, y = y)) +
+      ggtitle(paste0(&quot;Simulaciones con &quot;, distname,&quot;\nn = &quot;, k)) +
+      xlab(&quot;Z&quot;) + ylab(&quot;Densidad de Z&quot;) +
+      theme_bw()
+    )
+  }
+  do.call(&quot;grid.arrange&quot;, c(plot_list, ncol = ncol))
+}</code></pre>
+<p>Para la Poisson:</p>
+<pre class="r"><code>TeoremaCentralLimite(lambda = 1, distname = &quot;Poisson(1)&quot;)</code></pre>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Uniforme:</p>
+<pre class="r"><code>TeoremaCentralLimite(distribucion = runif, mu = 1/2, sigma = 1/12, distname = &quot;Uniforme(0,1)&quot;)</code></pre>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-16-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Exponencial</p>
+<pre class="r"><code>TeoremaCentralLimite(distribucion = rexp, mu = 1/5, sigma = 1/25, rate = 5, distname = &quot;Exp(5)&quot;)</code></pre>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-17-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Gama:</p>
+<pre class="r"><code>TeoremaCentralLimite(distribucion = rgamma, mu = 1, sigma = 0.5, shape = 2, scale = 0.5, distname = &quot;Gama(2,1/2)&quot;)</code></pre>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-18-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>E inclusive la binomial</p>
+<pre class="r"><code>TeoremaCentralLimite(distribucion = rbinom, mu = 4.5, sigma = 2.475, size = 10, prob = 0.45, distname = &quot;Binomial(10,0.45)&quot;)</code></pre>
+<p><img src="ModeloNormal_files/figure-html/unnamed-chunk-19-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Observa que todas poco a poco empiezan a tomar una forma de una curva normal. Lo que está pasando es el Teorema Central del Límite. El cual nos indica que, cuando <span class="math inline">\(n \to \infty\)</span></p>
+<p><span class="math display">\[
+\lim_{n\to\infty} Z(n) = \lim_{n\to\infty} \sqrt{n} \Big( \dfrac{1}{n}\sum\limits_{k=1}^{n} X_k - \mu \Big) \sim \textrm{Normal}(0,\sigma^2)
+\]</span></p>
+<p>Podemos reescribir esto en el siguiente teorema:</p>
+
+<div class="panel panel-primary">
+	<div id =  TCL class="panel-heading">
+		<h4> Teorema 7 [ Teorema del Límite Central ] </h4>
+	</div>
+	<div class="panel-body">
+		<i>
+Sean $X_1,X_2,\dots,$ variables aleatorias independientes idénticamente distribuidas con media finita $\mu$ y varianza finita $\sigma^2 > 0$. Luego: 
+$$
+ \lim_{n\to\infty} \dfrac{\sum\limits_{k=1}^{n} X_k - n \mu}{ \sqrt{n \sigma^2}} \sim \textrm{Normal}(0,1)
+$$
+</i>
+		<div class="well" style = "margin-top: 10px;">
+			 <b>Demostración:</b> Muy complicada para Proba 1 
+		</div>
+	</div>
+</div>
+
+</div>
+<div id="distribución-lognormal" class="section level1">
+<h1><span class="header-section-number">5</span> Distribución lognormal</h1>
+<div id="idea" class="section level2">
+<h2><span class="header-section-number">5.1</span> Idea</h2>
+</div>
+<div id="media-y-varianza" class="section level2">
+<h2><span class="header-section-number">5.2</span> Media y varianza</h2>
+</div>
+<div id="generadora-de-momentos" class="section level2">
+<h2><span class="header-section-number">5.3</span> ¿Generadora de momentos?</h2>
+</div>
 </div>
 <div class="footnotes">
 <hr />
